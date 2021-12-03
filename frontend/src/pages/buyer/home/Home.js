@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import "./Home.css";
 import "antd/dist/antd.css";
@@ -8,16 +8,20 @@ import {
   LogoutOutlined,
   LaptopOutlined,
   NotificationOutlined,
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+  ShoppingCartOutlined,
 } from "@ant-design/icons";
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider, Footer } = Layout;
+
 function Home() {
   return (
     <>
       <Layout
         style={{
-          height: "100vh",
+          minHeight: "100vh",
         }}
       >
         <Header className="header">
@@ -33,6 +37,7 @@ function Home() {
               key="1"
               style={{ marginLeft: "auto", color: "white", fontWeight: "bold" }}
             >
+              <ShoppingCartOutlined style={{ marginRight: "5px" }} />
               <Link to="/login">
                 Logout
                 <LogoutOutlined
@@ -57,7 +62,7 @@ function Home() {
             >
               <SubMenu key="sub1" icon={<UserOutlined />} title="View Products">
                 <Menu.Item key="1">
-                  <Link to="/buyer/products">Products</Link>
+                  <Link to="/buyer">Products</Link>
                 </Menu.Item>
               </SubMenu>
               <SubMenu key="sub2" icon={<LaptopOutlined />} title="View Orders">
@@ -80,12 +85,7 @@ function Home() {
               </SubMenu>
             </Menu>
           </Sider>
-          <Layout style={{ padding: "0 24px 24px" }}>
-            <Breadcrumb style={{ margin: "16px 0" }}>
-              <Breadcrumb.Item>Home</Breadcrumb.Item>
-              <Breadcrumb.Item>List</Breadcrumb.Item>
-              <Breadcrumb.Item>App</Breadcrumb.Item>
-            </Breadcrumb>
+          <Layout>
             <Content
               className="site-layout-background"
               style={{
@@ -104,4 +104,4 @@ function Home() {
   );
 }
 
-export { Home };
+export default Home;

@@ -1,19 +1,16 @@
-import React from "react";
-import "antd/dist/antd.css";
+import React, { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
+import "./Home.css";
+import "antd/dist/antd.css";
 import { Layout, Menu, Breadcrumb } from "antd";
 import {
-  EyeFilled,
+  UserOutlined,
+  LogoutOutlined,
   LaptopOutlined,
   NotificationOutlined,
-  LogoutOutlined,
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
 } from "@ant-design/icons";
-import "./Home.css";
-
-// import NotApprovedSeller from "./pages/admin/seller/NotApprovedSeller";
-// import ApprovedReviews from "./pages/admin/review/ApprovedReviews";
-// import NotApprovedReviews from "./pages/admin/review/NotApprovedReviews";
-// import ApprovedSeller from "./pages/admin/seller/ApprovedSeller";
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider, Footer } = Layout;
@@ -35,7 +32,10 @@ function Home() {
           </div>
 
           <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["0"]}>
-            <Menu.Item key="1" style={{ marginLeft: "auto" }}>
+            <Menu.Item
+              key="1"
+              style={{ marginLeft: "auto", color: "white", fontWeight: "bold" }}
+            >
               <Link to="/login">
                 Logout
                 <LogoutOutlined
@@ -58,44 +58,22 @@ function Home() {
               defaultOpenKeys={["sub1"]}
               style={{ height: "100%", borderRight: 0 }}
             >
-              <SubMenu key="sub1" icon={<EyeFilled />} title="View Sellers">
+              <SubMenu key="sub1" icon={<UserOutlined />} title="View Products">
                 <Menu.Item key="1">
-                  <Link to="/admin">Approved</Link>
+                  <Link to="/seller/view-products">Products</Link>
                 </Menu.Item>
-                <Menu.Item key="2">
-                  <Link to="/admin/not-approved-seller">Not Approved</Link>
+                <Menu.Item>
+                  <Link to="/seller/add-product">Add Product</Link>
                 </Menu.Item>
               </SubMenu>
-              <SubMenu
-                key="sub2"
-                icon={<LaptopOutlined />}
-                title="View Reviews"
-              >
+              <SubMenu key="sub2" icon={<LaptopOutlined />} title="View Orders">
                 <Menu.Item key="5">
-                  <Link to="/admin/approved-review">Approved</Link>
+                  <Link to="/seller/view-orders">Orders</Link>
                 </Menu.Item>
-                <Menu.Item key="6">
-                  <Link to="/admin/not-approved-review">Not Approved</Link>
-                </Menu.Item>
-              </SubMenu>
-              <SubMenu
-                key="sub3"
-                icon={<NotificationOutlined />}
-                title="subnav 3"
-              >
-                <Menu.Item key="9">option9</Menu.Item>
-                <Menu.Item key="10">option10</Menu.Item>
-                <Menu.Item key="11">option11</Menu.Item>
-                <Menu.Item key="12">option12</Menu.Item>
               </SubMenu>
             </Menu>
           </Sider>
-          <Layout style={{ padding: "0 24px 24px" }}>
-            <Breadcrumb style={{ margin: "16px 0" }}>
-              <Breadcrumb.Item>Home</Breadcrumb.Item>
-              <Breadcrumb.Item>List</Breadcrumb.Item>
-              <Breadcrumb.Item>App</Breadcrumb.Item>
-            </Breadcrumb>
+          <Layout>
             <Content
               className="site-layout-background"
               style={{

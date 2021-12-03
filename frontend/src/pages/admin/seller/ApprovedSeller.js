@@ -1,7 +1,10 @@
-import React from "react";
-import { List, Typography, Divider } from "antd";
+import React, { useState } from "react";
+import { List, Typography, Button, Row, Avatar, Col, Card, Modal } from "antd";
+import { useSelector, useDispatch } from "react-redux";
+import "antd/dist/antd.css";
 
 const { Title } = Typography;
+const { Meta } = Card;
 
 const data = [
   "Racing car sprays burning fuel into crowd.",
@@ -11,6 +14,20 @@ const data = [
   "Los Angeles battles huge wildfires.",
 ];
 function ApprovedSeller() {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
   return (
     <div>
       <List
@@ -20,11 +37,31 @@ function ApprovedSeller() {
             <Title level={2}> Approved Sellers</Title>
           </div>
         }
-        footer={<div>Footer</div>}
         bordered
         dataSource={data}
-        renderItem={(item) => <List.Item>{item}</List.Item>}
+        renderItem={(item) => (
+          <List.Item>
+            <Card style={{ width: 600 }}>
+              <Meta
+                avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+                title={item}
+                description="This is the description"
+              />
+            </Card>
+            <Button type="danger" onClick={showModal}>
+              Decline
+            </Button>
+          </List.Item>
+        )}
       />
+      <Modal
+        title="Decline Seller"
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <p>Are you sure you want to decline seller?</p>
+      </Modal>
     </div>
   );
 }
