@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  List,
-  Typography,
-  Button,
-  Card,
-  Avatar,
-  notification,
-} from "antd";
-
+import { List, Typography, Button, Card, Avatar, notification } from "antd";
 const { Meta } = Card;
 
 const { Title } = Typography;

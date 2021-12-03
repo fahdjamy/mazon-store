@@ -1,9 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { Steps, Row, Card, Col, Button } from "antd";
+import { Form, Input } from "antd";
+
+const layout = {
+  labelCol: { span: 8 },
+  wrapperCol: { span: 16 },
+};
+
 const { Step } = Steps;
 const { Meta } = Card;
 
 function Order() {
+  const [showReview, setShowReview] = useState(false);
+
+  const onFinish = (values) => {
+    console.log(values);
+  };
+
+  const openReview = () => {
+    setShowReview(true);
+  };
+
   return (
     <div>
       <Row>
@@ -30,6 +47,32 @@ function Order() {
         </Col>
         <Col className="gutter-row" span={8}>
           <Button type="primary">Cancel Order </Button>
+          <br />
+          <br />
+          <Button type="primary" onClick={openReview}>
+            Add a Review
+          </Button>
+        </Col>
+      </Row>
+      <Row gutter={[0, 24]}>
+        <Col span={8}>
+          {showReview && (
+            <Form
+              style={{ marginTop: "50px" }}
+              {...layout}
+              name="nest-messages"
+              onFinish={onFinish}
+            >
+              <Form.Item name={["review", "review"]} label="Add a review">
+                <Input.TextArea />
+              </Form.Item>
+              <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
+                <Button type="primary" htmlType="submit">
+                  Submit
+                </Button>
+              </Form.Item>
+            </Form>
+          )}
         </Col>
       </Row>
     </div>

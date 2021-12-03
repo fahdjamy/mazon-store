@@ -2,6 +2,9 @@ import React from "react";
 import "antd/dist/antd.css";
 import { Link, Outlet } from "react-router-dom";
 import { Layout, Menu, Breadcrumb } from "antd";
+import { useDispatch } from "react-redux";
+import { logout } from "../../../store/actions/auth";
+import { useNavigate } from "react-router-dom";
 import {
   EyeFilled,
   LaptopOutlined,
@@ -19,6 +22,14 @@ const { SubMenu } = Menu;
 const { Header, Content, Sider, Footer } = Layout;
 
 function Home() {
+  let navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const logoutHandler = () => {
+    dispatch(logout());
+    navigate("/login");
+  };
+
   return (
     <>
       <Layout
@@ -35,7 +46,21 @@ function Home() {
           </div>
 
           <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["0"]}>
-            <Menu.Item key="1" style={{ marginLeft: "auto" }}>
+            <Menu.Item
+              key="1"
+              style={{ marginLeft: "auto" }}
+              onClick={logoutHandler}
+            >
+              {/* <button style={{ style: "none" }} onClick={logoutHandler}>
+                Logout
+                <LogoutOutlined
+                  style={{
+                    color: "white",
+                    fontWeight: "bold",
+                    paddingLeft: "5px",
+                  }}
+                />
+              </button> */}
               <Link to="/login">
                 Logout
                 <LogoutOutlined

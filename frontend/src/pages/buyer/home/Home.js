@@ -35,7 +35,11 @@ function Home() {
           <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["0"]}>
             <Menu.Item
               key="1"
-              style={{ marginLeft: "auto", color: "white", fontWeight: "bold" }}
+              style={{
+                marginLeft: "auto",
+                color: "white",
+                fontWeight: "bold",
+              }}
             >
               <ShoppingCartOutlined style={{ marginRight: "5px" }} />
               <Link to="/login">

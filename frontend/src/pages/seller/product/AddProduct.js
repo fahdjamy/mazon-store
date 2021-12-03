@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { addProduct } from "../../../store/reducers/productSlice";
+import { addProductAsync } from "../../../store/actions/product/product";
 
-import { Form, Input, InputNumber, Button, Col, Row} from "antd";
+import { Form, Input, InputNumber, Button, Col, Row } from "antd";
 
 const layout = {
   labelCol: {
@@ -22,8 +25,11 @@ const validateMessages = {
 };
 
 function AddProduct() {
+  const dispatch = useDispatch();
+
   const onFinish = (values) => {
     console.log(values);
+    dispatch(addProductAsync(values));
   };
   return (
     <Row>
@@ -35,7 +41,7 @@ function AddProduct() {
           validateMessages={validateMessages}
         >
           <Form.Item
-            name={["product", "name"]}
+            name={"name"}
             label="Product Name"
             rules={[{ required: true }]}
           >
@@ -43,7 +49,7 @@ function AddProduct() {
           </Form.Item>
 
           <Form.Item
-            name={["product", "price"]}
+            name={"price"}
             label="Price"
             rules={[{ required: true, type: "number" }]}
           >
@@ -51,16 +57,16 @@ function AddProduct() {
           </Form.Item>
 
           <Form.Item
-            name={["product", "description"]}
+            name={"description"}
             label="description"
-            rules={[{ required: true, type: "number" }]}
+            rules={[{ required: true }]}
           >
             <Input.TextArea />
           </Form.Item>
           <Form.Item
-            name={["image", "url"]}
+            name={"imageCover"}
             label="Image URl"
-            rules={[{ required: true, type: "number" }]}
+            rules={[{ required: true }]}
           >
             <Input />
           </Form.Item>

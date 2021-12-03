@@ -1,16 +1,18 @@
-import axios from 'axios';
+import axios from "axios";
 
 const instance = axios.create({
   baseURL: process.env.BACKEND_BASE_URL || "http://localhost:8080",
   headers: {
-    "content-type": "application/json"
-  }
+    "content-type": "application/json",
+  },
 });
 
 instance.interceptors.request.use(
   (config) => {
     if (!config.url.includes("/auth/login")) {
-      config.headers['Authorization'] = localStorage.getItem("jwtToken");
+      config.headers["Authorization"] = `Bearer ${localStorage.getItem(
+        "token"
+      )}`;
     }
     return config;
   },
@@ -25,10 +27,11 @@ axios.interceptors.response.use(
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
     return response;
-  }, function (error) {
+  },
+  function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
-    console.log('in interceptors.response |||||||||||', error);
+    console.log("in interceptors.response |||||||||||", error);
     return Promise.reject(error);
   }
 );
