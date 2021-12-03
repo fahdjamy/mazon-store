@@ -1,15 +1,8 @@
-import './App.css';
+import "./App.css";
+import Home from "./components/UI/Home";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Mazon Store
-        </p>
-      </header>
-    </div>
-  );
+  return <Home />;
 }
 
 export default App;
