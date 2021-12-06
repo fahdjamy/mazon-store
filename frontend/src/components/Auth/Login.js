@@ -4,7 +4,7 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "./Login.css";
 import "antd/dist/antd.css";
 import { Col, Divider, Card } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const { Title } = Typography;
 
@@ -74,7 +74,8 @@ function Login() {
               >
                 Log in
               </Button>
-              Or <a href="">register now!</a>
+              Or &nbsp;
+              <Link to="/register">register now!</Link>
             </Form.Item>
           </Form>
         </Card>
