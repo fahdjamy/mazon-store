@@ -1,28 +1,18 @@
 import React from "react";
-import { Route, Routes, Link } from "react-router-dom";
-
+import { Link, Outlet } from "react-router-dom";
+import "./Home.css";
 import "antd/dist/antd.css";
 import { Layout, Menu, Breadcrumb } from "antd";
 import {
   UserOutlined,
+  LogoutOutlined,
   LaptopOutlined,
   NotificationOutlined,
 } from "@ant-design/icons";
-import "./App.css";
-import { Typography } from "antd";
-import NotApprovedSeller from "./pages/admin/seller/NotApprovedSeller";
-import ApprovedReviews from "./pages/admin/review/ApprovedReviews";
-import NotApprovedReviews from "./pages/admin/review/NotApprovedReviews";
-import ApprovedSeller from "./pages/admin/seller/ApprovedSeller";
-import Product from "../products/Product";
-import Order from "../orders/Order";
-import OrderHistory from "../order-history/OrderHistory";
-
-const { Title } = Typography;
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider, Footer } = Layout;
-function home() {
+function Home() {
   return (
     <>
       <Layout
@@ -39,8 +29,20 @@ function home() {
           </div>
 
           <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["0"]}>
-            <Menu.Item key="1" style={{ marginLeft: "auto" }}>
-              Logout
+            <Menu.Item
+              key="1"
+              style={{ marginLeft: "auto", color: "white", fontWeight: "bold" }}
+            >
+              <Link to="/login">
+                Logout
+                <LogoutOutlined
+                  style={{
+                    color: "white",
+                    fontWeight: "bold",
+                    paddingLeft: "5px",
+                  }}
+                />
+              </Link>
             </Menu.Item>
           </Menu>
         </Header>
@@ -55,18 +57,15 @@ function home() {
             >
               <SubMenu key="sub1" icon={<UserOutlined />} title="View Products">
                 <Menu.Item key="1">
-                  <Link to="/approved-seller">Products</Link>
-                </Menu.Item>
-                <Menu.Item key="2">
-                  <Link to="/not-approved-seller"></Link>
+                  <Link to="/buyer/products">Products</Link>
                 </Menu.Item>
               </SubMenu>
               <SubMenu key="sub2" icon={<LaptopOutlined />} title="View Orders">
                 <Menu.Item key="5">
-                  <Link to="/approved-review">My Orders</Link>
+                  <Link to="/buyer/orders">My Orders</Link>
                 </Menu.Item>
                 <Menu.Item key="6">
-                  <Link to="/not-approved-review">Order History</Link>
+                  <Link to="/buyer/order-history">Order History</Link>
                 </Menu.Item>
               </SubMenu>
               <SubMenu
@@ -95,18 +94,7 @@ function home() {
                 minHeight: 280,
               }}
             >
-              <Routes>
-                {/* <Route path="/buyer/home" element={<Home />} /> */}
-
-                <Route path="/products" element={<Product />} />
-                <Route path="/order" element={<Order />} />
-                <Route path="/order-history" element={<OrderHistory />} />
-                <Route path="/approved-review" element={<ApprovedReviews />} />
-                <Route
-                  path="/not-approved-review"
-                  element={<NotApprovedReviews />}
-                />
-              </Routes>
+              <Outlet />
             </Content>
             <Footer style={{ textAlign: "center" }}>WAA Project ©2021</Footer>
           </Layout>
@@ -116,4 +104,4 @@ function home() {
   );
 }
 
-export default home;
+export { Home };

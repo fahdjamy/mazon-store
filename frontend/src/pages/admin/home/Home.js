@@ -1,22 +1,28 @@
 import React from "react";
 import "antd/dist/antd.css";
-import { Route, Routes, Link } from "react-router-dom";
+import { Route, Routes, Link, Outlet } from "react-router-dom";
 import { Layout, Menu, Breadcrumb } from "antd";
 import {
   EyeFilled,
   LaptopOutlined,
   NotificationOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons";
-import "./App.css";
-import NotApprovedSeller from "./pages/admin/seller/NotApprovedSeller";
-import ApprovedReviews from "./pages/admin/review/ApprovedReviews";
-import NotApprovedReviews from "./pages/admin/review/NotApprovedReviews";
-import ApprovedSeller from "./pages/admin/seller/ApprovedSeller";
+import "./Home.css";
+
+import ApprovedSeller from "../seller/ApprovedSeller";
+import NotApprovedSeller from "../seller/NotApprovedSeller";
+import ApprovedReviews from "../review/ApprovedReviews";
+import NotApprovedReviews from "../review/NotApprovedReviews";
+// import NotApprovedSeller from "./pages/admin/seller/NotApprovedSeller";
+// import ApprovedReviews from "./pages/admin/review/ApprovedReviews";
+// import NotApprovedReviews from "./pages/admin/review/NotApprovedReviews";
+// import ApprovedSeller from "./pages/admin/seller/ApprovedSeller";
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider, Footer } = Layout;
 
-function home() {
+function Home() {
   return (
     <>
       <Layout
@@ -34,7 +40,16 @@ function home() {
 
           <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["0"]}>
             <Menu.Item key="1" style={{ marginLeft: "auto" }}>
-              Logout
+              <Link to="/login">
+                Logout
+                <LogoutOutlined
+                  style={{
+                    color: "white",
+                    fontWeight: "bold",
+                    paddingLeft: "5px",
+                  }}
+                />
+              </Link>
             </Menu.Item>
           </Menu>
         </Header>
@@ -49,10 +64,10 @@ function home() {
             >
               <SubMenu key="sub1" icon={<EyeFilled />} title="View Sellers">
                 <Menu.Item key="1">
-                  <Link to="/approved-seller">Approved</Link>
+                  <Link to="/admin/approved-seller">Approved</Link>
                 </Menu.Item>
                 <Menu.Item key="2">
-                  <Link to="/not-approved-seller">Not Approved</Link>
+                  <Link to="/admin/not-approved-seller">Not Approved</Link>
                 </Menu.Item>
               </SubMenu>
               <SubMenu
@@ -61,10 +76,10 @@ function home() {
                 title="View Reviews"
               >
                 <Menu.Item key="5">
-                  <Link to="/approved-review">Approved</Link>
+                  <Link to="/admin/approved-review">Approved</Link>
                 </Menu.Item>
                 <Menu.Item key="6">
-                  <Link to="/not-approved-review">Not Approved</Link>
+                  <Link to="/admin/not-approved-review">Not Approved</Link>
                 </Menu.Item>
               </SubMenu>
               <SubMenu
@@ -93,18 +108,17 @@ function home() {
                 minHeight: 280,
               }}
             >
-              <Routes>
-                <Route path="/approved-seller" element={<ApprovedSeller />} />
-                <Route
-                  path="/not-approved-seller"
-                  element={<NotApprovedSeller />}
-                />
-                <Route path="/approved-review" element={<ApprovedReviews />} />
-                <Route
-                  path="/not-approved-review"
-                  element={<NotApprovedReviews />}
-                />
-              </Routes>
+              <Outlet />
+              {/* <Route path="/approved-seller" element={<ApprovedSeller />} />
+              <Route
+                path="/not-approved-seller"
+                element={<NotApprovedSeller />}
+              />
+              <Route path="/approved-review" element={<ApprovedReviews />} />
+              <Route
+                path="/not-approved-review"
+                element={<NotApprovedReviews />}
+              /> */}
             </Content>
             <Footer style={{ textAlign: "center" }}>WAA Project ©2021</Footer>
           </Layout>
@@ -114,4 +128,4 @@ function home() {
   );
 }
 
-export default home;
+export default Home;
