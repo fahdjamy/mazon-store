@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -21,8 +20,8 @@ public class Order {
     @ManyToOne
     private User buyer;
 
-    private OrderStatus status;
+    private OrderStatus status = OrderStatus.NOT_SHIPPED;
 
-    @OneToMany
-    private List<Product> product;
+    @OneToOne
+    private Product product;
 }

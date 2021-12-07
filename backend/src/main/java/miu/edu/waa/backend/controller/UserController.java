@@ -1,8 +1,11 @@
 package miu.edu.waa.backend.controller;
 
+import miu.edu.waa.backend.dto.OrderDTO;
+import miu.edu.waa.backend.dto.OrderReqDTO;
 import miu.edu.waa.backend.dto.UserDTO;
 import miu.edu.waa.backend.dto.UserRegDTO;
 import miu.edu.waa.backend.exception.CustomException;
+import miu.edu.waa.backend.service.OrderService;
 import miu.edu.waa.backend.service.UserService;
 
 import org.springframework.http.HttpStatus;
@@ -19,10 +22,16 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
     private UserService userService;
+    private OrderService orderService;
 
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
+    }
+
+    @Autowired
+    public void setOrderService(OrderService orderService) {
+        this.orderService = orderService;
     }
 
     @PostMapping
@@ -92,5 +101,22 @@ public class UserController {
                     put("message", "Seller has been approved successfully");
                 }}
         );
+    }
+
+    @GetMapping("/{buyerId}/orders")
+    public ResponseEntity<?> getUserOrders(
+            @PathVariable("buyerId") Long buyerId
+    ) {
+        return ResponseEntity.ok(orderService.getCustomerOrders(buyerId));
+    }
+
+    @PutMapping("/{buyerId}/orders/{orderId}")
+    public ResponseEntity<?> updateUserOrder(
+            @PathVariable("buyerId") Long buyerId,
+            @PathVariable("orderId") Long orderId,
+            @Valid @RequestBody OrderReqDTO orderReqDTO
+            ) {
+        OrderDTO orderDTO = orderService.updateOrder(orderId, orderReqDTO);
+        return ResponseEntity.ok(orderDTO);
     }
 }
