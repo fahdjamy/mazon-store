@@ -2,6 +2,7 @@ package miu.edu.waa.backend.controller;
 
 import miu.edu.waa.backend.dto.UserDTO;
 import miu.edu.waa.backend.dto.UserRegDTO;
+import miu.edu.waa.backend.exception.CustomException;
 import miu.edu.waa.backend.service.UserService;
 
 import org.springframework.http.HttpStatus;
@@ -41,8 +42,9 @@ public class UserController {
         boolean isDeleted = userService.deleteUser(userId);
         if (!isDeleted) {
             return new ResponseEntity<>(
-                    new HashMap<>(){{
-                        put("error", "user with id '" + userId + "' not found");}},
+                    new HashMap<>() {{
+                        put("error", "user with id '" + userId + "' not found");
+                    }},
                     HttpStatus.NOT_FOUND
             );
         }
@@ -54,8 +56,9 @@ public class UserController {
         UserDTO userDTO = userService.getUserById(userId);
         if (userDTO == null) {
             return new ResponseEntity<>(
-                    new HashMap<>(){{
-                        put("error", "user with id '" + userId + "' not found");}},
+                    new HashMap<>() {{
+                        put("error", "user with id '" + userId + "' not found");
+                    }},
                     HttpStatus.NOT_FOUND
             );
         }
@@ -70,11 +73,24 @@ public class UserController {
         UserDTO updateUser = userService.updateUser(userId, userDTO);
         if (updateUser == null) {
             return new ResponseEntity<>(
-                    new HashMap<>(){{
-                        put("error", "user with id '" + userId + "' not found");}},
+                    new HashMap<>() {{
+                        put("error", "user with id '" + userId + "' not found");
+                    }},
                     HttpStatus.NOT_FOUND
             );
         }
         return ResponseEntity.ok(updateUser);
+    }
+
+    @PutMapping("/{sellerId}/approve")
+    public ResponseEntity<?> approveSeller(
+            @PathVariable("sellerId") Long sellerId
+    ) throws CustomException {
+        userService.approveSeller(sellerId);
+        return ResponseEntity.ok(
+                new HashMap<>() {{
+                    put("message", "Seller has been approved successfully");
+                }}
+        );
     }
 }
