@@ -1,5 +1,6 @@
-package miu.edu.waa.backend.exception;
+package miu.edu.waa.backend.advices;
 
+import miu.edu.waa.backend.exception.CustomException;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -49,7 +50,6 @@ public class CustomGlobalExceptionHandler  {
 
         return new ResponseEntity<>(new LinkedHashMap<>(){{
             put("timestamp", new Date());
-            put("status",HttpStatus.BAD_REQUEST);
             put("errors", errors);
         }}, HttpStatus.BAD_REQUEST);
     }
@@ -60,7 +60,15 @@ public class CustomGlobalExceptionHandler  {
         return new ResponseEntity<>(new LinkedHashMap<>(){{
             put("timestamp", new Date());
             put("error", e.getMessage());
-            put("status",HttpStatus.BAD_REQUEST);
+        }}, HttpStatus.BAD_REQUEST);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(CustomException.class)
+    ResponseEntity<Object> customExceptionHandler(CustomException e) {
+        return new ResponseEntity<>(new LinkedHashMap<>(){{
+            put("timestamp", new Date());
+            put("error", e.getMessage());
         }}, HttpStatus.BAD_REQUEST);
     }
 

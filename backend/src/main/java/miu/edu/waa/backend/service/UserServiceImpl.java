@@ -1,11 +1,14 @@
 package miu.edu.waa.backend.service;
 
+import miu.edu.waa.backend.domain.Role;
 import miu.edu.waa.backend.domain.User;
 import miu.edu.waa.backend.dto.UserDTO;
 import miu.edu.waa.backend.dto.UserRegDTO;
+import miu.edu.waa.backend.exception.CustomException;
 import miu.edu.waa.backend.helpers.ModelMapperUtil;
 import miu.edu.waa.backend.repository.UserRepository;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -66,6 +69,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 user,
                 new UserDTO()
         );
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public boolean approveSeller(Long sellerId) throws CustomException {
+        User seller = userRepository.findUserByIdAndRoleEquals(sellerId, Role.SELLER);
+        if (seller == null) {
+            throw new CustomException("Seller with id '" + sellerId + " does not exist");
+        }
+        seller.setIsApproved(true);
+        userRepository.save(seller);
+        return true;
     }
 
     public UserDTO createUser(UserRegDTO userDto) {
