@@ -1,9 +1,11 @@
 package miu.edu.waa.backend.controller;
 
+import miu.edu.waa.backend.dto.PaymentDTO;
 import miu.edu.waa.backend.dto.ProductDTO;
 import miu.edu.waa.backend.dto.ReviewDTO;
 import miu.edu.waa.backend.dto.ReviewReqDTO;
 import miu.edu.waa.backend.exception.CustomException;
+import miu.edu.waa.backend.service.PaymentService;
 import miu.edu.waa.backend.service.ProductService;
 import miu.edu.waa.backend.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import java.util.List;
 public class ProductController {
     private ReviewService reviewService;
     private ProductService productService;
+    private PaymentService paymentService;
 
     @Autowired
     public void setProductService(ProductService productService) {
@@ -29,8 +32,13 @@ public class ProductController {
     }
 
     @Autowired
-    public void setProductService(ReviewService reviewService) {
+    public void setReviewService(ReviewService reviewService) {
         this.reviewService = reviewService;
+    }
+
+    @Autowired
+    public void setPaymentService(PaymentService paymentService) {
+        this.paymentService = paymentService;
     }
 
     @PostMapping
@@ -105,5 +113,15 @@ public class ProductController {
         return ResponseEntity.ok(
                 new HashMap<>(){{put("message", "review approved");}}
         );
+    }
+
+    @PostMapping("/{pdtId}/payment")
+    public ResponseEntity<?> makeProductPayment(
+            @PathVariable("pdtId") Long productId,
+            @AuthenticationPrincipal User loggedInBuyer,
+            @Valid @RequestBody PaymentDTO paymentDTO
+            ) {
+        paymentService.makePayment(paymentDTO, loggedInBuyer, productId);
+        return ResponseEntity.ok().build();
     }
 }
