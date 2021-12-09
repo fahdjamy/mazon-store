@@ -1,20 +1,21 @@
 package miu.edu.waa.backend.controller;
 
-import miu.edu.waa.backend.dto.OrderDTO;
-import miu.edu.waa.backend.dto.OrderReqDTO;
-import miu.edu.waa.backend.dto.UserDTO;
-import miu.edu.waa.backend.dto.UserRegDTO;
+import miu.edu.waa.backend.domain.User;
+import miu.edu.waa.backend.dto.*;
 import miu.edu.waa.backend.exception.CustomException;
+import miu.edu.waa.backend.service.FollowService;
 import miu.edu.waa.backend.service.OrderService;
+import miu.edu.waa.backend.service.ProfileService;
 import miu.edu.waa.backend.service.UserService;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,10 +25,25 @@ public class UserController {
     private UserService userService;
     private OrderService orderService;
 
+    private FollowService followService;
+    private ProfileService profileService;
+
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
+
+
+    @Autowired
+    public void setFollowService(FollowService followService) {
+        this.followService = followService;
+    }
+
+    @Autowired
+    public void setProfileService(ProfileService profileService) {
+        this.profileService = profileService;
+    }
+
 
     @Autowired
     public void setOrderService(OrderService orderService) {
@@ -110,12 +126,43 @@ public class UserController {
         return ResponseEntity.ok(orderService.getCustomerOrders(buyerId));
     }
 
+    @PostMapping("/follow/{sellerId}")
+    public ResponseEntity<?> followUser(
+            @PathVariable("selleId") Long selleId,
+            @AuthenticationPrincipal User buyer
+    ) {
+        followService.follow(buyer, selleId);
+        return ResponseEntity.ok(
+                new HashMap<>() {{
+                    put("message", "You have Followed this seller");
+                }});
+    }
+
+    @PostMapping("/follow/{Id}")
+    public ResponseEntity<?> unFollowUser(
+            @PathVariable("Id") Long Id
+    ) {
+        followService.unfollow(Id);
+        return ResponseEntity.ok(
+                new HashMap<>() {{
+                    put("message", "You have UnFollowed this seller");
+                }});
+    }
+
+    @GetMapping("/{userId}/profile")
+    public ResponseEntity<ProfileDto> createUserProfile(
+            @PathVariable Long userId
+    ) {
+        return new ResponseEntity<>(profileService.getById(userId), HttpStatus.OK);
+    }
+
     @PutMapping("/{buyerId}/orders/{orderId}")
     public ResponseEntity<?> updateUserOrder(
             @PathVariable("buyerId") Long buyerId,
             @PathVariable("orderId") Long orderId,
-            @Valid @RequestBody OrderReqDTO orderReqDTO
-            ) {
+            @Valid @RequestBody OrderReqDTO orderReqDTO,
+            Principal principal
+    ) {
         OrderDTO orderDTO = orderService.updateOrder(orderId, orderReqDTO);
         return ResponseEntity.ok(orderDTO);
     }
