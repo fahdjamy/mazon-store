@@ -34,7 +34,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     @PreAuthorize("hasAnyRole('ROLE_BUYER')")
-    public ShoppingCartDTO createProduct(ShoppingCartDTO shoppingCartDTO) {
+    public ShoppingCartDTO createShoppingCart(ShoppingCartDTO shoppingCartDTO) {
 
         ShoppingCart cart = modelMapperUtil.mapEntryTo(shoppingCartDTO, new ShoppingCart());
         cart = shoppingCartRepository.save(cart);
@@ -43,7 +43,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public void deleteProductById(Long cartId) throws CustomException {
+    public void deleteShoppingCartById(Long cartId) throws CustomException {
         ShoppingCart cart = shoppingCartRepository.findById(cartId).orElse(null);
         if (cart == null) {
             throw new CustomException("product with id '" + cartId + "' does not exist.");
@@ -53,7 +53,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public ShoppingCartDTO updateProduct(ShoppingCartDTO shoppingCartDTO, Long cartId) throws CustomException {
+    public ShoppingCartDTO updateShoppingCart(ShoppingCartDTO shoppingCartDTO, Long cartId) throws CustomException {
         ShoppingCart cart = shoppingCartRepository.findById(cartId).orElse(null);
         if (cart == null) {
             throw new CustomException("product with id '" + cartId + "' does not exist.");

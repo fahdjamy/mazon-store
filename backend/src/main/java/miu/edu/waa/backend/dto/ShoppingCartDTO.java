@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 public class ShoppingCartDTO {
 
-    private List<Product> product;
+    private long productId;
     private User buyer;
 
 }

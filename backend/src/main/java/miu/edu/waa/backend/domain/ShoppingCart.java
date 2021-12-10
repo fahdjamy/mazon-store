@@ -22,7 +22,7 @@ public class ShoppingCart {
     private List<Product> product;
 
     @OneToOne
-    @JoinColumn(name = "buyer_ID")
+    @JoinColumn(name = "BUYER_ID")
     private User buyer;
 
 }
