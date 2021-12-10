@@ -1,24 +1,42 @@
-import React, { useRef } from "react";
-import { Form, Input, Button, Checkbox, Row, Typography } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import "./Login.css";
+import React, {useEffect} from "react";
 import "antd/dist/antd.css";
-import { Col, Divider, Card } from "antd";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { Form, Input, Button, Checkbox, Row, Typography, Card, notification } from "antd";
+
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, Link } from "react-router-dom";
+
+
+import "./Login.css";
+import {loginAsync} from "../../store/actions/auth";
 
 const { Title } = Typography;
 
-const DemoBox = (props) => (
-  <p className={`height-${props.value}`}>{props.children}</p>
-);
-
 function Login() {
   let navigate = useNavigate();
+  const dispatch = useDispatch();
+  const auth = useSelector(state => state.auth);
+
+  const openNotificationWithIcon = type => {
+    notification[type]({
+      message: 'Error',
+      description: auth.error,
+    });
+  };
+
+  useEffect(() => {
+    if (auth.error) {
+      openNotificationWithIcon('error');
+    }
+    if (auth.isAuthenticated && auth.userRole === "admin") {
+      navigate("/admin");
+    }
+  }, [auth])
 
   const onFinish = (values) => {
-    navigate("/admin");
-    console.log("Received values of form: ", values);
+    dispatch(loginAsync(values));
   };
+
   return (
     <>
       <Row justify="center" align="middle" style={{ height: "100vh" }}>

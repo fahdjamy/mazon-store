@@ -1,12 +1,9 @@
 import React from "react";
-import { Card, Avatar, Button } from "antd";
+import { Card, Button } from "antd";
 import { Row, Col } from "antd";
 import "./Product.css";
 
 import {
-  EditOutlined,
-  ShoppingCartOutlined,
-  SettingOutlined,
   PlusOutlined,
 } from "@ant-design/icons";
 

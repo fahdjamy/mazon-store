@@ -1,7 +1,6 @@
 import React from "react";
 
-import { Form, Input, InputNumber, Button, Col, Row, Upload } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+import { Form, Input, InputNumber, Button, Col, Row} from "antd";
 
 const layout = {
   labelCol: {

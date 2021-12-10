@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -54,9 +55,12 @@ public class AuthenticationController {
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(authReq.getUsername());
         String jwt = jwtUtil.generateToken(userDetails);
+        Map<String, String> details = jwtUtil.getDecodedTokenDetails(jwt);
+        String role = details.get("authorities").split("_")[1].split("}")[0];
 
-        return ResponseEntity.ok(new HashMap<String, String>(){{
+        return ResponseEntity.ok(new HashMap<String, Object>(){{
             put("token", jwt);
+            put("role", role);
         }});
     }
 }

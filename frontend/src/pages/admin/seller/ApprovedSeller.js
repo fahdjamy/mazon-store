@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { List, Typography, Button, Row, Avatar, Col, Card, Modal } from "antd";
-import { useSelector, useDispatch } from "react-redux";
+import { List, Typography, Button, Avatar, Card, Modal } from "antd";
 import "antd/dist/antd.css";
 
 const { Title } = Typography;

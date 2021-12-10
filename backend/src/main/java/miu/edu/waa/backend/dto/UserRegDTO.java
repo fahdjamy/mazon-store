@@ -4,7 +4,6 @@ import lombok.*;
 import miu.edu.waa.backend.domain.Role;
 
 import javax.persistence.*;
-import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 @Data

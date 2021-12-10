@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Col, Row, Typography } from "antd";
+import { Typography } from "antd";
 const { Title } = Typography;
 
 function NotApprovedReviews() {

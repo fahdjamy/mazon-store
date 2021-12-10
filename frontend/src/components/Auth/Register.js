@@ -3,18 +3,14 @@ import "./Register.css";
 import {
   Form,
   Input,
-  InputNumber,
-  Cascader,
   Select,
   Row,
-  Col,
   Checkbox,
   Button,
-  AutoComplete,
   Typography,
 } from "antd";
 import "antd/dist/antd.css";
-import { Divider, Card } from "antd";
+import { Card } from "antd";
 const { Title } = Typography;
 
 const { Option } = Select;
