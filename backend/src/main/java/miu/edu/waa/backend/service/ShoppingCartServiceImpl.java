@@ -48,9 +48,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         if (cart == null) {
             throw new CustomException("product with id '" + cartId + "' does not exist.");
         }
-//        if (cart.getIsAdded()) {
-//            throw new CustomException("product is  already Added to your cart.");
-//        }
         shoppingCartRepository.delete(cart);
 
     }

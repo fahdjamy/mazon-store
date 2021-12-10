@@ -16,7 +16,7 @@ public class ShoppingCart {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long cartId;
-    //private Boolean isAdded;
+
 
     @OneToMany
     private List<Product> product;
