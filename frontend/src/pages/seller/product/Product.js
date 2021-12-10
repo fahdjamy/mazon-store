@@ -1,9 +1,7 @@
 import React from "react";
-import { Card, Avatar } from "antd";
+import { Card} from "antd";
 import {
   EditOutlined,
-  EllipsisOutlined,
-  SettingOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
 

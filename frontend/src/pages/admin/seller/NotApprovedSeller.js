@@ -2,18 +2,12 @@ import React from "react";
 import {
   List,
   Typography,
-  Row,
-  Col,
   Button,
   Card,
   Avatar,
   notification,
 } from "antd";
-import {
-  EditOutlined,
-  EllipsisOutlined,
-  SettingOutlined,
-} from "@ant-design/icons";
+
 const { Meta } = Card;
 
 const { Title } = Typography;

@@ -1,8 +1,8 @@
 import React from "react";
-import { Table, Tag, Space } from "antd";
+import { Table, Space } from "antd";
 import { Link } from "react-router-dom";
 
-const { Column, ColumnGroup } = Table;
+const { Column} = Table;
 
 const data = [
   {

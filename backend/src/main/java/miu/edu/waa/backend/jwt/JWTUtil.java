@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 
 @Component
@@ -18,6 +20,14 @@ public class JWTUtil {
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
+    }
+
+    public Map<String, String> getDecodedTokenDetails(String token) {
+        Claims claims = extractAllClaims(token);
+        Map<String, String> tokenDetails = new HashMap<>();
+        tokenDetails.put("authorities", claims.get("authorities").toString());
+
+        return tokenDetails;
     }
 
     public Date extractExpiration(String token) {

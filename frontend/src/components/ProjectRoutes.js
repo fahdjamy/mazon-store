@@ -1,5 +1,8 @@
 import React from "react";
+import {useDispatch} from 'react-redux';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import {tryReLogin} from "../store/actions/auth";
 import App from "../App";
 import Home from "../pages/admin/home/Home";
 import ApprovedReviews from "../pages/admin/review/ApprovedReviews";
@@ -18,14 +21,24 @@ import SellerHome from "../pages/seller/home/Home";
 import AddProduct from "../pages/seller/product/AddProduct";
 import OrderStatus from "../pages/seller/order-status/OrderStatus";
 
+import RequireAuth from "./RequireAuth";
+
 export default function ProjectRoutes() {
+  const dispatch = useDispatch();
+  dispatch(tryReLogin());
+
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/admin" element={<Home />}>
+
+        <Route path="/admin" element={
+          <RequireAuth>
+            <Home />
+          </RequireAuth>
+        }>
           <Route
             //  path="approved-seller"
             index
@@ -35,7 +48,7 @@ export default function ProjectRoutes() {
           <Route path="approved-review" element={<ApprovedReviews />} />
           <Route path="not-approved-review" element={<NotApprovedReviews />} />
         </Route>
-        <Route path="buyer" element={<BuyerHome />}>
+        <Route path="/buyer" element={<BuyerHome />}>
           <Route
             // path="products"
             index
@@ -44,7 +57,7 @@ export default function ProjectRoutes() {
           <Route path="orders" element={<Order />} />
           <Route path="order-history" element={<OrderHistory />} />
         </Route>
-        <Route path="seller" element={<SellerHome />}>
+        <Route path="/seller" element={<SellerHome />}>
           <Route path="view-products" element={<SellerProduct />} />
           <Route path="view-orders" element={<SellerOrder />} />
           <Route path="add-product" element={<AddProduct />} />

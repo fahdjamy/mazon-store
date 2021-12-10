@@ -77,4 +77,13 @@ public class CustomGlobalExceptionHandler  {
     public ResponseEntity<Object> missingBody(HttpMessageNotReadableException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<Object> userNotFoundHandler(Exception ex) {
+        return new ResponseEntity<>(new LinkedHashMap<>(){{
+            put("timestamp", new Date());
+            put("error", ex.getMessage());
+        }}, HttpStatus.BAD_REQUEST);
+    }
 }
