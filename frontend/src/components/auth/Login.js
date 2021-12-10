@@ -12,7 +12,7 @@ import {
   notification,
 } from "antd";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link } from "react-router-dom";
 
 import "./Login.css";
@@ -34,12 +34,13 @@ function Login() {
 
   useEffect(() => {
     if (auth.error) {
-      openNotificationWithIcon("error");
+      // openNotificationWithIcon("error");
     }
-    if (auth.isAuthenticated && auth.userRole === "admin") {
-      navigate("/admin");
+    if (auth.isAuthenticated && auth.userRole) {
+      navigate(`/${auth.userRole}`);
     }
-  }, [auth]);
+    // eslint-disable-next-line
+  }, [auth])
 
   const onFinish = (values) => {
     dispatch(loginAsync(values));
@@ -47,15 +48,16 @@ function Login() {
 
   return (
     <>
-      <Row justify="center" align="middle" style={{ height: "100vh" }}>
-        <Card className="box-shadow">
-          <Title level={2}>Login</Title>
+      <Row justify="center" align="middle" style={{ height: "100vh", backgroundColor: "#001529" }}>
+        <Card className="box-shadow" style={{ backgroundColor: "#e7e6f0" }}>
+          <Title level={2} style={{ textAlign: "center" }}>Login</Title>
           <Form
-            name="normal_login"
-            className="login-form"
-            initialValues={{ remember: true }}
-            onFinish={onFinish}
             size={"large"}
+            name="normal_login"
+            onFinish={onFinish}
+            className="login-form"
+            style={{ width: "1000px" }}
+            initialValues={{ remember: true }}
           >
             <Form.Item
               name="username"
@@ -87,6 +89,7 @@ function Login() {
                 <Checkbox>Remember me</Checkbox>
               </Form.Item>
 
+              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
               <a className="login-form-forgot" href="">
                 Forgot password
               </a>

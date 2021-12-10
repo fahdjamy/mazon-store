@@ -12,10 +12,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 
-import java.util.List;
-import java.util.Date;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @ControllerAdvice
@@ -57,19 +54,19 @@ public class CustomGlobalExceptionHandler  {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException.class)
     ResponseEntity<Object> hibernateViolationConstraint(ConstraintViolationException e) {
-        return new ResponseEntity<>(new LinkedHashMap<>(){{
-            put("timestamp", new Date());
-            put("error", e.getMessage());
-        }}, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(
+                returnedErrorObject(e),
+                HttpStatus.BAD_REQUEST
+        );
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(CustomException.class)
     ResponseEntity<Object> customExceptionHandler(CustomException e) {
-        return new ResponseEntity<>(new LinkedHashMap<>(){{
-            put("timestamp", new Date());
-            put("error", e.getMessage());
-        }}, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(
+                returnedErrorObject(e),
+                HttpStatus.BAD_REQUEST
+        );
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -85,5 +82,15 @@ public class CustomGlobalExceptionHandler  {
             put("timestamp", new Date());
             put("error", ex.getMessage());
         }}, HttpStatus.BAD_REQUEST);
+    }
+
+    private Map<String, Object> returnedErrorObject(Exception ex) {
+        Map<String, Object> data = new LinkedHashMap<>(){{
+            put("timestamp", new Date());
+            put("error", ex.getMessage());
+        }};
+        return new LinkedHashMap<>(){{
+            put("data", data);
+        }};
     }
 }

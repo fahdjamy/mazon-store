@@ -1,5 +1,5 @@
 import React from "react";
-import { Descriptions, Button } from "antd";
+import { Button } from "antd";
 import { Checkbox, Row, Col, Card } from "antd";
 
 export default function OrderStatus() {

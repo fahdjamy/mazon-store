@@ -12,8 +12,8 @@ import NotApprovedSeller from "../pages/admin/seller/NotApprovedSeller";
 import OrderHistory from "../pages/buyer/order-history/OrderHistory";
 import Order from "../pages/buyer/orders/Order";
 import Product from "../pages/buyer/products/Product";
-import Login from "./Auth/Login";
-import Register from "./Auth/Register";
+import Login from "../components/auth/Login";
+import Register from "../components/auth/Register";
 import BuyerHome from "../pages/buyer/home/Home";
 import SellerProduct from "../pages/seller/product/Product";
 import SellerOrder from "../pages/seller/order/Order";
@@ -21,10 +21,9 @@ import SellerHome from "../pages/seller/home/Home";
 import AddProduct from "../pages/seller/product/AddProduct";
 import OrderStatus from "../pages/seller/order-status/OrderStatus";
 import Cart from "../pages/buyer/cart/Cart";
-import Payment from "../pages/buyer/payment/Payment";
 import RequireAuth from "./RequireAuth";
 
-export default function ProjectRoutes() {
+export default function AllRoutes() {
   const dispatch = useDispatch();
   dispatch(tryReLogin());
 
@@ -44,15 +43,30 @@ export default function ProjectRoutes() {
           }
         >
           <Route
-            //  path="approved-seller"
-            index
-            element={<ApprovedSeller />}
+            exact
+            path="approved-sellers"
+            element={
+              <RequireAuth>
+                <ApprovedSeller />
+              </RequireAuth>
+            }
           />
-          <Route path="not-approved-seller" element={<NotApprovedSeller />} />
+          <Route
+            path="not-approved-sellers"
+            element={
+              <RequireAuth>
+                <NotApprovedSeller />
+              </RequireAuth>
+            }
+          />
           <Route path="approved-review" element={<ApprovedReviews />} />
           <Route path="not-approved-review" element={<NotApprovedReviews />} />
         </Route>
-        <Route path="/buyer" element={<BuyerHome />}>
+        <Route path="/buyer" element={
+          <RequireAuth>
+            <BuyerHome />
+          </RequireAuth>
+        }>
           <Route
             // path="products"
             index
@@ -62,7 +76,11 @@ export default function ProjectRoutes() {
           <Route path="order-history" element={<OrderHistory />} />
           <Route path="cart" element={<Cart />} />
         </Route>
-        <Route path="/seller" element={<SellerHome />}>
+        <Route path="/seller" element={
+          <RequireAuth>
+            <SellerHome />
+          </RequireAuth>
+        }>
           <Route path="view-products" element={<SellerProduct />} />
           <Route path="view-orders" element={<SellerOrder />} />
           <Route path="add-product" element={<AddProduct />} />

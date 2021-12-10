@@ -1,13 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
-import { Provider } from "react-redux";
 import store from "./store/index";
-import ProjectRoutes from "./components/ProjectRoutes";
+import { Provider } from "react-redux";
+
+import "./index.css";
+import AllRoutes from "./routes/AllRoutes";
 
 ReactDOM.render(
   <Provider store={store}>
-    <ProjectRoutes />
+    <AllRoutes />
   </Provider>,
   document.getElementById("root")
 );

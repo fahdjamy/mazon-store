@@ -57,7 +57,8 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserDTO> createNewUser(
-            @Valid @RequestBody UserRegDTO userRegDTO) throws ConstraintViolationException {
+            @Valid @RequestBody UserRegDTO userRegDTO
+    ) throws ConstraintViolationException, CustomException {
         UserDTO user = userService.createUser(userRegDTO);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
