@@ -52,8 +52,10 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductDTO>> getAllProducts () {
-        return ResponseEntity.ok(productService.getAll());
+    public ResponseEntity<List<ProductDTO>> getAllProducts (
+            @AuthenticationPrincipal User user
+    ) {
+        return ResponseEntity.ok(productService.findProductsByLoggedInUser(user));
     }
 
     @GetMapping("/{pdtId}")

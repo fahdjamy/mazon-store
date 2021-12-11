@@ -15,8 +15,12 @@ import java.util.List;
 @RequestMapping("/shoppingCart")
 
 public class ShoppingCartController {
-    @Autowired
     ShoppingCartService shoppingCartService;
+
+    @Autowired
+    public void setShoppingCartService(ShoppingCartService shoppingCartService) {
+        this.shoppingCartService = shoppingCartService;
+    }
 
     @PostMapping
     public ResponseEntity<ShoppingCartDTO> createProduct(
@@ -38,11 +42,14 @@ public class ShoppingCartController {
         return ResponseEntity.ok(shoppingCartService.getById(cartId));
     }
 
-    @PutMapping("/{cartId}/approve")
-    public ResponseEntity<ShoppingCartDTO> updateShoppingCart(
-            @Valid @RequestBody ShoppingCartDTO shoppingCartDTO,
-            @PathVariable("cartId") Long cartId) throws CustomException {
-        return ResponseEntity.ok(shoppingCartService.updateShoppingCart(shoppingCartDTO, cartId));
+    @PutMapping("/{cartId}/products/{productId}")
+    public ResponseEntity<ShoppingCartDTO> addToShoppingCart(
+            @PathVariable("productId") Long productId,
+            @PathVariable("cartId") Long cartId
+    ) throws CustomException {
+        return ResponseEntity.ok(
+                shoppingCartService.addProductToShoppingCart(productId, cartId)
+        );
     }
 
     @DeleteMapping("/{cartId}")

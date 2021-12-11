@@ -7,8 +7,12 @@ import java.util.List;
 
 public interface ShoppingCartService {
     List<ShoppingCartDTO> getAll();
+
     ShoppingCartDTO getById(Long cartId);
-    ShoppingCartDTO createShoppingCart(ShoppingCartDTO shoppingCartDTO);
+
     void deleteShoppingCartById(Long cartId) throws CustomException;
-    ShoppingCartDTO updateShoppingCart(ShoppingCartDTO shoppingCartDTO, Long cartId) throws CustomException;
+
+    ShoppingCartDTO createShoppingCart(ShoppingCartDTO shoppingCartDTO);
+
+    ShoppingCartDTO addProductToShoppingCart(Long productId, Long cartId) throws CustomException;
 }
