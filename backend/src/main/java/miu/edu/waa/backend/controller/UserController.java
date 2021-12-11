@@ -171,7 +171,7 @@ public class UserController {
         return ResponseEntity.ok(orderDTO);
     }
 
-    @GetMapping("/{buyerId/payments}")
+    @GetMapping("/{buyerId}/payments")
     public ResponseEntity<?> getBuyerPayments(
             @PathVariable("buyerId") Long buyerId){
         return ResponseEntity.ok(paymentService.getBuyerPayments(buyerId));

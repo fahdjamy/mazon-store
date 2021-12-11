@@ -9,4 +9,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ProductDTO {}
+public class ProductDTO {
+    private Long id;
+    private Integer price;
+    private String name;
+    private String imageCover;
+    private String description;
+
+}
