@@ -15,6 +15,7 @@ public class Product {
     @Id
     @GeneratedValue
     private Long id;
+    private Integer price;
 
     private String name;
     private String imageCover;
