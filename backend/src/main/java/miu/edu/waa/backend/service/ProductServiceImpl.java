@@ -1,7 +1,10 @@
 package miu.edu.waa.backend.service;
 
 import miu.edu.waa.backend.domain.Product;
+import miu.edu.waa.backend.domain.Role;
 import miu.edu.waa.backend.dto.ProductDTO;
+import miu.edu.waa.backend.repository.UserRepository;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import miu.edu.waa.backend.helpers.ModelMapperUtil;
 import miu.edu.waa.backend.exception.CustomException;
@@ -16,6 +19,7 @@ import java.util.List;
 @Service
 @Transactional(propagation = Propagation.REQUIRED)
 public class ProductServiceImpl implements ProductService {
+    private UserRepository userRepository;
     private ModelMapperUtil modelMapperUtil;
     private ProductRepository productRepository;
 
@@ -27,6 +31,11 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     public void setProductRepository(ProductRepository productRepository) {
         this.productRepository = productRepository;
+    }
+
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     public List<ProductDTO> getAll() {
@@ -50,6 +59,18 @@ public class ProductServiceImpl implements ProductService {
             throw new CustomException("product is  already purchased.");
         }
         productRepository.delete(product);
+    }
+
+    public List<ProductDTO> findProductsByLoggedInUser(User loggedInUser) {
+        miu.edu.waa.backend.domain.User user = userRepository
+                .findByUsername(loggedInUser.getUsername());
+        if (user != null && user.getRole() == Role.SELLER) {
+            return modelMapperUtil.mapEntriesToList(
+                    productRepository.findProductsBySellerId(user.getId()),
+                    new ProductDTO()
+            );
+        }
+        return getAll();
     }
 
     @PreAuthorize("hasRole('ROLE_SELLER')")

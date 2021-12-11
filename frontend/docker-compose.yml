@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+  application:
+    container_name: mazon
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    volumes:
+      - '.:/app'
+      - '/app/node_modules'
+    ports:
+      - '1337:80' # http://localhost:1337/
