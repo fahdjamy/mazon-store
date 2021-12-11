@@ -7,8 +7,10 @@ import miu.edu.waa.backend.exception.CustomException;
 import miu.edu.waa.backend.helpers.ModelMapperUtil;
 import miu.edu.waa.backend.repository.ProductRepository;
 import miu.edu.waa.backend.repository.ShoppingCartRepository;
+import miu.edu.waa.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +18,7 @@ import java.util.List;
 @Service
 
 public class ShoppingCartServiceImpl implements ShoppingCartService {
+    private UserRepository userRepository;
     private ModelMapperUtil modelMapperUtil;
     private ProductRepository productRepository;
     private ShoppingCartRepository shoppingCartRepository;
@@ -26,8 +29,14 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Autowired
-    public void setShoppingCartRepository(ShoppingCartRepository shoppingCartRepository) {
+    public void setShoppingCartRepository(
+            ShoppingCartRepository shoppingCartRepository) {
         this.shoppingCartRepository = shoppingCartRepository;
+    }
+
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Autowired
@@ -49,6 +58,17 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         return modelMapperUtil.mapEntryTo(cart, new ShoppingCartDTO());
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_BUYER')")
+    public ShoppingCartDTO getUserCart(User user) {
+        return modelMapperUtil.mapEntryTo(
+                shoppingCartRepository.findByBuyerId(
+                        userRepository.findByUsername(user.getUsername())
+                                .getId()
+                ),
+                new ShoppingCartDTO()
+        );
+    }
+
     @Override
     @PreAuthorize("hasAnyRole('ROLE_BUYER')")
     public ShoppingCartDTO createShoppingCart(ShoppingCartDTO shoppingCartDTO) {
@@ -58,6 +78,42 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         cart = shoppingCartRepository.save(cart);
 
         return modelMapperUtil.mapEntryTo(cart, new ShoppingCartDTO());
+    }
+
+    @Override
+    public ShoppingCartDTO removeProductFromCart(
+            Long cartId,
+            Long productId
+    ) throws CustomException {
+        ShoppingCart cart = getCart(cartId);
+        Product product = getProduct(productId);
+
+        if (shoppingCartRepository.existsByCartIdAndProductsContains(
+                cartId, List.of(product)
+        )) {
+            throw new CustomException(
+                    "product with id '" + productId + "' is not added to this cart."
+            );
+        }
+        cart.getProducts().remove(product);
+        shoppingCartRepository.save(cart);
+        return modelMapperUtil.mapEntryTo(cart, new ShoppingCartDTO());
+    }
+
+    private ShoppingCart getCart(Long cartId) throws CustomException {
+        ShoppingCart cart = shoppingCartRepository.findById(cartId).orElse(null);
+        if (cart == null) {
+            throw new CustomException("cart with id '" + cartId + "' does not exist.");
+        }
+        return cart;
+    }
+
+    private Product getProduct(Long productId) throws CustomException {
+        Product product = productRepository.findById(productId).orElse(null);
+        if (product == null) {
+            throw new CustomException("product with id '" + productId + "' does not exist.");
+        }
+        return product;
     }
 
     @Override
@@ -72,14 +128,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     public ShoppingCartDTO addProductToShoppingCart(
             Long productId, Long cartId) throws CustomException {
-        ShoppingCart cart = shoppingCartRepository.findById(cartId).orElse(null);
-        if (cart == null) {
-            throw new CustomException("cart with id '" + cartId + "' does not exist.");
-        }
-        Product product = productRepository.findById(productId).orElse(null);
-        if (product == null) {
-            throw new CustomException("product with id '" + productId + "' does not exist.");
-        }
+        ShoppingCart cart = getCart(cartId);
+        Product product = getProduct(productId);
         if (shoppingCartRepository.existsByCartIdAndProductsContains(cartId, List.of(product))) {
             throw new CustomException(
                     "product with id '" + productId + "' has already been added to the cart."
@@ -89,5 +139,4 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         shoppingCartRepository.save(cart);
         return modelMapperUtil.mapEntryTo(cart, new ShoppingCartDTO());
     }
-
 }

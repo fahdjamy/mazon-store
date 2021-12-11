@@ -6,14 +6,13 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Data
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ShoppingCart {
     @Id
     @GeneratedValue
-    private long cartId;
+    private long id;
 
     @OneToMany
     private List<Product> products;
