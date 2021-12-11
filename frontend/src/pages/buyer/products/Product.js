@@ -3,9 +3,7 @@ import { Card, Button } from "antd";
 import { Row, Col } from "antd";
 import "./Product.css";
 
-import {
-  PlusOutlined,
-} from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 
 const { Meta } = Card;
 function Product() {

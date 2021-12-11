@@ -1,37 +1,45 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import "antd/dist/antd.css";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import { Form, Input, Button, Checkbox, Row, Typography, Card, notification } from "antd";
+import {
+  Form,
+  Input,
+  Button,
+  Checkbox,
+  Row,
+  Typography,
+  Card,
+  notification,
+} from "antd";
 
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 
-
 import "./Login.css";
-import {loginAsync} from "../../store/actions/auth";
+import { loginAsync } from "../../store/actions/auth";
 
 const { Title } = Typography;
 
 function Login() {
   let navigate = useNavigate();
   const dispatch = useDispatch();
-  const auth = useSelector(state => state.auth);
+  const auth = useSelector((state) => state.auth);
 
-  const openNotificationWithIcon = type => {
+  const openNotificationWithIcon = (type) => {
     notification[type]({
-      message: 'Error',
+      message: "Error",
       description: auth.error,
     });
   };
 
   useEffect(() => {
     if (auth.error) {
-      openNotificationWithIcon('error');
+      openNotificationWithIcon("error");
     }
     if (auth.isAuthenticated && auth.userRole === "admin") {
       navigate("/admin");
     }
-  }, [auth])
+  }, [auth]);
 
   const onFinish = (values) => {
     dispatch(loginAsync(values));

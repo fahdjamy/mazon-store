@@ -1,8 +1,8 @@
 import React from "react";
-import {useDispatch} from 'react-redux';
+import { useDispatch } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import {tryReLogin} from "../store/actions/auth";
+import { tryReLogin } from "../store/actions/auth";
 import App from "../App";
 import Home from "../pages/admin/home/Home";
 import ApprovedReviews from "../pages/admin/review/ApprovedReviews";
@@ -20,7 +20,8 @@ import SellerOrder from "../pages/seller/order/Order";
 import SellerHome from "../pages/seller/home/Home";
 import AddProduct from "../pages/seller/product/AddProduct";
 import OrderStatus from "../pages/seller/order-status/OrderStatus";
-
+import Cart from "../pages/buyer/cart/Cart";
+import Payment from "../pages/buyer/payment/Payment";
 import RequireAuth from "./RequireAuth";
 
 export default function ProjectRoutes() {
@@ -34,11 +35,14 @@ export default function ProjectRoutes() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        <Route path="/admin" element={
-          <RequireAuth>
-            <Home />
-          </RequireAuth>
-        }>
+        <Route
+          path="/admin"
+          element={
+            <RequireAuth>
+              <Home />
+            </RequireAuth>
+          }
+        >
           <Route
             //  path="approved-seller"
             index
@@ -56,6 +60,7 @@ export default function ProjectRoutes() {
           />
           <Route path="orders" element={<Order />} />
           <Route path="order-history" element={<OrderHistory />} />
+          <Route path="cart" element={<Cart />} />
         </Route>
         <Route path="/seller" element={<SellerHome />}>
           <Route path="view-products" element={<SellerProduct />} />

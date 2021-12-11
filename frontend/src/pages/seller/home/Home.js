@@ -2,12 +2,11 @@ import React from "react";
 import { Link, Outlet } from "react-router-dom";
 import "./Home.css";
 import "antd/dist/antd.css";
-import { Layout, Menu} from "antd";
+import { Layout, Menu } from "antd";
 import {
   UserOutlined,
   LogoutOutlined,
   LaptopOutlined,
-
 } from "@ant-design/icons";
 
 const { SubMenu } = Menu;
