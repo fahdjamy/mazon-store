@@ -54,6 +54,13 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @OneToOne(mappedBy = "buyer", cascade = {
+            CascadeType.PERSIST,
+            CascadeType.REMOVE,
+            CascadeType.MERGE
+    })
+    private ShoppingCart cart;
+
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "zip", column = @Column(name = "ship_zip")),

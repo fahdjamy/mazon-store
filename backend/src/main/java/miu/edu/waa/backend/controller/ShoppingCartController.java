@@ -6,6 +6,8 @@ import miu.edu.waa.backend.service.ShoppingCartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -32,8 +34,10 @@ public class ShoppingCartController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ShoppingCartDTO>> getAllShoppingCart () {
-        return ResponseEntity.ok(shoppingCartService.getAll());
+    public ResponseEntity<ShoppingCartDTO> getShoppingCart (
+            @AuthenticationPrincipal User buyer
+    ) {
+        return ResponseEntity.ok(shoppingCartService.getUserCart(buyer));
     }
 
     @GetMapping("/{cartId}")
@@ -52,9 +56,13 @@ public class ShoppingCartController {
         );
     }
 
-    @DeleteMapping("/{cartId}")
-    public ResponseEntity<?> deleteShoppingCart(@PathVariable("cartId") Long cartId) throws CustomException {
-        shoppingCartService.deleteShoppingCartById(cartId);
-        return ResponseEntity.ok().build();
+    @PutMapping("/{cartId}/products/{productId}/remove")
+    public ResponseEntity<ShoppingCartDTO> removeProductFromCart(
+            @PathVariable("productId") Long productId,
+            @PathVariable("cartId") Long cartId
+    ) throws CustomException {
+        return ResponseEntity.ok(
+                shoppingCartService.removeProductFromCart(productId, cartId)
+        );
     }
 }
