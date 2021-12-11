@@ -4,11 +4,13 @@ import miu.edu.waa.backend.domain.Role;
 import miu.edu.waa.backend.domain.User;
 import miu.edu.waa.backend.dto.UserDTO;
 import miu.edu.waa.backend.dto.UserRegDTO;
+import miu.edu.waa.backend.email.EmailService;
 import miu.edu.waa.backend.exception.CustomException;
 import miu.edu.waa.backend.helpers.ModelMapperUtil;
 import miu.edu.waa.backend.jwt.JWTUtil;
 import miu.edu.waa.backend.repository.UserRepository;
 
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -29,6 +31,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private PasswordEncoder passwordEncoder;
     private ModelMapperUtil modelMapperUtil;
 
+    private EmailService emailService;
+
+
     @Autowired
     public void setModelMapperUtil(ModelMapperUtil modelMapperUtil) {
         this.modelMapperUtil = modelMapperUtil;
@@ -38,6 +43,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
+
+    @Autowired
+    public void setEmailService(EmailService emailService) {
+        this.emailService = emailService;
+    }
+
 
     @Autowired
     public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
@@ -86,8 +98,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
         seller.setIsApproved(true);
         userRepository.save(seller);
+        String sellerName = seller.getFirstName().concat(" ").concat(seller.getLastName());
+        emailService.send(seller.getEmail(),emailService.buildEmail(sellerName));
+
         return true;
     }
+
 
     public UserDTO createUser(UserRegDTO userDto) throws CustomException {
         if (userRepository.findByUsername(userDto.getUsername()) != null) {
