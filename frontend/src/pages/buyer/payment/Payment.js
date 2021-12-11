@@ -42,7 +42,6 @@ export default function Payment() {
             >
               <Input />
             </Form.Item>
-
             <Form.Item
               name={["cvv", "cvv"]}
               label="Cvv"
@@ -50,7 +49,6 @@ export default function Payment() {
             >
               <InputNumber />
             </Form.Item>
-
             <Form.Item label="Expiry Date" style={{ marginBottom: 0 }}>
               <Form.Item
                 name="month"

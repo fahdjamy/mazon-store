@@ -1,6 +1,10 @@
 import axios from "../../../api/axiosInit";
 
 import {
+  deleteProductsFailure,
+  deleteProductsSuccess,
+  editProductsFailure,
+  editProductsSuccess,
   getProducts,
   getProductsFailure,
   getProductsSuccess,
@@ -30,6 +34,30 @@ export const fetchProductAsync = () => {
     } catch (e) {
       console.log(e);
       dispatch(getProductsFailure("something went wrong!!"));
+    }
+  };
+};
+
+export const editProductAsync = (id, data) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.put(`/products/${id}`, data);
+      dispatch(editProductsSuccess(response.data));
+    } catch (e) {
+      console.log(e);
+      dispatch(editProductsFailure("something went wrong!!"));
+    }
+  };
+};
+
+export const deleteProductAsync = (id) => {
+  return async (dispatch) => {
+    try {
+      await axios.delete(`/products/${id}`);
+      dispatch(deleteProductsSuccess(id));
+    } catch (e) {
+      console.log(e);
+      dispatch(deleteProductsFailure("something went wrong!!"));
     }
   };
 };

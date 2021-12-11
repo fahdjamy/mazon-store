@@ -6,10 +6,10 @@ import { Form, Input, InputNumber, Button, Row, Col } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 
 import {
-  editProduct,
-  deleteProduct,
-} from "../../../store/reducers/productSlice";
-import { fetchProductAsync } from "../../../store/actions/product/product";
+  deleteProductAsync,
+  editProductAsync,
+  fetchProductAsync,
+} from "../../../store/actions/product/product";
 
 const style = { padding: "8px 0" };
 
@@ -26,6 +26,7 @@ const { Meta } = Card;
 
 function Product() {
   const dispatch = useDispatch();
+  const products = useSelector((state) => state.product.products);
 
   useEffect(() => {
     dispatch(fetchProductAsync());
@@ -33,7 +34,6 @@ function Product() {
   }, []);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const products = useSelector((state) => state.product.products);
   const [modalData, setModalData] = useState({});
 
   const showModal = (currentProduct) => {
@@ -41,11 +41,12 @@ function Product() {
     setModalData(() => {
       return currentProduct;
     });
+    // dispatch(editProductAsync(currentProduct.id, currentProduct));
   };
 
   const deleteProductHandler = (currentProduct) => {
     console.log(currentProduct.id);
-    dispatch(deleteProduct(currentProduct.id));
+    dispatch(deleteProductAsync(currentProduct.id));
   };
 
   const handleOk = () => {
@@ -59,7 +60,7 @@ function Product() {
 
   const onFinish = (values) => {
     console.log(values.name);
-    dispatch(editProduct(values));
+    dispatch(editProductAsync(values.id, values));
     setModalData("");
     setIsModalVisible(false);
   };
@@ -100,7 +101,7 @@ function Product() {
             id: modalData.id,
             name: modalData.name,
             price: modalData.price,
-            url: modalData.url,
+            imageCover: modalData.imageCover,
             description: modalData.description,
           }}
           onFinish={onFinish}
@@ -128,7 +129,7 @@ function Product() {
             <Input.TextArea />
           </Form.Item>
           <Form.Item
-            name={"url"}
+            name={"imageCover"}
             label="Image URl"
             rules={[{ required: true }]}
           >

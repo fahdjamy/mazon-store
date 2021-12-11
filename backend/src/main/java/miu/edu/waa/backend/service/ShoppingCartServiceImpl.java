@@ -86,15 +86,18 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             Long productId
     ) throws CustomException {
         ShoppingCart cart = getCart(cartId);
-        Product product = getProduct(productId);
+        Product product = cart.getProducts().stream()
+                .filter(p -> p.getId() == productId)
+                .findFirst().orElse(null);
 
-        if (shoppingCartRepository.existsByCartIdAndProductsContains(
-                cartId, List.of(product)
-        )) {
+        if (product != null) {
             throw new CustomException(
                     "product with id '" + productId + "' is not added to this cart."
             );
         }
+
+        product = getProduct(productId);
+
         cart.getProducts().remove(product);
         shoppingCartRepository.save(cart);
         return modelMapperUtil.mapEntryTo(cart, new ShoppingCartDTO());
@@ -129,12 +132,17 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     public ShoppingCartDTO addProductToShoppingCart(
             Long productId, Long cartId) throws CustomException {
         ShoppingCart cart = getCart(cartId);
-        Product product = getProduct(productId);
-        if (shoppingCartRepository.existsByCartIdAndProductsContains(cartId, List.of(product))) {
+        Product product = cart.getProducts().stream()
+                .filter(p -> p.getId() == productId)
+                .findFirst().orElse(null);
+
+        if (product != null) {
             throw new CustomException(
-                    "product with id '" + productId + "' has already been added to the cart."
+                    "product with id '" + productId + "' is not added to this cart."
             );
         }
+
+        product = getProduct(productId);
         cart.addToCart(product);
         shoppingCartRepository.save(cart);
         return modelMapperUtil.mapEntryTo(cart, new ShoppingCartDTO());
