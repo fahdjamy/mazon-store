@@ -1,10 +1,10 @@
 import React from "react";
 import "antd/dist/antd.css";
-import { Link, Outlet } from "react-router-dom";
-import { Layout, Menu, Breadcrumb } from "antd";
-import { useDispatch } from "react-redux";
-import { logout } from "../../../store/actions/auth";
-import { useNavigate } from "react-router-dom";
+import {Link, Outlet} from "react-router-dom";
+import {Layout, Menu, Breadcrumb} from "antd";
+import {useDispatch} from "react-redux";
+import {logoutAsync} from "../../../store/actions/auth";
+import {useNavigate} from "react-router-dom";
 import {
   EyeFilled,
   LaptopOutlined,
@@ -18,15 +18,15 @@ import "./Home.css";
 // import NotApprovedReviews from "./pages/admin/review/NotApprovedReviews";
 // import ApprovedSeller from "./pages/admin/seller/ApprovedSeller";
 
-const { SubMenu } = Menu;
-const { Header, Content, Sider, Footer } = Layout;
+const {SubMenu} = Menu;
+const {Header, Content, Sider, Footer} = Layout;
 
 function Home() {
   let navigate = useNavigate();
   const dispatch = useDispatch();
 
   const logoutHandler = () => {
-    dispatch(logout());
+    dispatch(logoutAsync());
     navigate("/login");
   };
 
@@ -48,7 +48,7 @@ function Home() {
           <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["0"]}>
             <Menu.Item
               key="1"
-              style={{ marginLeft: "auto" }}
+              style={{marginLeft: "auto"}}
               onClick={logoutHandler}
             >
               {/* <button style={{ style: "none" }} onClick={logoutHandler}>
@@ -81,9 +81,9 @@ function Home() {
               mode="inline"
               defaultSelectedKeys={["1"]}
               defaultOpenKeys={["sub1"]}
-              style={{ height: "100%", borderRight: 0 }}
+              style={{height: "100%", borderRight: 0}}
             >
-              <SubMenu key="sub1" icon={<EyeFilled />} title="View Sellers">
+              <SubMenu key="sub1" icon={<EyeFilled/>} title="View Sellers">
                 <Menu.Item key="1">
                   <Link to="/admin">Approved</Link>
                 </Menu.Item>
@@ -93,7 +93,7 @@ function Home() {
               </SubMenu>
               <SubMenu
                 key="sub2"
-                icon={<LaptopOutlined />}
+                icon={<LaptopOutlined/>}
                 title="View Reviews"
               >
                 <Menu.Item key="5">
@@ -105,7 +105,7 @@ function Home() {
               </SubMenu>
               <SubMenu
                 key="sub3"
-                icon={<NotificationOutlined />}
+                icon={<NotificationOutlined/>}
                 title="subnav 3"
               >
                 <Menu.Item key="9">option9</Menu.Item>
@@ -115,8 +115,8 @@ function Home() {
               </SubMenu>
             </Menu>
           </Sider>
-          <Layout style={{ padding: "0 24px 24px" }}>
-            <Breadcrumb style={{ margin: "16px 0" }}>
+          <Layout style={{padding: "0 24px 24px"}}>
+            <Breadcrumb style={{margin: "16px 0"}}>
               <Breadcrumb.Item>Home</Breadcrumb.Item>
               <Breadcrumb.Item>List</Breadcrumb.Item>
               <Breadcrumb.Item>App</Breadcrumb.Item>
@@ -129,9 +129,9 @@ function Home() {
                 minHeight: 280,
               }}
             >
-              <Outlet />
+              <Outlet/>
             </Content>
-            <Footer style={{ textAlign: "center" }}>WAA Project ©2021</Footer>
+            <Footer style={{textAlign: "center"}}>WAA Project ©2021</Footer>
           </Layout>
         </Layout>
       </Layout>

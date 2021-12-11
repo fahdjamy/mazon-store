@@ -13,9 +13,9 @@ public interface UserService {
 
     UserDTO getUserById(Long userId);
 
-    UserDTO createUser(UserRegDTO userDto);
-
     UserDTO updateUser(Long userId, UserDTO userDTO);
+
+    UserDTO createUser(UserRegDTO userDto) throws CustomException;
 
     boolean approveSeller(Long sellerId) throws CustomException;
 }

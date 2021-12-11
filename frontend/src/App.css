@@ -21,3 +21,18 @@
 .main {
   display: grid;
 }
+
+
+.cs-card {
+  /*margin: 10px;*/
+  border-radius: 5px;
+  transition: all 0.2s;
+  color: rgb(253, 252, 252);
+  background-color: #e8e9ef;
+  box-shadow: 0px 6px 10px rgba(68, 59, 59, 0.25);
+}
+
+.cs-card:hover {
+  transform: scale(1.01);
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.4);
+}

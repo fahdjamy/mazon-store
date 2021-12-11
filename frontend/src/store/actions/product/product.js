@@ -15,7 +15,8 @@ export const addProductAsync = (data) => {
       console.log(response.data);
       dispatch(productAddedSuccess(response.data));
     } catch (e) {
-      // dispatch(productAddFailure("invalid login credentials."));
+      console.log(e);
+      dispatch(productAddFailure("Something went wrong"));
     }
   };
 };

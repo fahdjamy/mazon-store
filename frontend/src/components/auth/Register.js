@@ -1,54 +1,25 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
+import { useDispatch, useSelector } from 'react-redux';
+
+import { useNavigate } from "react-router-dom";
+
 import "./Register.css";
 import {
+  Row,
   Form,
   Input,
   Select,
-  Row,
-  Checkbox,
   Button,
+  Checkbox,
   Typography,
+  notification,
 } from "antd";
 import "antd/dist/antd.css";
 import { Card } from "antd";
+import {signupAsync} from "../../store/actions/auth";
+
 const { Title } = Typography;
-
 const { Option } = Select;
-
-const residences = [
-  {
-    value: "zhejiang",
-    label: "Zhejiang",
-    children: [
-      {
-        value: "hangzhou",
-        label: "Hangzhou",
-        children: [
-          {
-            value: "xihu",
-            label: "West Lake",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: "jiangsu",
-    label: "Jiangsu",
-    children: [
-      {
-        value: "nanjing",
-        label: "Nanjing",
-        children: [
-          {
-            value: "zhonghuamen",
-            label: "Zhong Hua Men",
-          },
-        ],
-      },
-    ],
-  },
-];
 
 const formItemLayout = {
   labelCol: {
@@ -76,50 +47,63 @@ const tailFormItemLayout = {
 function Register() {
   const [form] = Form.useForm();
 
-  const onFinish = (values) => {
-    console.log("Received values of form: ", values);
+  let navigate = useNavigate();
+  const dispatch = useDispatch();
+  const auth = useSelector(state => state.auth);
+
+  const openNotificationWithIcon = (type, msg) => {
+    notification[type]({
+      message: type,
+      description: msg,
+    });
   };
 
-  const prefixSelector = (
-    <Form.Item name="prefix" noStyle>
-      <Select style={{ width: 70 }}>
-        <Option value="86">+86</Option>
-        <Option value="87">+87</Option>
-      </Select>
-    </Form.Item>
-  );
-
-  const suffixSelector = (
-    <Form.Item name="suffix" noStyle>
-      <Select style={{ width: 70 }}>
-        <Option value="USD">$</Option>
-        <Option value="CNY">¥</Option>
-      </Select>
-    </Form.Item>
-  );
-
-  const [autoCompleteResult, setAutoCompleteResult] = useState([]);
-
-  const onWebsiteChange = (value) => {
-    if (!value) {
-      setAutoCompleteResult([]);
-    } else {
-      setAutoCompleteResult(
-        [".com", ".org", ".net"].map((domain) => `${value}${domain}`)
-      );
+  useEffect(() => {
+    if (auth.error) {
+      openNotificationWithIcon('error', auth.error);
     }
+    if (auth.registrationSuccess && auth.userRole && auth.isAuthenticated) {
+      openNotificationWithIcon('success', 'Registered successfully.');
+      navigate(`/${auth.userRole}`);
+    }
+    // eslint-disable-next-line
+  }, [auth.isAuthenticated])
+
+  const onFinish = (values) => {
+    const data = {
+      role: values.role,
+      email: values.email,
+      username: values.username,
+      firstName: values.firstName,
+      lastName: values.lastName,
+      password: values.password,
+    }
+    dispatch(signupAsync(data));
   };
 
-  const websiteOptions = autoCompleteResult.map((website) => ({
+  // const prefixSelector = (
+  //   <Form.Item name="prefix" noStyle>
+  //     <Select style={{ width: 70 }}>
+  //       <Option value="86">+86</Option>
+  //       <Option value="87">+87</Option>
+  //     </Select>
+  //   </Form.Item>
+  // );
+
+  const [autoCompleteResult] = useState([]);
+  autoCompleteResult.map((website) => ({
     label: website,
     value: website,
   }));
+
+  const isLoading = auth.isLogging || auth.isRegistering;
+
   return (
     <>
-      <Row justify="center" style={{ height: "100vh" }} align="middle">
-        <Card style={{ width: 500 }} bordered={true} className="box-shadow">
-          <Title level={1} style={{ textAlign: "left" }}>
-            Sign Up
+      <Row justify="center" style={{ height: "100vh", backgroundColor: "#001529" }} align="middle">
+        <Card style={{ width: 500, backgroundColor: "#e7e6f0" }} bordered={true} className="box-shadow">
+          <Title level={2} style={{ textAlign: "center" }}>
+            Register
           </Title>
           <Form
             {...formItemLayout}
@@ -133,6 +117,18 @@ function Register() {
             size={"large"}
             scrollToFirstError
           >
+            <Form.Item
+              name="username"
+              label="Username"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your username",
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
             <Form.Item
               name="firstName"
               label="First Name"
@@ -159,15 +155,15 @@ function Register() {
             </Form.Item>
             <Form.Item
               name="email"
-              label="E-mail"
+              label="Email Address"
               rules={[
                 {
                   type: "email",
-                  message: "The input is not valid E-mail!",
+                  message: "Invalid Email address",
                 },
                 {
                   required: true,
-                  message: "Please input your E-mail!",
+                  message: "Please input a valid Email!",
                 },
               ]}
             >
@@ -215,24 +211,24 @@ function Register() {
               <Input.Password />
             </Form.Item>
 
-            <Form.Item
-              name="phone"
-              label="Phone Number"
-              rules={[
-                { required: true, message: "Please input your phone number!" },
-              ]}
-            >
-              <Input addonBefore={prefixSelector} style={{ width: "100%" }} />
-            </Form.Item>
+            {/*<Form.Item*/}
+            {/*  name="phone"*/}
+            {/*  label="Phone Number"*/}
+            {/*  rules={[*/}
+            {/*    { required: true, message: "Please input your phone number!" },*/}
+            {/*  ]}*/}
+            {/*>*/}
+            {/*  <Input addonBefore={prefixSelector} style={{ width: "100%" }} />*/}
+            {/*</Form.Item>*/}
 
             <Form.Item
-              name="userType"
-              label="User Type"
-              rules={[{ required: true, message: "Please select user type!" }]}
+              name="role"
+              label="Role"
+              rules={[{ required: true, message: "Please select a role" }]}
             >
-              <Select placeholder="select user type">
-                <Option value="buyer">Buyer</Option>
-                <Option value="seller">Seller</Option>
+              <Select placeholder="select user role">
+                <Option value="BUYER">Buyer</Option>
+                <Option value="SELLER">Seller</Option>
               </Select>
             </Form.Item>
 
@@ -250,11 +246,12 @@ function Register() {
               {...tailFormItemLayout}
             >
               <Checkbox>
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                 I have read the <a href="">agreement</a>
               </Checkbox>
             </Form.Item>
             <Form.Item {...tailFormItemLayout}>
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" htmlType="submit" block loading={isLoading}>
                 Register
               </Button>
             </Form.Item>

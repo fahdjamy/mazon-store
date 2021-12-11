@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { addProduct } from "../../../store/reducers/productSlice";
+import React from "react";
+import { useDispatch } from "react-redux";
 import { addProductAsync } from "../../../store/actions/product/product";
 
 import { Form, Input, InputNumber, Button, Col, Row } from "antd";
@@ -13,13 +12,18 @@ const layout = {
     span: 16,
   },
 };
+
 const validateMessages = {
+  // eslint-disable-next-line
   required: "${label} is required!",
   types: {
+    // eslint-disable-next-line
     email: "${label} is not a valid email!",
+    // eslint-disable-next-line
     number: "${label} is not a valid number!",
   },
   number: {
+    // eslint-disable-next-line
     range: "${label} must be between ${min} and ${max}",
   },
 };

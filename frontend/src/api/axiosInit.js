@@ -9,10 +9,11 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   (config) => {
-    if (!config.url.includes("/auth/login")) {
-      config.headers["Authorization"] = `Bearer ${localStorage.getItem(
-        "token"
-      )}`;
+    if (
+      !config.url.includes("/users") &&
+      !config.url.includes("/auth/login")
+    ) {
+      config.headers['Authorization'] = `Bearer ${localStorage.getItem("token")}`;
     }
     return config;
   },
@@ -31,7 +32,6 @@ axios.interceptors.response.use(
   function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
-    console.log("in interceptors.response |||||||||||", error);
     return Promise.reject(error);
   }
 );

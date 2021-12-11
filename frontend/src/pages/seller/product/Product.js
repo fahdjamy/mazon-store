@@ -6,7 +6,6 @@ import { Form, Input, InputNumber, Button, Row, Col } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 
 import {
-  addProduct,
   editProduct,
   deleteProduct,
 } from "../../../store/reducers/productSlice";
@@ -30,16 +29,11 @@ function Product() {
 
   useEffect(() => {
     dispatch(fetchProductAsync());
+    // eslint-disable-next-line
   }, []);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
-
   const products = useSelector((state) => state.product.products);
-
-  console.log("gotFromstore", products);
-
-  console.log(products);
-
   const [modalData, setModalData] = useState({});
 
   const showModal = (currentProduct) => {

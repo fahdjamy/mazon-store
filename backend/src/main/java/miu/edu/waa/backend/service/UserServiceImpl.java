@@ -6,6 +6,7 @@ import miu.edu.waa.backend.dto.UserDTO;
 import miu.edu.waa.backend.dto.UserRegDTO;
 import miu.edu.waa.backend.exception.CustomException;
 import miu.edu.waa.backend.helpers.ModelMapperUtil;
+import miu.edu.waa.backend.jwt.JWTUtil;
 import miu.edu.waa.backend.repository.UserRepository;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,6 +24,7 @@ import java.util.List;
 @Service
 @Transactional(propagation = Propagation.REQUIRED)
 public class UserServiceImpl implements UserService, UserDetailsService {
+    private JWTUtil jwtUtil;
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
     private ModelMapperUtil modelMapperUtil;
@@ -40,6 +42,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Autowired
     public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
+    }
+
+    @Autowired
+    private void setJwtUtil(JWTUtil jwtUtil) {
+        this.jwtUtil = jwtUtil;
     }
 
     public List<UserDTO> getAll() {
@@ -82,11 +89,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return true;
     }
 
-    public UserDTO createUser(UserRegDTO userDto) {
+    public UserDTO createUser(UserRegDTO userDto) throws CustomException {
+        if (userRepository.findByUsername(userDto.getUsername()) != null) {
+            throw new CustomException("username already exists.");
+        }
         User user = modelMapperUtil.mapEntryTo(userDto, new User());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-
         userRepository.save(user);
+
         return modelMapperUtil.mapEntryTo(user, new UserDTO());
     }
 
