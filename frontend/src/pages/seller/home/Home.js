@@ -57,11 +57,9 @@ function Home() {
             >
               <SubMenu key="sub1" icon={<UserOutlined />} title="View Products">
                 <Menu.Item key="1">
-                  <Link to="/seller/view-products">Products</Link>
+                  <Link to="/seller">Products</Link>
                 </Menu.Item>
-                <Menu.Item>
-                  <Link to="/seller/add-product">Add Product</Link>
-                </Menu.Item>
+              
               </SubMenu>
               <SubMenu key="sub2" icon={<LaptopOutlined />} title="View Orders">
                 <Menu.Item key="5">

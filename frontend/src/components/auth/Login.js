@@ -25,12 +25,12 @@ function Login() {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
 
-  const openNotificationWithIcon = (type) => {
-    notification[type]({
-      message: "Error",
-      description: auth.error,
-    });
-  };
+  // const openNotificationWithIcon = (type) => {
+  //   notification[type]({
+  //     message: "Error",
+  //     description: auth.error,
+  //   });
+  // };
 
   useEffect(() => {
     if (auth.error) {

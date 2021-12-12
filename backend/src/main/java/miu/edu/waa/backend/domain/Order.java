@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @NoArgsConstructor
+@Table(name="CUSTOMER_ORDERS")
 public class Order {
     @Id
     @GeneratedValue

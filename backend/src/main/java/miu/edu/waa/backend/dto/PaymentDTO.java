@@ -19,6 +19,6 @@ public class PaymentDTO {
     private Long cardNumber;
 
     @NotEmpty
-    @Size(message = "expiry date should be 4 digits", max = 5, min = 5)
+    @Size(message = "expiry date should be 4 digits", max = 4, min = 4)
     private String expiryDate;
 }
