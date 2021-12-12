@@ -96,6 +96,14 @@ public class UserController {
         return ResponseEntity.ok(userDTO);
     }
 
+    @GetMapping("/filter")
+    public ResponseEntity<?> getLoggedInUserDetails(
+            @AuthenticationPrincipal org.springframework.security.core.userdetails.User loggedInUser
+    ) {
+        return ResponseEntity
+                .ok(userService.getLoggedInUserDetails(loggedInUser));
+    }
+
     @PutMapping("/{userId}")
     public ResponseEntity<?> updateUser(
             @RequestBody @Valid UserDTO userDTO,

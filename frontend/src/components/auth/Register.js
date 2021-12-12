@@ -67,7 +67,7 @@ function Register() {
       navigate(`/${auth.userRole}`);
     }
     // eslint-disable-next-line
-  }, [auth.isAuthenticated])
+  }, [auth.isAuthenticated, auth.error])
 
   const onFinish = (values) => {
     const data = {

@@ -21,9 +21,8 @@ export const getCartAsync = () => {
       const response = await axios.get("/shoppingCart");
       console.log(response.data);
       dispatch(getCartSuccess(response.data));
-    } catch (e) {
-      console.log(e);
-      dispatch(getCartFailure("Something went wrong"));
+    } catch ({response}) {
+      dispatch(getCartFailure(response?.data?.error || "Something went wrong"));
     }
   };
 };
@@ -34,9 +33,8 @@ export const addProductToCartAsync = (cartId, productId) => {
     try {
       const response = await axios.put(`/shoppingCart/${cartId}/products/${productId}`);
       dispatch(addProductToCartSuccess(response.data));
-    } catch (e) {
-      console.log(e);
-      dispatch(addProductToCartFailure("something went wrong!!"));
+    } catch ({response}) {
+      dispatch(addProductToCartFailure(response?.data?.error || "something went wrong!!"));
     }
   };
 };
@@ -47,9 +45,8 @@ export const removeProductFromCartAsync = (cartId, productId) => {
     try {
       const response = await axios.put(`/shoppingCart/${cartId}/products/${productId}/remove`);
       dispatch(removeProductFromCartSuccess(response.data));
-    } catch (e) {
-      console.log(e);
-      dispatch(removeProductFromCartFailure("something went wrong!!"));
+    } catch ({response}) {
+      dispatch(removeProductFromCartFailure(response?.data?.error || "something went wrong!!"));
     }
   };
 }

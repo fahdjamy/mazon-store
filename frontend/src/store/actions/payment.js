@@ -16,9 +16,9 @@ export const getPaymentsAsync = (buyerId) => {
     try {
       const response = await axios.get(`/users/${buyerId}/payments`);
       dispatch(getPaymentsSuccess(response.data));
-    } catch (err) {
+    } catch ({response}) {
       console.log(err);
-      dispatch(getPaymentsFailure("Something went wrong"));
+      dispatch(getPaymentsFailure(response?.data?.error || "Something went wrong"));
     }
   };
 };
@@ -29,9 +29,8 @@ export const makePaymentAsync = (productId, data) => {
     try {
       const response = await axios.post(`/products/${productId}/payments`, data);
       dispatch(makePaymentSuccess(response.data));
-    } catch (err) {
-      console.log(err);
-      dispatch(makePaymentFailure("something went wrong!!"));
+    } catch ({response}) {
+      dispatch(makePaymentFailure(response?.data?.error || "something went wrong!!"));
     }
   };
 };

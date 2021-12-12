@@ -10,7 +10,6 @@ import miu.edu.waa.backend.exception.CustomException;
 import miu.edu.waa.backend.helpers.ModelMapperUtil;
 import miu.edu.waa.backend.repository.UserRepository;
 
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -122,6 +121,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
         userRepository.save(user);
         return userDTO;
+    }
+
+    @Override
+    public UserDTO getLoggedInUserDetails(
+            org.springframework.security.core.userdetails.User loggedInUser) {
+        return modelMapperUtil.mapEntryTo(
+                userRepository.findByUsername(loggedInUser.getUsername()),
+                new UserDTO()
+        );
     }
 
     @Override

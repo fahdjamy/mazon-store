@@ -47,7 +47,6 @@ export const authSlice = createSlice({
       state.error = null;
       state.userData = payload;
       state.isRegistering = false;
-      // state.isAuthenticated = true;
       state.registrationSuccess = true;
       state.userRole = payload?.role.toLowerCase() || "";
     },
