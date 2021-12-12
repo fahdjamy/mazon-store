@@ -36,7 +36,11 @@ export const orderSlice = createSlice({
     },
     getOrdersSuccess: (state, { payload }) => {
       state.error = null;
-      state.orders = payload;
+      let orders = payload;
+      orders?.sort((a,b) => {
+        return new Date(a.createdAt) - new Date(b.createdAt);
+      });
+      state.orders = orders;
       state.fetchingOrders = false;
     },
     getOrdersFailure: (state, { payload }) => {
@@ -74,11 +78,15 @@ export const orderSlice = createSlice({
       state.updatingOrder = false;
       state.updateOrderError = null;
       const orderIndex = state.orders.findIndex(
-        order => order.id === order.id
+        order => order.id === payload.id
       );
       let ordersToUpdate = state.orders;
       ordersToUpdate.splice(orderIndex, 1);
-      state.orders = [...ordersToUpdate, payload];
+      let orders = [...ordersToUpdate, payload];
+      orders?.sort((a,b) => {
+        return new Date(a.createdAt) - new Date(b.createdAt);
+      });
+      state.orders = orders;
     },
     updateOrderFailure: (state, { payload }) => {
       state.updatingOrder = false;

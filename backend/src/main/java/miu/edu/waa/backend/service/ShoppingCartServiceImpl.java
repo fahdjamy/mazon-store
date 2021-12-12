@@ -138,7 +138,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
         if (product != null) {
             throw new CustomException(
-                    "product with id '" + productId + "' is not added to this cart."
+                    "product with id is already added to cart."
             );
         }
 

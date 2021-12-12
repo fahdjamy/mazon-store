@@ -1,69 +1,92 @@
-import React, {useEffect} from "react";
-import { Table, Space } from "antd";
+import React, { useEffect, useState } from "react";
+import { Table, Space, Card, Button, Modal, Select } from "antd";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getOrdersAsync } from "../../../store/actions/order";
-
-const { Column} = Table;
-
-const data = [
-  {
-    key: "1",
-    orderId: "John",
-    productName: "Brown",
-    status: "shipped",
-    action: "s",
-  },
-  {
-    key: "2",
-    firstName: "Jim",
-    lastName: "Green",
-    age: 42,
-    address: "London No. 1 Lake Park",
-    tags: ["loser"],
-  },
-  {
-    key: "3",
-    firstName: "Joe",
-    lastName: "Black",
-    age: 32,
-    address: "Sidney No. 1 Lake Park",
-    tags: ["cool", "teacher"],
-  },
-];
+import { getOrdersAsync, updateOrderAsync } from "../../../store/actions/order";
+import { getLoggedInUserDetailsAsync } from "../../../store/actions/auth/user";
+const { Option } = Select;
 
 function Order() {
   const dispatch = useDispatch();
-  const orders = useSelector(state => state.orders);
-  console.log(orders);
-  
-  useEffect(()=>{
-    dispatch(getOrdersAsync());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  const user = useSelector((state) => state.auth);
+  let orders = useSelector((state) => state.orders.orders);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const [currentOrder, setCurrentOrder] = useState({});
+
+  const showModal = (newOrder) => {
+    setCurrentOrder(newOrder);
+    setIsModalVisible(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  useEffect(() => {
+    dispatch(getLoggedInUserDetailsAsync());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (user.userData?.id) {
+      dispatch(getOrdersAsync(user.userData.id));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user.userData]);
+
+  function handleStatusChange(value) {
+    setCurrentOrder({ ...currentOrder, status: value });
+  }
+
+  const handleOk = () => {
+    dispatch(
+      updateOrderAsync(user.userData.id, currentOrder.id, {
+        status: currentOrder?.status,
+      })
+    );
+    setIsModalVisible(false);
+  };
+
+  const ordersList = orders.map((o, index) => (
+    <Card
+      title={o.product.name}
+      style={{ width: 600, marginBottom: "20px" }}
+      key={index}
+    >
+      <p>Price: ${o.product.price}</p>
+      <p>{o.product.description}</p>
+      <p>Status: {o.status}</p>
+      <Button type="primary" onClick={() => showModal(o)}>
+        Change Order Status
+      </Button>
+    </Card>
+  ));
+  console.log(currentOrder?.status);
+
   return (
-    <div>
-      <Table dataSource={data}>
-        <Column title="Order Id" dataIndex="orderId" key="orderId" />
-        <Column
-          title="Product Name"
-          dataIndex="productName"
-          key="productName"
-        />
+    <>
+      {ordersList}
+      <Modal
+        onOk={handleOk}
+        onCancel={handleCancel}
+        visible={isModalVisible}
+        title="Update Order Status"
+      >
+        <Select
+          style={{ width: 120 }}
+          onChange={handleStatusChange}
+          defaultValue={currentOrder?.status || "NOT_SHIPPED"}
+        >
+          <Option value="SHIPPED">shipped</Option>
+          <Option value="DELIVERED">delivered</Option>
+          <Option value="CANCELLED">cancelled</Option>
+          <Option value="NOT_SHIPPED">not shipped</Option>
+        </Select>
 
-        <Column title="Status" dataIndex="status" key="status" />
-
-        <Column
-          title="Action"
-          key="action"
-          render={(text, record) => (
-            <Space size="middle">
-              <Link to="/seller/order-status">View Order</Link>
-            </Space>
-          )}
-        />
-      </Table>
-    </div>
+        <br />
+      </Modal>
+    </>
   );
 }
 
