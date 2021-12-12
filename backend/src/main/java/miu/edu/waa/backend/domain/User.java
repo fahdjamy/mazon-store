@@ -54,11 +54,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToOne(mappedBy = "buyer", cascade = {
-            CascadeType.PERSIST,
-            CascadeType.REMOVE,
-            CascadeType.MERGE
-    })
+    @OneToOne(mappedBy = "buyer", cascade = CascadeType.ALL)
     private ShoppingCart cart;
 
     @Embedded
@@ -89,5 +85,17 @@ public class User {
         Set<SimpleGrantedAuthority> permissions = new HashSet<>();
         permissions.add(new SimpleGrantedAuthority("ROLE_" + getRole().toString()));
         return permissions;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", username='" + username + '\'' +
+                ", isApproved=" + isApproved +
+                ", cart=" + cart +
+                '}';
     }
 }

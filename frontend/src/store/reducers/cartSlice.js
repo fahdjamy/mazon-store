@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   cart: null,
   error: null,
-  isLoading: false,
+  isLoading: true,
   addingToCart: false,
 };
 

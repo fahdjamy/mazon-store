@@ -11,12 +11,13 @@ import miu.edu.waa.backend.domain.ShoppingCart;
 @Getter @Setter
 @NoArgsConstructor
 public class UserDTO {
+    private Long id;
     private Role role;
     private String email;
-    private String firstName;
     private String lastName;
     private String username;
-    private ShoppingCart cart;
+    private String firstName;
+    private ShoppingCartDTO cart;
     private Address billingAddress;
     private Address shippingAddress;
 }

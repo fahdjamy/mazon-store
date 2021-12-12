@@ -74,9 +74,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @PreAuthorize("hasRole('ROLE_SELLER')")
-    public ProductDTO createProduct(ProductDTO productDTO) {
+    public ProductDTO createProduct(ProductDTO productDTO, User seller) {
+
         Product product = modelMapperUtil.mapEntryTo(productDTO, new Product());
         product = productRepository.save(product);
+        product.setSeller(userRepository.findByUsername(seller.getUsername()));
 
         return modelMapperUtil.mapEntryTo(product, new ProductDTO());
     }

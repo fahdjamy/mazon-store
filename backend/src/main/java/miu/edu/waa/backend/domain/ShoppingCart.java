@@ -9,6 +9,7 @@ import java.util.List;
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "SHOPPINGCART")
 public class ShoppingCart {
     @Id
     @GeneratedValue
