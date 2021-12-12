@@ -61,6 +61,11 @@ public class ProductServiceImpl implements ProductService {
         productRepository.delete(product);
     }
 
+    @Override
+    public void createProduct(Product pdt) {
+        productRepository.save(pdt);
+    }
+
     public List<ProductDTO> findProductsByLoggedInUser(User loggedInUser) {
         miu.edu.waa.backend.domain.User user = userRepository
                 .findByUsername(loggedInUser.getUsername());

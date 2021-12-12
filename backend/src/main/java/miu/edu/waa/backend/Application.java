@@ -12,9 +12,6 @@ import org.springframework.web.filter.CorsFilter;
 import java.util.Arrays;
 import java.util.Collections;
 
-//import java.util.Arrays;
-//import java.util.Collections;
-
 @SpringBootApplication
 public class Application {
     public static void main(String[] args) {
@@ -35,7 +32,6 @@ public class Application {
         config.setAllowedOriginPatterns(Collections.singletonList("*"));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "OPTIONS", "DELETE", "PATCH"));
         source.registerCorsConfiguration("/**", config);
-//        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
         return new CorsFilter(source);
     }
 }

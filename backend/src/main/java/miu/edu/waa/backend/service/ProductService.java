@@ -1,5 +1,6 @@
 package miu.edu.waa.backend.service;
 
+import miu.edu.waa.backend.domain.Product;
 import miu.edu.waa.backend.dto.ProductDTO;
 import miu.edu.waa.backend.exception.CustomException;
 import org.springframework.security.core.userdetails.User;
@@ -14,6 +15,8 @@ public interface ProductService {
     ProductDTO createProduct(ProductDTO productDTO, User seller);
 
     void deleteProductById(Long pdtId) throws CustomException;
+
+    void createProduct(Product pdt);
 
     List<ProductDTO> findProductsByLoggedInUser(User loggedInUser);
 

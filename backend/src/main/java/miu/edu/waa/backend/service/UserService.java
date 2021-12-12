@@ -10,6 +10,8 @@ import java.util.List;
 public interface UserService {
     List<UserDTO> getAll();
 
+    miu.edu.waa.backend.domain.User createUser(miu.edu.waa.backend.domain.User user);
+
     boolean deleteUser(Long userId);
 
     UserDTO getUserById(Long userId);
@@ -18,7 +20,7 @@ public interface UserService {
 
     UserDTO getLoggedInUserDetails (User loggedInUser);
 
-    UserDTO createUser(UserRegDTO userDto) throws CustomException;
-
     boolean approveSeller(Long sellerId) throws CustomException;
+
+    UserDTO createUser(UserRegDTO userDto) throws CustomException;
 }

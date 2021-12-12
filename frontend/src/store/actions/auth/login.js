@@ -31,7 +31,7 @@ export const tryReLogin = () => {
     if (token && role) {
       dispatch(loginSuccess({role, token}));
     } else {
-      dispatch(loginFailure("Login required"));
+      // dispatch(loginFailure("Login required"));
     }
   }
 }

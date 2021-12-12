@@ -61,6 +61,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         );
     }
 
+    @Override
+    public User createUser(User user) {
+        return userRepository.save(user);
+    }
+
     public boolean deleteUser(Long userId) {
         User user = userRepository.findById(userId)
                 .orElse(null);
