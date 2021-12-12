@@ -63,6 +63,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public User createUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (user.getRole() == Role.BUYER) {
+            ShoppingCart cart = new ShoppingCart();
+            cart.setBuyer(user);
+            user.setCart(cart);
+        }
         return userRepository.save(user);
     }
 

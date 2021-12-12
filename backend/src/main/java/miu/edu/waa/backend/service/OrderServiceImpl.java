@@ -3,6 +3,7 @@ package miu.edu.waa.backend.service;
 import miu.edu.waa.backend.domain.Order;
 import miu.edu.waa.backend.domain.OrderStatus;
 import miu.edu.waa.backend.domain.Product;
+import miu.edu.waa.backend.domain.Role;
 import miu.edu.waa.backend.dto.OrderDTO;
 import miu.edu.waa.backend.dto.OrderReqDTO;
 import miu.edu.waa.backend.exception.CustomException;
@@ -68,8 +69,14 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_BUYER', 'ROLE_SELLER')")
-    public List<OrderDTO> getCustomerOrders(Long buyerId) {
-        List<Order> orders = orderRepository.findAllByBuyerId(buyerId);
+    public List<OrderDTO> getUserOrders(Long userId, User loggedInUser) {
+        miu.edu.waa.backend.domain.User user = userRepository.findByUsername(loggedInUser.getUsername());
+        List<Order> orders;
+        if (user.getRole() == Role.BUYER) {
+            orders = orderRepository.findAllByBuyerId(userId);
+        } else {
+            orders = orderRepository.findAllOrdersForSeller(user.getId());
+        }
         return modelMapperUtil.mapEntriesToList(orders, new OrderDTO());
     }
 

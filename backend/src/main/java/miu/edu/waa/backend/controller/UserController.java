@@ -135,9 +135,10 @@ public class UserController {
 
     @GetMapping("/{buyerId}/orders")
     public ResponseEntity<?> getUserOrders(
-            @PathVariable("buyerId") Long buyerId
-    ) {
-        return ResponseEntity.ok(orderService.getCustomerOrders(buyerId));
+            @PathVariable("buyerId") Long buyerId,
+            @AuthenticationPrincipal org.springframework.security.core.userdetails.User user
+            ) {
+        return ResponseEntity.ok(orderService.getUserOrders(buyerId, user));
     }
 
     @PostMapping("/{sellerId}/follow")
