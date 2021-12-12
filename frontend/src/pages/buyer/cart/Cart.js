@@ -12,6 +12,7 @@ const { Meta } = Card;
 export default function Cart() {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
+  console.log(cart);
 
   useEffect(() => {
     dispatch(getCartAsync());
@@ -27,8 +28,10 @@ export default function Cart() {
     navigate(`/buyer/make-payment/${id}`);
   };
 
+
+
   let cartList;
-  if (cart.isLoading === false) {
+  if (cart?.isLoading === false) {
     const products = cart.cart.products;
     console.log("this", products);
     cartList = products.map((i, index) => {

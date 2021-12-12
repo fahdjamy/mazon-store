@@ -9,7 +9,6 @@ import {
   Row,
   Typography,
   Card,
-  notification,
 } from "antd";
 
 import { useDispatch, useSelector } from 'react-redux';

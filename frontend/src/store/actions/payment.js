@@ -17,7 +17,7 @@ export const getPaymentsAsync = (buyerId) => {
       const response = await axios.get(`/users/${buyerId}/payments`);
       dispatch(getPaymentsSuccess(response.data));
     } catch ({response}) {
-      console.log(err);
+    
       dispatch(getPaymentsFailure(response?.data?.error || "Something went wrong"));
     }
   };

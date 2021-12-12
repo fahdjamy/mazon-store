@@ -39,6 +39,7 @@ function Order() {
   
   useEffect(()=>{
     dispatch(getOrdersAsync());
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
     <div>

@@ -1,6 +1,6 @@
 import React from "react";
 import { List, Avatar } from "antd";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 
 
