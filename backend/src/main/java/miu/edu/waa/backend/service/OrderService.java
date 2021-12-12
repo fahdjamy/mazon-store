@@ -10,7 +10,7 @@ import java.util.List;
 public interface OrderService {
     OrderDTO getOneOrder(Long orderId);
 
-    List<OrderDTO> getCustomerOrders(Long buyerId);
+    List<OrderDTO> getUserOrders(Long buyerId, User user);
 
     OrderDTO cancelOrder(Long orderId) throws CustomException;
 
