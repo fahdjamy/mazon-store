@@ -106,7 +106,7 @@ public class ProductController {
         );
     }
 
-    @PutMapping("/{pdtId}/reviews/{reviewId}")
+    @PutMapping("/{pdtId}/reviews/{reviewId}/approve")
     public ResponseEntity<?> approveProductReview(
             @PathVariable("pdtId") Long pdtId,
             @PathVariable("reviewId") Long reviewId
