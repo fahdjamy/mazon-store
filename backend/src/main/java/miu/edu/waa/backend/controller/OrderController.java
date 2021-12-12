@@ -47,6 +47,7 @@ public class OrderController {
         orderService.cancelOrder(orderId);
         return ResponseEntity.ok(
                 new HashMap<>() {{
+                    put("order", orderService.cancelOrder(orderId));
                     put("message", "order has been cancelled successfully");
                 }}
         );

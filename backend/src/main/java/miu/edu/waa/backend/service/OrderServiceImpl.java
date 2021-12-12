@@ -74,7 +74,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @PreAuthorize("hasRole('ROLE_BUYER')")
-    public boolean cancelOrder(Long orderId) throws CustomException {
+    public OrderDTO cancelOrder(Long orderId) throws CustomException {
         Order order = orderRepository.findById(orderId).orElse(null);
         if (order == null) {
             throw new CustomException("order with id '" + orderId + "' does not exist.");
@@ -84,7 +84,7 @@ public class OrderServiceImpl implements OrderService {
         }
         order.setStatus(OrderStatus.CANCELLED);
         orderRepository.save(order);
-        return true;
+        return modelMapperUtil.mapEntryTo(order, new OrderDTO());
     }
 
     @PreAuthorize("hasRole('ROLE_BUYER')")

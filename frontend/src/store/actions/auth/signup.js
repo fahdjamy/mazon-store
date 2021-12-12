@@ -13,9 +13,8 @@ export const signupAsync = (data) => {
         password: data.password,
         username: data.username
       }));
-    } catch (e) {
-      console.log("||||||", e);
-      dispatch(registerFailure("check your fields"));
+    } catch ({response}) {
+      dispatch(registerFailure(response?.data?.error?.message || "check your fields"));
     }
   }
 }

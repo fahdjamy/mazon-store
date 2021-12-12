@@ -12,6 +12,10 @@ import {
   cancelOrder,
   cancelOrderSuccess,
   cancelOrderFailure,
+
+  updateOrder,
+  updateOrderSuccess,
+  updateOrderFailure,
 } from "../reducers/orderSlice";
 
 export const getOrdersAsync = (buyerId) => {
@@ -21,9 +25,8 @@ export const getOrdersAsync = (buyerId) => {
       const response = await axios.get(`/users/${buyerId}/orders`);
       console.log(response.data);
       dispatch(getOrdersSuccess(response.data));
-    } catch (err) {
-      console.log(err);
-      dispatch(getOrdersFailure("Something went wrong"));
+    } catch ({response}) {
+      dispatch(getOrdersFailure(response?.data?.error ||  "Something went wrong"));
     }
   };
 };
@@ -34,13 +37,11 @@ export const placeOrderAsync = (productId) => {
     try {
       const response = await axios.post(`/orders/${productId}`);
       dispatch(placeOrderSuccess(response.data));
-    } catch (err) {
-      console.log(err);
-      dispatch(placeOrderFailure("something went wrong!!"));
+    } catch ({response}) {
+      dispatch(placeOrderFailure(response?.data?.error || "something went wrong!!"));
     }
   };
 };
-
 
 export const cancelOrderAsync = (orderId) => {
   return async (dispatch) => {
@@ -48,9 +49,23 @@ export const cancelOrderAsync = (orderId) => {
     try {
       const response = await axios.put(`/orders/${orderId}/cancel`);
       dispatch(cancelOrderSuccess(response.data));
-    } catch (err) {
-      console.log(err);
-      dispatch(cancelOrderFailure("something went wrong!!"));
+    } catch ({response}) {
+      dispatch(cancelOrderFailure(response?.data?.error?.message ||  "something went wrong!!"));
     }
   };
 };
+
+export const updateOrderAsync = (buyerId, orderId, data) => {
+  return async (dispatch) => {
+    dispatch(updateOrder());
+    try {
+      const response = await axios.put(
+        `/users/${buyerId}/orders/${orderId}`,
+        data
+      );
+      dispatch(updateOrderSuccess(response.data));
+    } catch ({response}) {
+      dispatch(updateOrderFailure(response?.data?.error ||  "something went wrong!!"));
+    }
+  };
+}

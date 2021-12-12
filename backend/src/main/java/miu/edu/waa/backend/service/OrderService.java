@@ -12,7 +12,7 @@ public interface OrderService {
 
     List<OrderDTO> getCustomerOrders(Long buyerId);
 
-    boolean cancelOrder(Long orderId) throws CustomException;
+    OrderDTO cancelOrder(Long orderId) throws CustomException;
 
     OrderDTO updateOrder(Long orderId, OrderReqDTO orderReqDTO);
 

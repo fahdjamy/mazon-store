@@ -13,15 +13,14 @@ import {
   approveSellerFailure,
 } from "../../reducers/authSlice";
 
-export const getUserAsync = (userId) => {
+export const getLoggedInUserDetailsAsync = () => {
   return async (dispatch) => {
     dispatch(getUser())
     try {
-      const response = await axios.get(`/users/${userId}`);
+      const response = await axios.get(`/users/filter?byloggedInUser`);
       dispatch(getUserSuccess(response.data));
-    } catch (err) {
-      console.log(err);
-      dispatch(getUserFailure("Something went wrong"));
+    } catch ({response}) {
+      dispatch(getUserFailure(response?.data?.error?.message || "Something went wrong"));
     }
   };
 };
@@ -32,9 +31,8 @@ export const approveSellerAsync = (sellerId) => {
     try {
       const response = await axios.put(`/users/${sellerId}/approve`);
       dispatch(approveSellerSuccess(response.data));
-    } catch (err) {
-      console.log(err);
-      dispatch(approveSellerFailure("something went wrong!!"));
+    } catch ({response}) {
+      dispatch(approveSellerFailure(response?.data?.error?.message || "something went wrong!!"));
     }
   };
 };
@@ -45,9 +43,8 @@ export const updateUserAsync = (userId) => {
     try {
       const response = await axios.put(`/users/${userId}`);
       dispatch(updateUserSuccess(response.data));
-    } catch (err) {
-      console.log(err);
-      dispatch(updateUserFailure("something went wrong!!"));
+    } catch ({response}) {
+      dispatch(updateUserFailure(response?.data?.error?.message || "something went wrong!!"));
     }
   };
 }

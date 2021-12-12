@@ -16,8 +16,8 @@ export const loginAsync = (data) => {
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("role", response.data.role.toLowerCase());
       dispatch(loginSuccess(response.data));
-    } catch (e) {
-      dispatch(loginFailure("invalid login credentials."));
+    } catch ({response}) {
+      dispatch(loginFailure(response?.data?.error?.message || "invalid login credentials."));
     }
   }
 }
