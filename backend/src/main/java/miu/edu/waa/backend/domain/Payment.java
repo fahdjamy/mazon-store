@@ -7,6 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -16,10 +17,11 @@ public class Payment {
     @Id
     @GeneratedValue
     private Long id;
-    private Long cardNumber;
-    private LocalDate expiryDate;
-    private LocalDate createdAt;
     private Integer cvv;
+    private Long cardNumber;
+    private String expiryDate;
+    private LocalDate createdAt = LocalDate.now();
+
     @ManyToOne
     private User buyer;
     @OneToOne
