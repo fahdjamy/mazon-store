@@ -90,7 +90,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         User user = modelMapperUtil.mapEntryTo(userDto, new User());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         if (user.getRole() == Role.BUYER) {
-            user.setCart(new ShoppingCart());
+            ShoppingCart cart = new ShoppingCart();
+            cart.setBuyer(user);
+            user.setCart(cart);
         }
         userRepository.save(user);
 

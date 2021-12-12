@@ -43,10 +43,11 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<ProductDTO> createProduct(
-            @Valid @RequestBody ProductDTO productDTO
+            @Valid @RequestBody ProductDTO productDTO,
+            @AuthenticationPrincipal User seller
     ) {
         return new ResponseEntity<>(
-                productService.createProduct(productDTO),
+                productService.createProduct(productDTO, seller),
                 HttpStatus.CREATED
         );
     }

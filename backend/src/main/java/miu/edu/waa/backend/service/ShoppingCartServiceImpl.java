@@ -60,11 +60,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @PreAuthorize("hasAnyRole('ROLE_BUYER')")
     public ShoppingCartDTO getUserCart(User user) {
-        return modelMapperUtil.mapEntryTo(
-                shoppingCartRepository.findByBuyerId(
-                        userRepository.findByUsername(user.getUsername())
-                                .getId()
-                ),
+        miu.edu.waa.backend.domain.User buyer = userRepository
+                .findByUsername(user.getUsername());
+        ShoppingCart cart = shoppingCartRepository.findShoppingCartByBuyerId(
+                buyer
+                        .getId()
+        );
+        return modelMapperUtil.mapEntryTo(cart,
                 new ShoppingCartDTO()
         );
     }
@@ -90,13 +92,11 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                 .filter(p -> p.getId() == productId)
                 .findFirst().orElse(null);
 
-        if (product != null) {
+        if (product == null) {
             throw new CustomException(
                     "product with id '" + productId + "' is not added to this cart."
             );
         }
-
-        product = getProduct(productId);
 
         cart.getProducts().remove(product);
         shoppingCartRepository.save(cart);

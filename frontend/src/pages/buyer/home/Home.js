@@ -2,7 +2,7 @@ import React from "react";
 import { Link, Outlet } from "react-router-dom";
 import "./Home.css";
 import "antd/dist/antd.css";
-import { Layout, Menu} from "antd";
+import { Layout, Menu,} from "antd";
 import {
   UserOutlined,
   LogoutOutlined,
@@ -10,6 +10,7 @@ import {
   NotificationOutlined,
   ShoppingCartOutlined,
 } from "@ant-design/icons";
+import { MenuItem } from "rc-menu";
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider, Footer } = Layout;
@@ -31,15 +32,25 @@ function Home() {
           </div>
 
           <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["0"]}>
-            <Menu.Item
-              key="1"
+          <MenuItem key="1"
               style={{
                 marginLeft: "auto",
                 color: "white",
                 fontWeight: "bold",
               }}
+          >
+            <Link to="/buyer/cart">
+           
+            <ShoppingCartOutlined style={{ marginRight: "10px", fontSize:"20px", cursor:"pointer" }} />
+
+        
+            </Link>
+
+            </MenuItem>
+            <Menu.Item
+              key="2"
+          
             >
-              <ShoppingCartOutlined style={{ marginRight: "5px" }} />
               <Link to="/login">
                 Logout
                 <LogoutOutlined
@@ -51,6 +62,7 @@ function Home() {
                 />
               </Link>
             </Menu.Item>
+           
           </Menu>
         </Header>
         <Layout>

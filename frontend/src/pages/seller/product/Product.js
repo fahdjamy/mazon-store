@@ -28,6 +28,8 @@ function Product() {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.product.products);
 
+  console.log(products)
+
   useEffect(() => {
     dispatch(fetchProductAsync());
     // eslint-disable-next-line

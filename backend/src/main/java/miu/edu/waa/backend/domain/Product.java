@@ -20,7 +20,7 @@ public class Product {
     private String name;
     private String imageCover;
     private String description;
-    private Boolean isPurchased;
+    private Boolean isPurchased= null;
 
     @OneToOne
     @JoinColumn(name = "seller_id")

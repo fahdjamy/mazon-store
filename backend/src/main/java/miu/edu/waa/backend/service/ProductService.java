@@ -11,7 +11,7 @@ public interface ProductService {
 
     ProductDTO getById(Long pdtId);
 
-    ProductDTO createProduct(ProductDTO productDTO);
+    ProductDTO createProduct(ProductDTO productDTO, User seller);
 
     void deleteProductById(Long pdtId) throws CustomException;
 
