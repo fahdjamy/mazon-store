@@ -11,4 +11,5 @@ import miu.edu.waa.backend.domain.OrderStatus;
 public class OrderDTO {
     private ProductDTO product;
     private OrderStatus status;
+    private Long id;
 }

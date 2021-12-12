@@ -10,7 +10,7 @@ const instance = axios.create({
 instance.interceptors.request.use(
   (config) => {
     if (
-      !config.url.includes("/users") &&
+      config.url !== "/users" &&
       !config.url.includes("/auth/login")
     ) {
       config.headers['Authorization'] = `Bearer ${localStorage.getItem("token")}`;

@@ -6,6 +6,7 @@ import { Form, Input, InputNumber, Button, Row, Col } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 
 import {
+  addProductAsync,
   deleteProductAsync,
   editProductAsync,
   fetchProductAsync,
@@ -24,11 +25,26 @@ const layout = {
 
 const { Meta } = Card;
 
+
+const validateMessages = {
+  // eslint-disable-next-line
+  required: "${label} is required!",
+  types: {
+    // eslint-disable-next-line
+    email: "${label} is not a valid email!",
+    // eslint-disable-next-line
+    number: "${label} is not a valid number!",
+  },
+  number: {
+    // eslint-disable-next-line
+    range: "${label} must be between ${min} and ${max}",
+  },
+};
+
 function Product() {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.product.products);
 
-  console.log(products)
 
   useEffect(() => {
     dispatch(fetchProductAsync());
@@ -36,18 +52,22 @@ function Product() {
   }, []);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [addModalVisible, setAddModalVisible] = useState(false);
   const [modalData, setModalData] = useState({});
 
   const showModal = (currentProduct) => {
     setIsModalVisible(true);
+   
     setModalData(() => {
       return currentProduct;
     });
-    // dispatch(editProductAsync(currentProduct.id, currentProduct));
   };
 
+  const add = () => {
+    setAddModalVisible(true)
+  }
+
   const deleteProductHandler = (currentProduct) => {
-    console.log(currentProduct.id);
     dispatch(deleteProductAsync(currentProduct.id));
   };
 
@@ -57,14 +77,21 @@ function Product() {
 
   const handleCancel = () => {
     setIsModalVisible(false);
+    setAddModalVisible(false);
     setModalData({});
   };
 
   const onFinish = (values) => {
-    console.log(values.name);
     dispatch(editProductAsync(values.id, values));
     setModalData("");
     setIsModalVisible(false);
+  };
+
+
+  const onAdd = (values) => {
+   
+    dispatch(addProductAsync(values));
+    setAddModalVisible(false);
   };
 
   const productList = products.map((p) => (
@@ -72,20 +99,27 @@ function Product() {
       <div style={style}>
         {" "}
         <Card
+        hoverable
           style={{ width: 300 }}
           cover={<img alt="example" src={p.imageCover} />}
           actions={[
             <EditOutlined key="edit" onClick={() => showModal(p)} />,
             <DeleteOutlined onClick={() => deleteProductHandler(p)} />,
           ]}
+          className="cs-card"
         >
-          <Meta title={p.name} description={p.description} />
+          <Meta title={p.name}  description={`$${p.price}`} />
+          <Meta description={p.description} />
         </Card>
       </div>
     </Col>
   ));
   return (
     <>
+    <Row justify="end">
+    <Button type="primary" onClick={()=>add()} style={{marginBottom:"20px"}} >Add Product</Button>
+
+    </Row>
       <Row gutter={16}>{productList}</Row>
 
       <Modal
@@ -141,6 +175,59 @@ function Product() {
           <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
             <Button type="primary" htmlType="submit">
               Save
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
+
+      <Modal
+        title="Add Product "
+        visible={addModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={null}
+        getContainer={false}
+      >
+     <Form
+          {...layout}
+          name="nest-messages"
+          onFinish={onAdd}
+          validateMessages={validateMessages}
+        >
+          <Form.Item
+            name={"name"}
+            label="Product Name"
+            rules={[{ required: true }]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            name={"price"}
+            label="Price"
+            rules={[{ required: true, type: "number" }]}
+          >
+            <InputNumber />
+          </Form.Item>
+
+          <Form.Item
+            name={"description"}
+            label="description"
+            rules={[{ required: true }]}
+          >
+            <Input.TextArea />
+          </Form.Item>
+          <Form.Item
+            name={"imageCover"}
+            label="Image URl"
+            rules={[{ required: true }]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
+            <Button type="primary" htmlType="submit">
+              Add Product
             </Button>
           </Form.Item>
         </Form>

@@ -1,6 +1,8 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Table, Space } from "antd";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getOrdersAsync } from "../../../store/actions/order";
 
 const { Column} = Table;
 
@@ -31,6 +33,14 @@ const data = [
 ];
 
 function Order() {
+  const dispatch = useDispatch();
+  const orders = useSelector(state => state.orders);
+  console.log(orders);
+  
+  useEffect(()=>{
+    dispatch(getOrdersAsync());
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   return (
     <div>
       <Table dataSource={data}>

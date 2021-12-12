@@ -27,7 +27,7 @@ export const addReviewAsync = (pdtId, data) => {
   };
 };
 
-export const getProductReviewsAsync = () => {
+export const getProductReviewsAsync = (pdtId) => {
   return async (dispatch) => {
     dispatch(getProductReviews());
     try {

@@ -18,10 +18,10 @@ import BuyerHome from "../pages/buyer/home/Home";
 import SellerProduct from "../pages/seller/product/Product";
 import SellerOrder from "../pages/seller/order/Order";
 import SellerHome from "../pages/seller/home/Home";
-import AddProduct from "../pages/seller/product/AddProduct";
 import OrderStatus from "../pages/seller/order-status/OrderStatus";
 import Cart from "../pages/buyer/cart/Cart";
 import RequireAuth from "./RequireAuth";
+import Payment from "../pages/buyer/payment/Payment"
 
 export default function AllRoutes() {
   const dispatch = useDispatch();
@@ -68,22 +68,21 @@ export default function AllRoutes() {
           </RequireAuth>
         }>
           <Route
-            // path="products"
             index
             element={<Product />}
           />
           <Route path="orders" element={<Order />} />
           <Route path="order-history" element={<OrderHistory />} />
           <Route path="cart" element={<Cart />} />
+          <Route path="make-payment/:productId" element={<Payment />} />
         </Route>
         <Route path="/seller" element={
           <RequireAuth>
             <SellerHome />
           </RequireAuth>
         }>
-          <Route path="view-products" element={<SellerProduct />} />
+          <Route index element={<SellerProduct />} />
           <Route path="view-orders" element={<SellerOrder />} />
-          <Route path="add-product" element={<AddProduct />} />
           <Route path="order-status" element={<OrderStatus />} />
         </Route>
         <Route
