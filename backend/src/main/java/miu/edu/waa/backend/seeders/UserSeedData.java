@@ -22,20 +22,21 @@ public class UserSeedData {
     }
 
     public void loadUsers() {
-        List<String> usernames = new ArrayList<>() {{
-            add("admin");
-            add("buyer");
-            add("seller");
+        List<Role> usernameRoles = new ArrayList<>() {{
+            add(Role.ADMIN);
+            add(Role.BUYER);
+            add(Role.SELLER);
         }};
 
-        usernames.forEach(username -> {
+        usernameRoles.forEach(role -> {
             UserRegDTO userRegDTO = new UserRegDTO();
 
+            userRegDTO.setRole(role);
             userRegDTO.setPassword("1234");
-            userRegDTO.setUsername(username);
-            userRegDTO.setEmail(username + "@mail.com");
-            userRegDTO.setLastName(username.toLowerCase());
-            userRegDTO.setRole(Role.valueOf(username.toLowerCase()));
+            userRegDTO.setUsername(role.toString().toLowerCase());
+            userRegDTO.setLastName(role.toString().toUpperCase());
+            userRegDTO.setFirstName(role.toString().toUpperCase());
+            userRegDTO.setEmail(role.toString().toLowerCase() + "@mail.com");
 
             try {
                 userService.createUser(userRegDTO);
