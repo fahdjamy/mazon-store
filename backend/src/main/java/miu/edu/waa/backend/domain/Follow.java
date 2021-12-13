@@ -1,30 +1,30 @@
 package miu.edu.waa.backend.domain;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name="follow_follower_table")
 @Getter
+@Setter
+@NoArgsConstructor
+@Table(name="seller_followers")
 public class Follow {
-
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue
     private long id;
 
     @ManyToOne
-    @JoinColumn(name="from_user_fk")
-    private Profile from;
+    @JoinColumn(name="buyer_id")
+    private User buyer;
 
     @ManyToOne
-    @JoinColumn(name="to_user_fk")
-    private Profile to;
+    @JoinColumn(name="seller_id")
+    private User seller;
 
-    public Follow() {};
-
-    public Follow(Profile from, Profile to) {
-        this.from = from;
-        this.to = to;
+    public String toString() {
+        return "id: " + id + '}';
     }
 }

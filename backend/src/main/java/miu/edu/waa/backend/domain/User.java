@@ -75,6 +75,12 @@ public class User {
     })
     private Address billingAddress;
 
+    @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL)
+    private List<Follow> followers;
+
+    @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
+    private List<Follow> following;
+
     /**
      * Returns granted Role as set of SimpleGrantedAuthority for the user.
      * granted authorities are used by spring for authentication.
@@ -87,15 +93,18 @@ public class User {
         return permissions;
     }
 
+    public void addFollowing(Follow follow) {
+        following.add(follow);
+        followers.add(follow);
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
+                ", following='" + following + '\'' +
                 ", username='" + username + '\'' +
                 ", isApproved=" + isApproved +
-                ", cart=" + cart +
                 '}';
     }
 }

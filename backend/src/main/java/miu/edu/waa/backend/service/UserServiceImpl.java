@@ -25,12 +25,10 @@ import java.util.List;
 @Service
 @Transactional(propagation = Propagation.REQUIRED)
 public class UserServiceImpl implements UserService, UserDetailsService {
+    private EmailService emailService;
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
     private ModelMapperUtil modelMapperUtil;
-
-    private EmailService emailService;
-
 
     @Autowired
     public void setModelMapperUtil(ModelMapperUtil modelMapperUtil) {
@@ -42,12 +40,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         this.userRepository = userRepository;
     }
 
-
     @Autowired
     public void setEmailService(EmailService emailService) {
         this.emailService = emailService;
     }
-
 
     @Autowired
     public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
@@ -137,8 +133,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public UserDTO getLoggedInUserDetails(
             org.springframework.security.core.userdetails.User loggedInUser) {
+        User user = userRepository.findByUsername(loggedInUser.getUsername());
         return modelMapperUtil.mapEntryTo(
-                userRepository.findByUsername(loggedInUser.getUsername()),
+                user,
                 new UserDTO()
         );
     }

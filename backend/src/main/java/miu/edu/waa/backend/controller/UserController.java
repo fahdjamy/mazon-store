@@ -1,6 +1,5 @@
 package miu.edu.waa.backend.controller;
 
-import miu.edu.waa.backend.domain.User;
 import miu.edu.waa.backend.dto.*;
 import miu.edu.waa.backend.exception.CustomException;
 import miu.edu.waa.backend.service.FollowService;
@@ -12,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ConstraintViolationException;
@@ -99,7 +99,7 @@ public class UserController {
     @GetMapping("/filter")
     public ResponseEntity<?> getLoggedInUserDetails(
             @AuthenticationPrincipal org.springframework.security.core.userdetails.User loggedInUser,
-            @RequestParam("byRole") String byRole
+            @RequestParam(value = "byRole", required = false) String byRole
     ) {
         if (byRole != null) {
             return ResponseEntity.ok(
@@ -143,7 +143,7 @@ public class UserController {
     public ResponseEntity<?> getUserOrders(
             @PathVariable("buyerId") Long buyerId,
             @AuthenticationPrincipal org.springframework.security.core.userdetails.User user
-            ) {
+    ) {
         return ResponseEntity.ok(orderService.getUserOrders(buyerId, user));
     }
 
@@ -151,22 +151,23 @@ public class UserController {
     public ResponseEntity<?> followUser(
             @PathVariable("sellerId") Long sellerId,
             @AuthenticationPrincipal User buyer
-    ) {
+    ) throws CustomException {
         followService.follow(buyer, sellerId);
         return ResponseEntity.ok(
                 new HashMap<>() {{
-                    put("message", "You have Followed this seller");
+                    put("message", "You have followed the seller");
                 }});
     }
 
-    @PostMapping("/{sellerId}/unfollow")
+    @DeleteMapping("/{sellerId}/unfollow")
     public ResponseEntity<?> unFollowUser(
+            @AuthenticationPrincipal User buyer,
             @PathVariable("sellerId") Long sellerId
-    ) {
-        followService.unfollow(sellerId);
+    ) throws CustomException {
+        followService.unfollow(buyer, sellerId);
         return ResponseEntity.ok(
                 new HashMap<>() {{
-                    put("message", "You have UnFollowed this seller");
+                    put("message", "You have un-followed the seller");
                 }});
     }
 
@@ -189,7 +190,7 @@ public class UserController {
 
     @GetMapping("/{buyerId}/payments")
     public ResponseEntity<?> getBuyerPayments(
-            @PathVariable("buyerId") Long buyerId){
+            @PathVariable("buyerId") Long buyerId) {
         return ResponseEntity.ok(paymentService.getBuyerPayments(buyerId));
     }
 }
