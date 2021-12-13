@@ -1,120 +1,78 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "antd/dist/antd.css";
-import {Link, Outlet} from "react-router-dom";
-import {Layout, Menu, Breadcrumb} from "antd";
-import {useDispatch} from "react-redux";
-import {logoutAsync} from "../../../store/actions/auth";
-import {useNavigate} from "react-router-dom";
-import {
-  EyeFilled,
-  LaptopOutlined,
-  NotificationOutlined,
-  LogoutOutlined,
-} from "@ant-design/icons";
+import { Link, Outlet, useLocation, Navigate } from "react-router-dom";
+import { Layout, Menu } from "antd";
+import { CheckCircleOutlined, CheckOutlined } from "@ant-design/icons";
 import "./Home.css";
+import TopNav from "../../../components/auth/TopNav";
+import { useDispatch, useSelector } from "react-redux";
+import { getLoggedInUserDetailsAsync } from "../../../store/actions/auth";
 
-// import NotApprovedSeller from "./pages/admin/seller/NotApprovedSeller";
-// import ApprovedReviews from "./pages/admin/review/ApprovedReviews";
-// import NotApprovedReviews from "./pages/admin/review/NotApprovedReviews";
-// import ApprovedSeller from "./pages/admin/seller/ApprovedSeller";
-
-const {SubMenu} = Menu;
-const {Header, Content, Sider, Footer} = Layout;
+const { Content, Sider, Footer } = Layout;
 
 function Home() {
-  let navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
+  const user = useSelector((state) => state.auth);
 
-  const logoutHandler = () => {
-    dispatch(logoutAsync());
-    navigate("/login");
-  };
+  useEffect(() => {
+    dispatch(getLoggedInUserDetailsAsync());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
-      <Layout
-        style={{
-          minHeight: "100vh",
-        }}
-      >
-        <Header className="header">
-          <div className="logo">
-            <img
-              src="https://www.pngplay.com/wp-content/uploads/3/White-Amazon-Logo-PNG-HD-Quality.png"
-              alt=""
-            />
-          </div>
-
-          <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["0"]}>
-            <Menu.Item
-              key="1"
-              style={{marginLeft: "auto"}}
-              onClick={logoutHandler}
-            >
-              <Link to="/login">
-                Logout
-                <LogoutOutlined
-                  style={{
-                    color: "white",
-                    fontWeight: "bold",
-                    paddingLeft: "5px",
-                  }}
-                />
-              </Link>
-            </Menu.Item>
-          </Menu>
-        </Header>
-        <Layout>
-          <Sider width={200} className="site-layout-background">
-            <Menu
-              theme="dark"
-              mode="inline"
-              defaultOpenKeys={["sub1"]}
-              defaultSelectedKeys={["1"]}
-              style={{height: "100%", borderRight: 0}}
-            >
-              <SubMenu key="sub1" icon={<EyeFilled/>} title="View Sellers">
-                <Menu.Item key="1">
-                  <Link to="/admin">Approved</Link>
-                </Menu.Item>
-                <Menu.Item key="2">
-                  <Link to="/admin/not-approved-seller">Not Approved</Link>
-                </Menu.Item>
-              </SubMenu>
-              <SubMenu
-                key="sub2"
-                title="View Reviews"
-                icon={<LaptopOutlined/>}
+      {user.userRole !== "admin" ? (
+        <Navigate
+          to={`/${user.userRole}`}
+          replace
+          state={{
+            referrer: location.pathname,
+            from: location,
+          }}
+        />
+      ) : (
+        <Layout
+          style={{
+            minHeight: "100vh",
+          }}
+        >
+          <TopNav />
+          <Layout>
+            <Sider width={200} className="site-layout-background">
+              <Menu
+                theme="dark"
+                mode="inline"
+                defaultOpenKeys={["sub1"]}
+                defaultSelectedKeys={["1"]}
+                style={{ height: "100%", borderRight: 0 }}
               >
-                <Menu.Item key="5">
-                  <Link to="/admin/approved-review">Approved</Link>
+                <Menu.Item key="1" icon={<CheckCircleOutlined />}>
+                  <Link to="/admin">Not Approved Sellers</Link>
                 </Menu.Item>
-                <Menu.Item key="6">
-                  <Link to="/admin/not-approved-review">Not Approved</Link>
+                <Menu.Item key="2" icon={<CheckOutlined />}>
+                  <Link to="/admin/not-approved-review">
+                    Not Approved Reviews
+                  </Link>
                 </Menu.Item>
-              </SubMenu>
-            </Menu>
-          </Sider>
-          <Layout style={{padding: "0 24px 24px"}}>
-            <Breadcrumb style={{margin: "16px 0"}}>
-              <Breadcrumb.Item>Home</Breadcrumb.Item>
-              <Breadcrumb.Item>List</Breadcrumb.Item>
-              <Breadcrumb.Item>App</Breadcrumb.Item>
-            </Breadcrumb>
-            <Content
-              className="site-layout-background"
-              style={{
-                padding: 24,
-                margin: 0,
-                minHeight: 280,
-              }}
-            >
-              <Outlet/>
-            </Content>
-            <Footer style={{textAlign: "center"}}>WAA Project ©2021</Footer>
+              </Menu>
+            </Sider>
+            <Layout style={{ padding: "0 24px 24px" }}>
+              <Content
+                className="site-layout-background"
+                style={{
+                  padding: 24,
+                  margin: 0,
+                  minHeight: 280,
+                }}
+              >
+                <Outlet />
+              </Content>
+              <Footer style={{ textAlign: "center" }}>WAA Project ©2021</Footer>
+            </Layout>
           </Layout>
         </Layout>
-      </Layout>
+      )}
     </>
   );
 }

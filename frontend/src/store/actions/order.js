@@ -56,7 +56,6 @@ export const cancelOrderAsync = (orderId) => {
 
 export const updateOrderAsync = (buyerId, orderId, data) => {
   return async (dispatch) => {
-    console.log("|||||| sending data", data);
     dispatch(updateOrder());
     try {
       const response = await axios.put(

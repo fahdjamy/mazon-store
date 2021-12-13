@@ -50,3 +50,9 @@
   /* justify-content: center; */
   background-color: #e8e9ef;
 }
+
+.centerForbidden {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+}

@@ -1,31 +1,32 @@
 import React from "react";
-import { List, Avatar } from "antd";
+import { List, Avatar, Spin } from "antd";
 import { useSelector } from "react-redux";
 
 
 
 function OrderHistory() {
   const orders = useSelector(state => state.orders);
- 
-  const products = orders.orders;
 
-  return (
-    <List
+  return (<>
+    {orders.orders.length > 0 ?  <List
       itemLayout="horizontal"
-      dataSource={products}
+      dataSource={orders.orders}
       renderItem={(item) => (
         <List.Item>
           <List.Item.Meta
             avatar={
-              <Avatar src="https://www.switchbacktravel.com/sites/default/files/image_fields/Best%20Of%20Gear%20Articles/Winter/Winter%20jackets/REI%20Co-op%20Stormhenge%20Down%20Hybrid%20winter%20jacket.jpeg" />
+              <Avatar src={item.product.imageCover} />
             }
-            title={<a href="https://ant.design">{item.product.name}</a>}
-            description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+            title={item.product.name}
+            description={item.product.description}
           />
         </List.Item>
       )}
-    />
-  );
+    /> : <h2>No order history yet!!</h2>}
+  </>)
+  
+   
+  
 }
 
 export default OrderHistory;

@@ -125,8 +125,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if (user == null) {
             return null;
         }
-        userRepository.save(user);
-        return userDTO;
+        user.setBillingAddress(userDTO.getBillingAddress());
+        user.setShippingAddress(userDTO.getShippingAddress());
+        user = userRepository.save(user);
+        return modelMapperUtil.mapEntryTo(user, new UserDTO());
     }
 
     @Override

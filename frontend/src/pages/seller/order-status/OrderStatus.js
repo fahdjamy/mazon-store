@@ -1,15 +1,11 @@
-import React, {useEffect} from "react";
+import React from "react";
 import { Button } from "antd";
 import { Checkbox, Row, Col, Card } from "antd";
-import { useDispatch, useSelector } from "react-redux";
-import { getLoggedInUserDetailsAsync } from "../../../store/actions/auth/user";
-import { getOrdersAsync } from "../../../store/actions/order";
 
 export default function OrderStatus() {
 
 
   function onChange(checkedValues) {
-    console.log("checked = ", checkedValues);
   }
   return (
     <div>
