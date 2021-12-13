@@ -16,6 +16,16 @@ import {
   approveSellerFailure,
 } from "../../reducers/authSlice";
 
+import {
+  followSeller,
+  followSellerSuccess,
+  followSellerFailure,
+
+  unfollowSeller,
+  unfollowSellerFailure,
+  unfollowSellerSuccess,
+} from "../../reducers/userSlice";
+
 export const getLoggedInUserDetailsAsync = () => {
   return async (dispatch) => {
     dispatch(getUser())
@@ -62,4 +72,28 @@ export const getSellersAsync = () => {
       dispatch(getSellersFailure(response?.data?.error?.message || "something went wrong!!"));
     }
   };
+}
+
+export const sendFollowReqAsync = (sellerId) => {
+  return async (dispatch) => {
+    dispatch(followSeller());
+    try {
+      const response = await axios.post(`/users/${sellerId}/follow`);
+      dispatch(followSellerSuccess(response.data));
+    } catch ({response}) {
+      dispatch(followSellerFailure(response?.data?.error?.message || "something went wrong!!"));
+    }
+  }
+}
+
+export const sendUnFollowReqAsync = (sellerId) => {
+  return async (dispatch) => {
+    dispatch(unfollowSeller());
+    try {
+      const response = await axios.delete(`/users/${sellerId}/unfollow`);
+      dispatch(unfollowSellerSuccess(response.data));
+    } catch ({response}) {
+      dispatch(unfollowSellerFailure(response?.data?.error?.message || "something went wrong!!"));
+    }
+  }
 }

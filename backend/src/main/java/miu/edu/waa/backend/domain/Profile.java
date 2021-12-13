@@ -1,38 +1,29 @@
 package miu.edu.waa.backend.domain;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "user_profile")
 @Getter
+@Setter
+@NoArgsConstructor
+@Table(name = "USER_PROFILE")
 public class Profile {
-
-    private String username;
-    @Column(name = "image_url")
+    @Id
+    @GeneratedValue
+    private long id;
     private String imageUrl;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-
-
-    @OneToMany(mappedBy = "to")
-    private List<Follow> followers;
-
-    @OneToMany(mappedBy = "from")
-    private List<Follow> following;
+//    @OneToMany(mappedBy = "to")
+//    private List<Follow> followers;
+//
+//    @OneToMany(mappedBy = "from")
+//    private List<Follow> following;
 
     @OneToOne(mappedBy = "profile")
     private User user;
-
-    public Profile() {
-    }
-
-    public Profile(String username) {
-        this.username = username;
-    }
-
 }

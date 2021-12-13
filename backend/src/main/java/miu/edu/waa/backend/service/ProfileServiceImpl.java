@@ -13,13 +13,13 @@ import org.springframework.stereotype.Service;
 public class ProfileServiceImpl implements ProfileService {
 
     @Autowired
-    ProfileRepository profileRepository;
+    private ProfileRepository profileRepository;
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    ModelMapperUtil modelMapperUtil;
+    private ModelMapperUtil modelMapperUtil;
 
     @Override
     public ProfileDto getById(Long profileId) {
