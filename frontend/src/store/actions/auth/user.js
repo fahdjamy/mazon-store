@@ -3,10 +3,13 @@ import axios from "../../../api/axiosInit";
 import {
   getUser,
   updateUser,
+  getSellers,
   approveSeller,
   getUserSuccess,
   getUserFailure,
 
+  getSellersFailure,
+  getSellersSuccess,
   updateUserSuccess,
   updateUserFailure,
   approveSellerSuccess,
@@ -45,6 +48,18 @@ export const updateUserAsync = (userId) => {
       dispatch(updateUserSuccess(response.data));
     } catch ({response}) {
       dispatch(updateUserFailure(response?.data?.error?.message || "something went wrong!!"));
+    }
+  };
+}
+
+export const getSellersAsync = () => {
+  return async (dispatch) => {
+    dispatch(getSellers());
+    try {
+      const response = await axios.get(`/users/filter?byRole=SELLER`);
+      dispatch(getSellersSuccess(response.data));
+    } catch ({response}) {
+      dispatch(getSellersFailure(response?.data?.error?.message || "something went wrong!!"));
     }
   };
 }

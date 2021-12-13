@@ -144,6 +144,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public List<UserDTO> getUsersByRole(String role) {
+        return modelMapperUtil.mapEntriesToList(
+                userRepository.findUserByRole(Role.valueOf(role)),
+                new UserDTO()
+        );
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User loggedUser = userRepository.findByUsername(username);
         if (loggedUser == null) {

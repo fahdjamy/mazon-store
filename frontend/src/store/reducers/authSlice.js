@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   error: null,
+  sellers: [],
   userRole: "",
   userData: null,
   isLogging: false,
@@ -10,7 +11,9 @@ const initialState = {
   approvalMessage: null,
   isUpdatingUser: false,
   isAuthenticated: false,
+  fetchingSellers: false,
   isApprovingSeller: false,
+  fetchingSellersError: null,
   registrationSuccess: false,
 };
 
@@ -73,6 +76,18 @@ export const authSlice = createSlice({
       state.error = payload;
       state.fetchingUser = false;
     },
+    getSellers: (state) => {
+      state.fetchingSellers = true;
+    },
+    getSellersSuccess: (state, { payload }) => {
+      state.sellers = payload;
+      state.fetchingSellers = false;
+      state.fetchingSellersError = null;
+    },
+    getSellersFailure: (state, { payload }) => {
+      state.fetchingSellers = false;
+      state.fetchingSellersError = payload;
+    },
     approveSeller: (state) => {
       state.isApprovingSeller = true;
     },
@@ -105,6 +120,7 @@ export const {
   logout,
   getUser,
   register,
+  getSellers,
   updateUser,
   loginSuccess,
   loginFailure,
@@ -115,6 +131,8 @@ export const {
   registerSuccess,
   updateUserSuccess,
   updateUserFailure,
+  getSellersSuccess,
+  getSellersFailure,
   approveSellerSuccess,
   approveSellerFailure,
 

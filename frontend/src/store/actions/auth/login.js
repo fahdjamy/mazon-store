@@ -38,7 +38,7 @@ export const tryReLogin = () => {
 
 export const logoutAsync = () => {
   return async dispatch => {
-    dispatch(logoutAttempt);
+    dispatch(logoutAttempt());
     localStorage.clear();
   }
 }

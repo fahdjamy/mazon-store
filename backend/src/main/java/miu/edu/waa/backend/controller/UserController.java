@@ -98,8 +98,14 @@ public class UserController {
 
     @GetMapping("/filter")
     public ResponseEntity<?> getLoggedInUserDetails(
-            @AuthenticationPrincipal org.springframework.security.core.userdetails.User loggedInUser
+            @AuthenticationPrincipal org.springframework.security.core.userdetails.User loggedInUser,
+            @RequestParam("byRole") String byRole
     ) {
+        if (byRole != null) {
+            return ResponseEntity.ok(
+                    userService.getUsersByRole(byRole)
+            );
+        }
         return ResponseEntity
                 .ok(userService.getLoggedInUserDetails(loggedInUser));
     }

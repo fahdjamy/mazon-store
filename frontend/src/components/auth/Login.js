@@ -2,13 +2,14 @@ import React, { useEffect } from "react";
 import "antd/dist/antd.css";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import {
+  Row,
+  Card,
   Form,
   Input,
   Button,
   Checkbox,
-  Row,
   Typography,
-  Card,
+  notification,
 } from "antd";
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -24,16 +25,16 @@ function Login() {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
 
-  // const openNotificationWithIcon = (type) => {
-  //   notification[type]({
-  //     message: "Error",
-  //     description: auth.error,
-  //   });
-  // };
+  const openNotificationWithIcon = (type) => {
+    notification[type]({
+      message: "Error",
+      description: auth.error,
+    });
+  };
 
   useEffect(() => {
     if (auth.error) {
-      // openNotificationWithIcon("error");
+      openNotificationWithIcon("error");
     }
     if (auth.isAuthenticated && auth.userRole) {
       navigate(`/${auth.userRole}`);
