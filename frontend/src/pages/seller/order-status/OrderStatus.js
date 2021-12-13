@@ -1,8 +1,13 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Button } from "antd";
 import { Checkbox, Row, Col, Card } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { getLoggedInUserDetailsAsync } from "../../../store/actions/auth/user";
+import { getOrdersAsync } from "../../../store/actions/order";
 
 export default function OrderStatus() {
+
+
   function onChange(checkedValues) {
     console.log("checked = ", checkedValues);
   }
@@ -29,17 +34,7 @@ export default function OrderStatus() {
           </Button>
         </Col>
       </Row>
-      {/* <Descriptions title="Order Info">
-        <Descriptions.Item label="Order Id">Winter Jacket </Descriptions.Item>
-        <Descriptions.Item label="Telephone">1810000000</Descriptions.Item>
-        <Descriptions.Item label="Live">Hangzhou, Zhejiang</Descriptions.Item>
-        <Descriptions.Item label="Remark">empty</Descriptions.Item>
-        <Descriptions.Item label="Address">
-          No. 18, Wantang Road, Xihu District, Hangzhou, Zhejiang, China
-        </Descriptions.Item>
-      </Descriptions>
 
-      <Button type="danger">Cancel</Button> */}
     </div>
   );
 }

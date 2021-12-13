@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -20,7 +22,7 @@ public class Order {
     @NotNull
     @ManyToOne
     private User buyer;
-
+    private LocalDateTime createdAt = LocalDateTime.now();
     private OrderStatus status = OrderStatus.NOT_SHIPPED;
 
     @OneToOne

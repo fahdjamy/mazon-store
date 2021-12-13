@@ -100,10 +100,17 @@ public class OrderServiceImpl implements OrderService {
         if (product == null) {
             throw new CustomException("product with id '" + productId + "' does not exist.");
         }
+        miu.edu.waa.backend.domain.User buyer = userRepository
+                .findByUsername(loggedInBuyer.getUsername());
+        if (orderRepository
+                .findOrderByBuyerIdAndProductId(buyer.getId(),
+                        productId) != null) {
+            throw new CustomException("You have already placed an order for this product");
+        }
         Order order = new Order();
 
         order.setProduct(product);
-        order.setBuyer(userRepository.findByUsername(loggedInBuyer.getUsername()));
+        order.setBuyer(buyer);
 
         orderRepository.save(order);
         return modelMapperUtil.mapEntryTo(order, new OrderDTO());

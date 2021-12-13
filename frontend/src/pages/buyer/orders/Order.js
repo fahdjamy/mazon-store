@@ -77,7 +77,7 @@ function Order() {
     }
 
     return (
-      <Card key={o.product.id}>
+      <Card key={o.product.id} >
         <div>
           <Row>
             <Col className="gutter-row" span={8}>

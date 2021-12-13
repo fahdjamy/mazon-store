@@ -23,7 +23,6 @@ export const getOrdersAsync = (buyerId) => {
     dispatch(getOrders())
     try {
       const response = await axios.get(`/users/${buyerId}/orders`);
-      console.log(response.data);
       dispatch(getOrdersSuccess(response.data));
     } catch ({response}) {
       dispatch(getOrdersFailure(response?.data?.error ||  "Something went wrong"));
@@ -57,6 +56,7 @@ export const cancelOrderAsync = (orderId) => {
 
 export const updateOrderAsync = (buyerId, orderId, data) => {
   return async (dispatch) => {
+    console.log("|||||| sending data", data);
     dispatch(updateOrder());
     try {
       const response = await axios.put(
