@@ -61,6 +61,14 @@ public class ReviewServiceImpl implements ReviewService {
         return modelMapperUtil.mapEntryTo(review, new ReviewDTO());
     }
 
+    @Override
+    public List<ReviewDTO> getAllReviews() {
+        return modelMapperUtil.mapEntriesToList(
+                reviewRepository.findAll(),
+                new ReviewDTO()
+        );
+    }
+
     @PreAuthorize("hasRole('ROLE_BUYER')")
     public ReviewDTO createReview(
             User loggedInBuyer,

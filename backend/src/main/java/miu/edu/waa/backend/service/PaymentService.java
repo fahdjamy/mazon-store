@@ -10,8 +10,6 @@ import org.springframework.security.core.userdetails.User;
 import java.util.List;
 
 public interface PaymentService {
-
-    public void makePayment(PaymentDTO payment, User user, Long productId);
-    public List<Payment> getBuyerPayments(Long userId);
-
+    PaymentDTO makePayment(PaymentDTO payment, User user, Long productId);
+    List<Payment> getBuyerPayments(Long userId);
 }
