@@ -51,16 +51,6 @@ function Home() {
               style={{marginLeft: "auto"}}
               onClick={logoutHandler}
             >
-              {/* <button style={{ style: "none" }} onClick={logoutHandler}>
-                Logout
-                <LogoutOutlined
-                  style={{
-                    color: "white",
-                    fontWeight: "bold",
-                    paddingLeft: "5px",
-                  }}
-                />
-              </button> */}
               <Link to="/login">
                 Logout
                 <LogoutOutlined
@@ -79,8 +69,8 @@ function Home() {
             <Menu
               theme="dark"
               mode="inline"
-              defaultSelectedKeys={["1"]}
               defaultOpenKeys={["sub1"]}
+              defaultSelectedKeys={["1"]}
               style={{height: "100%", borderRight: 0}}
             >
               <SubMenu key="sub1" icon={<EyeFilled/>} title="View Sellers">
@@ -93,8 +83,8 @@ function Home() {
               </SubMenu>
               <SubMenu
                 key="sub2"
-                icon={<LaptopOutlined/>}
                 title="View Reviews"
+                icon={<LaptopOutlined/>}
               >
                 <Menu.Item key="5">
                   <Link to="/admin/approved-review">Approved</Link>
@@ -102,16 +92,6 @@ function Home() {
                 <Menu.Item key="6">
                   <Link to="/admin/not-approved-review">Not Approved</Link>
                 </Menu.Item>
-              </SubMenu>
-              <SubMenu
-                key="sub3"
-                icon={<NotificationOutlined/>}
-                title="subnav 3"
-              >
-                <Menu.Item key="9">option9</Menu.Item>
-                <Menu.Item key="10">option10</Menu.Item>
-                <Menu.Item key="11">option11</Menu.Item>
-                <Menu.Item key="12">option12</Menu.Item>
               </SubMenu>
             </Menu>
           </Sider>

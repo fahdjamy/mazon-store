@@ -2,9 +2,9 @@
 FROM maven:3.5-jdk-11-slim as maven_build
 
 # copy src
-COPY src /app/src
+COPY ./src /app/src
 # copy pom
-COPY pom.xml /app
+COPY ./pom.xml /app
 
 RUN mvn -f /app/pom.xml clean package
 

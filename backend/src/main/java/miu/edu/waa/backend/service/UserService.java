@@ -16,6 +16,8 @@ public interface UserService {
 
     UserDTO getUserById(Long userId);
 
+    List<UserDTO> getUsersByRole(String role);
+
     UserDTO updateUser(Long userId, UserDTO userDTO);
 
     UserDTO getLoggedInUserDetails (User loggedInUser);

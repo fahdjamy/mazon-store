@@ -56,7 +56,7 @@ public class ProductServiceImpl implements ProductService {
             throw new CustomException("product with id '" + pdtId + "' does not exist.");
         }
         if (product.getIsPurchased()) {
-            throw new CustomException("product is  already purchased.");
+            throw new CustomException("Product is  already purchased.");
         }
         productRepository.delete(product);
     }

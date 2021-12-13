@@ -84,10 +84,10 @@ public class OrderServiceImpl implements OrderService {
     public OrderDTO cancelOrder(Long orderId) throws CustomException {
         Order order = orderRepository.findById(orderId).orElse(null);
         if (order == null) {
-            throw new CustomException("order with id '" + orderId + "' does not exist.");
+            throw new CustomException("order does not exist.");
         }
         if (order.getStatus() != OrderStatus.NOT_SHIPPED) {
-            throw new CustomException("order cannot be cancelled with '" + order.getStatus() + "' status");
+            throw new CustomException("order cannot be cancelled with status: '" + order.getStatus() + "'");
         }
         order.setStatus(OrderStatus.CANCELLED);
         orderRepository.save(order);
@@ -98,7 +98,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderDTO createOrder(Long productId, User loggedInBuyer) throws CustomException {
         Product product = productRepository.findById(productId).orElse(null);
         if (product == null) {
-            throw new CustomException("product with id '" + productId + "' does not exist.");
+            throw new CustomException("Cannot place order for a product that does not exist.");
         }
         miu.edu.waa.backend.domain.User buyer = userRepository
                 .findByUsername(loggedInBuyer.getUsername());

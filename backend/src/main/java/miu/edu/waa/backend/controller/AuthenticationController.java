@@ -50,7 +50,7 @@ public class AuthenticationController {
                     )
             );
         } catch (BadCredentialsException ex) {
-            throw new Exception("Incorrect username nad password", ex);
+            throw new Exception("Incorrect login credentials", ex);
         }
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(authReq.getUsername());
