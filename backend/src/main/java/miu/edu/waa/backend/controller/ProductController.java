@@ -114,7 +114,9 @@ public class ProductController {
     ) throws CustomException {
         reviewService.approveReview(reviewId);
         return ResponseEntity.ok(
-                new HashMap<>(){{put("message", "review approved");}}
+                new HashMap<>(){{
+                    put("message", "review approved");
+                }}
         );
     }
 
@@ -123,8 +125,13 @@ public class ProductController {
             @PathVariable("pdtId") Long productId,
             @AuthenticationPrincipal User loggedInBuyer,
             @Valid @RequestBody PaymentDTO paymentDTO
-            ) {
-        paymentService.makePayment(paymentDTO, loggedInBuyer, productId);
-        return ResponseEntity.ok().build();
+    ) {
+        return ResponseEntity.ok(
+                paymentService.makePayment(
+                        paymentDTO,
+                        loggedInBuyer,
+                        productId
+                )
+        );
     }
 }

@@ -10,6 +10,8 @@ import java.util.List;
 public interface ReviewService {
     ReviewDTO getById(Long rvId);
 
+    List<ReviewDTO> getAllReviews();
+
     void deleteById(Long rvId) throws CustomException;
 
     void approveReview(Long rvId) throws CustomException;

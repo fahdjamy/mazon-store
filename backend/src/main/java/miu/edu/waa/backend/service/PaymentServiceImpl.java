@@ -16,10 +16,9 @@ import java.util.List;
 
 @Service
 public class PaymentServiceImpl implements PaymentService{
-
-    private PaymentRepository paymentRepository;
-    private ModelMapperUtil modelMapperUtil;
     private UserRepository userRepository;
+    private ModelMapperUtil modelMapperUtil;
+    private PaymentRepository paymentRepository;
     private ProductRepository productRepository;
 
     @Autowired
@@ -43,7 +42,7 @@ public class PaymentServiceImpl implements PaymentService{
     }
 
     @PreAuthorize("hasRole('ROLE_BUYER')")
-    public void makePayment(
+    public PaymentDTO makePayment(
             PaymentDTO payment,
             org.springframework.security.core.userdetails.User user,
             Long productId
@@ -54,6 +53,7 @@ public class PaymentServiceImpl implements PaymentService{
         Product product = productRepository.getById(productId);
         p.setProduct(product);
         paymentRepository.save(p);
+        return modelMapperUtil.mapEntryTo(p, new PaymentDTO());
     }
 
     @PreAuthorize("hasRole('ROLE_BUYER')")

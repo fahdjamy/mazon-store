@@ -45,7 +45,6 @@ export const {
   getPaymentsFailure,
   getPaymentsSuccess,
 
-
   makePaymentSuccess,
   makePaymentFailure,
 } = paymentSlice.actions;

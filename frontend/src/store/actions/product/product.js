@@ -16,11 +16,9 @@ export const addProductAsync = (data) => {
   return async (dispatch) => {
     try {
       const response = await axios.post("/products", data);
-      console.log(response.data);
       dispatch(productAddedSuccess(response.data));
-    } catch (e) {
-      console.log(e);
-      dispatch(productAddFailure("Something went wrong"));
+    } catch ({response}) {
+      dispatch(productAddFailure(response?.data || "Something went wrong"));
     }
   };
 };
@@ -31,9 +29,8 @@ export const fetchProductAsync = () => {
     try {
       const response = await axios.get("/products");
       dispatch(getProductsSuccess(response.data));
-    } catch (e) {
-      console.log(e);
-      dispatch(getProductsFailure("something went wrong!!"));
+    } catch ({response}) {
+      dispatch(getProductsFailure(response?.data || "something went wrong!!"));
     }
   };
 };
@@ -43,9 +40,8 @@ export const editProductAsync = (id, data) => {
     try {
       const response = await axios.put(`/products/${id}`, data);
       dispatch(editProductsSuccess(response.data));
-    } catch (e) {
-      console.log(e);
-      dispatch(editProductsFailure("something went wrong!!"));
+    } catch ({response}) {
+      dispatch(editProductsFailure(response?.data || "something went wrong!!"));
     }
   };
 };
@@ -55,9 +51,8 @@ export const deleteProductAsync = (id) => {
     try {
       await axios.delete(`/products/${id}`);
       dispatch(deleteProductsSuccess(id));
-    } catch (e) {
-      console.log(e);
-      dispatch(deleteProductsFailure("something went wrong!!"));
+    } catch ({response}) {
+      dispatch(deleteProductsFailure(response?.data || "something went wrong!!"));
     }
   };
 };

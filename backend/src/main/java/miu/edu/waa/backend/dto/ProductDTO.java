@@ -11,9 +11,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ProductDTO {
     private Long id;
-    private Integer price;
     private String name;
+    private Integer price;
     private String imageCover;
     private String description;
-
+    private Boolean isPurchased;
 }
