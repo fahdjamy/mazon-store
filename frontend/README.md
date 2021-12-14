@@ -1,70 +1,80 @@
-# Getting Started with Create React App
+## Store | Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+#### Technologies used.
 
-## Available Scripts
+**Note**: _This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app)._
 
-In the project directory, you can run:
+- The application is built using [React.js](https://reactjs.org/) for the frontend.
+- The frontend image can be created using the [docker](https://www.docker.com/) files in the `frontend` directory.
 
-### `yarn start`
+#### Prerequisites.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Environments and/or programming language prerequisites.
+    - JavaScript: [Node.js](https://nodejs.org/en/) preferably download _v10_ ([download link](https://nodejs.org/en/))
+- Editors or IDEs
+    - **JavaScript IDEs/editors:**
+    - _Preferably_: [VSCode](https://code.visualstudio.com/) link ([download link](https://code.visualstudio.com))
+    - _Alternative_: [Web Storm](https://www.jetbrains.com/webstorm/download/)
+      link ([download link](https://www.jetbrains.com/webstorm/download/))
 
-The page will reload if you make edits.\
+#### Getting started.
+
+- clone the repository this URL [GitHub link](https://github.com/FahdJamy/mazon-store)
+
+  ##### Frontend.
+
+- navigate / cd into the frontend directory `cd frontend`
+- install the frontend dependencies by running the command `npm install` or `yarn`
+
+    #### Available Scripts
+
+    In the project directory, you can run:
+
+- `yarn start`: Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser. The page will reload if you make edits.\
 You will also see any lint errors in the console.
+- `yarn test`: Launches the test runner in the interactive watch mode.
+- `yarn build`: Builds the app for production to the `build` folder. It correctly bundles React in production mode and optimizes the build for the best performance. The build is minified and the filenames include the hashes.\
 
-### `yarn test`
+**Running the frontend with docker-compose.**
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+_**NOTE: please make sure you have docker-compose version that supports version 3.7 installed on your machine.**_
 
-### `yarn build`
+- make sure you are in the `/frontend` directory
+- run docker-compose --build up.
+- to access the application, use the url [http://0.0.0.3000](http://0.0.0.3000)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+----
+**Note**
+_To access the frontend url, use the format below_
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+`{{hosturl}}:3000/`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+For example:
+- after running the frontend, access the application using:
+````
+http://localhost:3000/
+````
 
-### `yarn eject`
+or click the link below:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+[link](http://localhost:3000/)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+-----
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+#### Notes about the front application.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- The application can only be accessed or used by three types of users.
+    - `BUYER`
+    - `SELLER`
+    - `ADMIN`
+- Only two types of users can register to the application **BUYER/SELLER** via the registration page: [link](http://localhost:3000/register).
+- The **ADMIN** user type is created automatically with the credentials.
+    - `password: admin`
+    - `username: admin`
+- Below are the open (non-auth-required) routes
+    - login route: `{{hosturl}}:3000/register` [link](http://localhost:3000/register)
+    - registration route: `{{hosturl}}:3000/register` [link](http://localhost:3000/register)
+- All the other endpoints require a user to login first. 
+- Users will be redirected automatically to their pages (dashboards) basing on their roles. _**all pages not authorized
+    for them are blocked from their access**_.

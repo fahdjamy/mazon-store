@@ -29,6 +29,9 @@ spring:
           connectiontimeout: 5000
           timeout: 3000
           writetimeout: 5000
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
 jwt:
   secret: ${MAZON_SECRET_KEY:x7D*6]]s#j4ZI{M"V"4+[X%KbTW+Y3GI^KJb+E!n8^<nRbCboV'68m<{H+nGYXJ}

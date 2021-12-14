@@ -1,6 +1,7 @@
 package miu.edu.waa.backend.dto;
 
 import lombok.*;
+import miu.edu.waa.backend.domain.Address;
 import miu.edu.waa.backend.domain.Role;
 
 import javax.persistence.*;
@@ -10,7 +11,7 @@ import javax.validation.constraints.*;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UserRegDTO {
+public class UserReqDTO {
     @NotEmpty(message = "password is required")
     private String password;
 
@@ -31,7 +32,9 @@ public class UserRegDTO {
     private String username;
 
     @NotNull(message = "role is required")
-//    @Size(min = 2, message = "role must be at least {1} characters")
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    private Address billingAddress;
+    private Address shippingAddress;
 }

@@ -4,7 +4,7 @@ import miu.edu.waa.backend.domain.Role;
 import miu.edu.waa.backend.domain.ShoppingCart;
 import miu.edu.waa.backend.domain.User;
 import miu.edu.waa.backend.dto.UserDTO;
-import miu.edu.waa.backend.dto.UserRegDTO;
+import miu.edu.waa.backend.dto.UserReqDTO;
 import miu.edu.waa.backend.email.EmailService;
 import miu.edu.waa.backend.exception.CustomException;
 import miu.edu.waa.backend.helpers.ModelMapperUtil;
@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return true;
     }
 
-    public UserDTO createUser(UserRegDTO userDto) throws CustomException {
+    public UserDTO createUser(UserReqDTO userDto) throws CustomException {
         if (userRepository.findByUsername(userDto.getUsername()) != null) {
             throw new CustomException("username already exists.");
         }

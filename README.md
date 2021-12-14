@@ -1,4 +1,4 @@
-## Mazon store.
+## The Mini Market Store.
 
 This is an online store intended for users (SELLERS) to advertise and sell their products to other users (BUYERS)
 
@@ -85,6 +85,23 @@ _**NOTE: please make sure you have docker-compose version that supports version 
 - run docker-compose --build up.
 - to access the application, use the url [http://0.0.0.3000](http://0.0.0.3000)
 
+----
+**Note**
+_To access all the backend url documentation, use the swagger url documentation link format below_
+
+`{{hosturl}}/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config`
+
+For example:
+- after running the backend, access the swagger documentation with the following url:
+````
+http://localhost:8080/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config
+````
+
+or click the link below:
+
+[link](http://localhost:8080/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config)
+
+-----
 ### Notes about the application.
 
 - The application can only be accessed or used by three types of users.
@@ -103,6 +120,7 @@ _**NOTE: please make sure you have docker-compose version that supports version 
 - **FRONTEND**: Refer to [Frontend README.md](./frontend/README.md) file for more info about frontend.
 - **BACKEND**: Refer to [Backend README.md](./backend/README.md) file for more info about the backend.
 
+---------
 
 #### Special thanks to team.
 

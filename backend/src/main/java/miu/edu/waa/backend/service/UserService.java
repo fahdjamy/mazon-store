@@ -1,7 +1,7 @@
 package miu.edu.waa.backend.service;
 
 import miu.edu.waa.backend.dto.UserDTO;
-import miu.edu.waa.backend.dto.UserRegDTO;
+import miu.edu.waa.backend.dto.UserReqDTO;
 import miu.edu.waa.backend.exception.CustomException;
 import org.springframework.security.core.userdetails.User;
 
@@ -22,7 +22,7 @@ public interface UserService {
 
     boolean approveSeller(Long sellerId) throws CustomException;
 
-    UserDTO createUser(UserRegDTO userDto) throws CustomException;
+    UserDTO createUser(UserReqDTO userDto) throws CustomException;
 
     miu.edu.waa.backend.domain.User createUser(miu.edu.waa.backend.domain.User user);
 }
