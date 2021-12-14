@@ -99,11 +99,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         seller.setIsApproved(true);
         userRepository.save(seller);
         String sellerName = seller.getFirstName().concat(" ").concat(seller.getLastName());
-        emailService.send(seller.getEmail(),emailService.buildEmail(sellerName));
+        emailService.send(seller.getEmail(), emailService.buildEmail(sellerName));
 
         return true;
     }
-
 
     public UserDTO createUser(UserRegDTO userDto) throws CustomException {
         if (userRepository.findByUsername(userDto.getUsername()) != null) {
@@ -141,9 +140,26 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public List<UserDTO> getUsersByRole(String role) {
+    public List<UserDTO> getUsersByRole(
+            String role,
+            org.springframework.security.core.userdetails.User loggedInUser
+    ) {
+        User lgUsr = userRepository.findByUsername(loggedInUser.getUsername());
+        List<User> usersByRole = userRepository.findUserByRole(Role.valueOf(role));
+        if (Role.valueOf(role) == Role.SELLER && lgUsr.getRole() == Role.BUYER) {
+            usersByRole.forEach(user -> {
+                user.getFollowers().forEach(
+                        follow -> {
+                            if (follow.getBuyer().getId().equals(lgUsr.getId())) {
+                                user.setIsFollowed(true);
+                            }
+                        }
+                );
+            });
+        }
+
         return modelMapperUtil.mapEntriesToList(
-                userRepository.findUserByRole(Role.valueOf(role)),
+                usersByRole,
                 new UserDTO()
         );
     }

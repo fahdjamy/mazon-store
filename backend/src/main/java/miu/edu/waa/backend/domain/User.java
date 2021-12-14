@@ -57,6 +57,8 @@ public class User {
     @OneToOne(mappedBy = "buyer", cascade = CascadeType.ALL)
     private ShoppingCart cart;
 
+    private Integer points = 0;
+
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "zip", column = @Column(name = "ship_zip")),
@@ -98,13 +100,14 @@ public class User {
         followers.add(follow);
     }
 
-    @Override
+    @Transient
+    private Boolean isFollowed;
+
     public String toString() {
-        return "User{" +
-                ", email='" + email + '\'' +
-                ", following='" + following + '\'' +
-                ", username='" + username + '\'' +
-                ", isApproved=" + isApproved +
+        return "{" + email + '\'' +
+                ", following: '" + following + '\'' +
+                ", username: " + username +
+                ", isApproved: " + isApproved +
                 '}';
     }
 }
