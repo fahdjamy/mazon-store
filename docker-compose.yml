@@ -16,8 +16,10 @@ services:
       context: ./frontend
       dockerfile: Dockerfile.prod
     volumes:
-      - './frontend:/app'
-      - ./frontend/app/node_modules
+      - .data:/root/.data
+#    volumes:
+#      - './frontend:/app'
+#      - ./frontend/app/node_modules
     ports:
       - '1337:80' # http://localhost:1337/
     depends_on:

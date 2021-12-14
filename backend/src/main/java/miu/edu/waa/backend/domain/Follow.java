@@ -25,6 +25,6 @@ public class Follow {
     private User seller;
 
     public String toString() {
-        return "id: " + id + '}';
+        return "{id: " + id + '}';
     }
 }

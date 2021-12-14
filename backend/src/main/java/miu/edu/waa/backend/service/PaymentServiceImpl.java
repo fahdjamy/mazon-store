@@ -51,13 +51,21 @@ public class PaymentServiceImpl implements PaymentService{
         User u = userRepository.findByUsername(user.getUsername());
         p.setBuyer(u);
         Product product = productRepository.getById(productId);
+        product.setIsPurchased(true);
+        product = productRepository.save(product);
         p.setProduct(product);
         paymentRepository.save(p);
+        u.setPoints(u.getPoints() + 10);
+        userRepository.save(u);
         return modelMapperUtil.mapEntryTo(p, new PaymentDTO());
     }
 
     @PreAuthorize("hasRole('ROLE_BUYER')")
-    public List<Payment> getBuyerPayments(Long userId) {
-        return paymentRepository.findPaymentsByBuyerId(userId);
+    public List<PaymentDTO> getBuyerPayments(Long userId) {
+        return modelMapperUtil.mapEntriesToList(
+                paymentRepository
+                        .findPaymentsByBuyerId(userId),
+                new PaymentDTO()
+        );
     }
 }

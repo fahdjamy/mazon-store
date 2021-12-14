@@ -103,7 +103,7 @@ public class UserController {
     ) {
         if (byRole != null) {
             return ResponseEntity.ok(
-                    userService.getUsersByRole(byRole)
+                    userService.getUsersByRole(byRole, loggedInUser)
             );
         }
         return ResponseEntity
