@@ -7,11 +7,12 @@ import {
   approveSeller,
   getUserSuccess,
   getUserFailure,
-
+  
   getSellersFailure,
   getSellersSuccess,
   updateUserSuccess,
   updateUserFailure,
+  resetUpdateUserState,
   approveSellerSuccess,
   approveSellerFailure,
 } from "../../reducers/authSlice";
@@ -24,6 +25,7 @@ import {
   unfollowSeller,
   unfollowSellerFailure,
   unfollowSellerSuccess,
+  resetFollowState,
 } from "../../reducers/userSlice";
 
 export const getLoggedInUserDetailsAsync = () => {
@@ -43,18 +45,22 @@ export const approveSellerAsync = (sellerId) => {
     dispatch(approveSeller());
     try {
       const response = await axios.put(`/users/${sellerId}/approve`);
-      dispatch(approveSellerSuccess(response.data));
+      dispatch(approveSellerSuccess({
+        sellerId,
+        message: response.data,
+      }));
     } catch ({response}) {
       dispatch(approveSellerFailure(response?.data?.error?.message || "something went wrong!!"));
     }
   };
 };
 
-export const updateUserAsync = (userId) => {
+export const updateUserAsync = (userId, data) => {
   return async (dispatch) => {
     dispatch(updateUser());
     try {
-      const response = await axios.put(`/users/${userId}`);
+      const response = await axios.put(`/users/${userId}`, data);
+      dispatch(resetUpdateUserState());
       dispatch(updateUserSuccess(response.data));
     } catch ({response}) {
       dispatch(updateUserFailure(response?.data?.error?.message || "something went wrong!!"));
@@ -80,6 +86,7 @@ export const sendFollowReqAsync = (sellerId) => {
     try {
       const response = await axios.post(`/users/${sellerId}/follow`);
       dispatch(followSellerSuccess(response.data));
+      dispatch(resetFollowState());
     } catch ({response}) {
       dispatch(followSellerFailure(response?.data?.error?.message || "something went wrong!!"));
     }
@@ -92,6 +99,7 @@ export const sendUnFollowReqAsync = (sellerId) => {
     try {
       const response = await axios.delete(`/users/${sellerId}/unfollow`);
       dispatch(unfollowSellerSuccess(response.data));
+      dispatch(resetFollowState());
     } catch ({response}) {
       dispatch(unfollowSellerFailure(response?.data?.error?.message || "something went wrong!!"));
     }

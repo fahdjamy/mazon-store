@@ -1,119 +1,111 @@
-import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, Outlet, Navigate, useLocation } from "react-router-dom";
 import "./Home.css";
 import "antd/dist/antd.css";
-import { Layout, Menu,} from "antd";
+import { Layout, Menu } from "antd";
 import {
-  UserOutlined,
-  LogoutOutlined,
   LaptopOutlined,
-  NotificationOutlined,
-  ShoppingCartOutlined,
+  EyeFilled,
+  UserOutlined,
+  FileDoneOutlined,
+  UsergroupAddOutlined,
 } from "@ant-design/icons";
-import { MenuItem } from "rc-menu";
+import TopNav from "../../../components/auth/TopNav";
+import { useDispatch, useSelector } from "react-redux";
+import { getLoggedInUserDetailsAsync } from "../../../store/actions/auth";
+import { getOrdersAsync } from "../../../store/actions/order";
 
 const { SubMenu } = Menu;
-const { Header, Content, Sider, Footer } = Layout;
+const { Content, Sider, Footer } = Layout;
 
 function Home() {
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const user = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    dispatch(getLoggedInUserDetailsAsync());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // useEffect(() => {
+  //   if (user.userData) {
+  //     dispatch(getOrdersAsync(user.userData.id));
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [user]);
+
   return (
     <>
-      <Layout
-        style={{
-          minHeight: "100vh",
-        }}
-      >
-        <Header className="header">
-          <div className="logo">
-            <img
-              src="https://www.pngplay.com/wp-content/uploads/3/White-Amazon-Logo-PNG-HD-Quality.png"
-              alt=""
-            />
-          </div>
-
-          <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["0"]}>
-          <MenuItem key="1"
-              style={{
-                marginLeft: "auto",
-                color: "white",
-                fontWeight: "bold",
-              }}
-          >
-            <Link to="/buyer/cart">
-           
-            <ShoppingCartOutlined style={{ marginRight: "10px", fontSize:"20px", cursor:"pointer" }} />
-
-        
-            </Link>
-
-            </MenuItem>
-            <Menu.Item
-              key="2"
-          
-            >
-              <Link to="/login">
-                Logout
-                <LogoutOutlined
-                  style={{
-                    color: "white",
-                    fontWeight: "bold",
-                    paddingLeft: "5px",
-                  }}
-                />
-              </Link>
-            </Menu.Item>
-           
-          </Menu>
-        </Header>
-        <Layout>
-          <Sider width={200} className="site-layout-background">
-            <Menu
-              theme="dark"
-              mode="inline"
-              defaultSelectedKeys={["1"]}
-              defaultOpenKeys={["sub1"]}
-              style={{ height: "100%", borderRight: 0 }}
-            >
-              <SubMenu key="sub1" icon={<UserOutlined />} title="View Products">
-                <Menu.Item key="1">
+      {user.userRole !== "buyer" ? (
+        <Navigate
+          to={`/${user.userRole}`}
+          replace
+          state={{
+            referrer: location.pathname,
+            from: location,
+          }}
+        />
+      ) : (
+        <Layout
+          style={{
+            minHeight: "100vh",
+          }}
+        >
+          <TopNav />
+          <Layout>
+            <Sider width={200} className="site-layout-background">
+              <Menu
+                theme="dark"
+                mode="inline"
+                defaultSelectedKeys={["1"]}
+                defaultOpenKeys={["sub1"]}
+                style={{ height: "100%", borderRight: 0 }}
+              >
+                <Menu.Item key="1" icon={<EyeFilled />}>
                   <Link to="/buyer">Products</Link>
                 </Menu.Item>
-              </SubMenu>
-              <SubMenu key="sub2" icon={<LaptopOutlined />} title="View Orders">
-                <Menu.Item key="5">
-                  <Link to="/buyer/orders">My Orders</Link>
+
+                <SubMenu
+                  key="sub2"
+                  icon={<LaptopOutlined />}
+                  title="View Orders"
+                >
+                  <Menu.Item key="5">
+                    <Link to="/buyer/orders">My Orders</Link>
+                  </Menu.Item>
+                  <Menu.Item key="6">
+                    <Link to="/buyer/order-history">Order History</Link>
+                  </Menu.Item>
+                </SubMenu>
+
+                <Menu.Item key="2" icon={<UserOutlined />}>
+                  <Link to="/buyer/profile">Profile</Link>
                 </Menu.Item>
-                <Menu.Item key="6">
-                  <Link to="/buyer/order-history">Order History</Link>
+                <Menu.Item key="3" icon={<FileDoneOutlined />}>
+                  <Link to="/buyer/reciept">Reciepts</Link>
                 </Menu.Item>
-              </SubMenu>
-              <SubMenu
-                key="sub3"
-                icon={<NotificationOutlined />}
-                title="subnav 3"
+                <Menu.Item key="4" icon={<UsergroupAddOutlined />}>
+                  <Link to="/buyer/follow-seller">sellers</Link>
+                </Menu.Item>
+              </Menu>
+            </Sider>
+            <Layout>
+              <Content
+                className="site-layout-background"
+                style={{
+                  padding: 24,
+                  margin: 0,
+                  minHeight: 280,
+                }}
               >
-                <Menu.Item key="9">option9</Menu.Item>
-                <Menu.Item key="10">option10</Menu.Item>
-                <Menu.Item key="11">option11</Menu.Item>
-                <Menu.Item key="12">option12</Menu.Item>
-              </SubMenu>
-            </Menu>
-          </Sider>
-          <Layout>
-            <Content
-              className="site-layout-background"
-              style={{
-                padding: 24,
-                margin: 0,
-                minHeight: 280,
-              }}
-            >
-              <Outlet />
-            </Content>
-            <Footer style={{ textAlign: "center" }}>WAA Project ©2021</Footer>
+                <Outlet />
+              </Content>
+              <Footer style={{ textAlign: "center" }}>WAA Project ©2021</Footer>
+            </Layout>
           </Layout>
         </Layout>
-      </Layout>
+      )}
     </>
   );
 }

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @Setter
 @NoArgsConstructor
 public class ReviewDTO {
+    private Long id;
     private String content;
     private Boolean approved;
 }

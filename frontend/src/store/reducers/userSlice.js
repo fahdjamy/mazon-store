@@ -115,8 +115,8 @@ export const userSlice = createSlice({
     },
     unfollowSellerSuccess: (state) => {
       state.unFollowReqError = null;
+      state.unFollowReqSuccess = true;
       state.sendingUnFollowReq = false;
-      state.unFollowReqSuccess = false;
     },
     unfollowSellerFailure: (state, { payload }) => {
       state.sendingUnFollowReq = false;
@@ -156,6 +156,8 @@ export const {
   followSeller,
   followSellerFailure,
   followSellerSuccess,
+
+  resetFollowState,
 
   unfollowSeller,
   unfollowSellerFailure,

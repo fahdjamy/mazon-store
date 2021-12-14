@@ -1,54 +1,83 @@
-import React from "react";
-import { List, Typography, Button, Card, Avatar, notification } from "antd";
+import React, { useEffect } from "react";
+import {
+  List,
+  Typography,
+  Button,
+  Card,
+  Avatar,
+  notification,
+  Row,
+  Col,
+  Spin,
+} from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  approveSellerAsync,
+  getSellersAsync,
+} from "../../../store/actions/auth/user";
+import { approveReviewAsync } from "../../../store/actions/review";
+
 const { Meta } = Card;
 
 const { Title } = Typography;
-const data = [
-  "James Bond",
-  "John Wick ",
-  "Australian walks 100km after outback crash.",
-  "Man charged over missing wedding girl.",
-  "Los Angeles battles huge wildfires.",
-];
+
+
 
 function NotApprovedSeller() {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth);
+
   const openNotification = () => {
     notification.open({
-      message: "Seller Approved",
-      description: "Seller has been succesfull approved.",
-      onClick: () => {
-        console.log("Notification Clicked!");
-      },
+      message: 'Seller Approved',
     });
   };
-  return (
-    <div>
-      <List
-        size="large"
-        header={
-          <div>
-            <Title level={2}> Not Approved Sellers</Title>
-          </div>
-        }
-        bordered
-        dataSource={data}
-        renderItem={(item) => (
-          <List.Item>
-            <Card style={{ width: 600 }}>
-              <Meta
-                avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                title={item}
-                description="This is the description"
-              />
-            </Card>
-            <Button type="primary" onClick={openNotification}>
-              Approve
-            </Button>
-          </List.Item>
-        )}
-      />
-    </div>
-  );
+
+
+
+  const approveHandler = (sellerId) => {
+    dispatch(approveSellerAsync(sellerId));
+  };
+
+  useEffect(() => {
+    dispatch(getSellersAsync());
+    
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // eslint-disable-next-line array-callback-return
+  const sellerList = user.sellers.map((s, index) => {
+    if (!s.approved) {
+      return (
+        <div key={index}>
+          <Row  justify="center">
+      
+              <Card style={{ width: 600 }} key={s.id}>
+                <Meta
+                  avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+                  title={s.username}
+                  description={s.email}
+                />
+                <Button
+                  style={{marginTop:"30px"}} type="primary"
+                  onClick={() => approveHandler(s.id)}
+                  loading={user.isApprovingSeller}
+                >
+                {user.isApprovingSeller ? "approving" :"approve"}
+              </Button>
+              </Card>
+          </Row>
+        </div>
+      );
+    }
+    
+  });
+
+
+  return <div>
+    {user.isApprovingSeller ?  <Spin/> : sellerList }
+    </div>;
 }
 
 export default NotApprovedSeller;

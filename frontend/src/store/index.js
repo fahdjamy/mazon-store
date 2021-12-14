@@ -6,6 +6,7 @@ import orderSlice from "./reducers/orderSlice";
 import cartReducer from "./reducers/cartSlice";
 import reviewSlice from "./reducers/reviewSlice";
 import productReducer from "./reducers/productSlice";
+import paymentReducer from "./reducers/paymentSlice";
 
 export default configureStore({
   reducer: {
@@ -15,5 +16,6 @@ export default configureStore({
     orders: orderSlice,
     reviews: reviewSlice,
     product: productReducer,
+    payment: paymentReducer
   },
 });

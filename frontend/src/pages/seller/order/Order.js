@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table, Space, Card, Button, Modal, Select } from "antd";
-import { Link } from "react-router-dom";
+import { Card, Button, Modal, Select } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrdersAsync, updateOrderAsync } from "../../../store/actions/order";
 import { getLoggedInUserDetailsAsync } from "../../../store/actions/auth/user";
@@ -62,7 +61,6 @@ function Order() {
       </Button>
     </Card>
   ));
-  console.log(currentOrder?.status);
 
   return (
     <>

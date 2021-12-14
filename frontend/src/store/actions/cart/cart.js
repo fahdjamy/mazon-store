@@ -19,7 +19,6 @@ export const getCartAsync = () => {
     dispatch(getCart())
     try {
       const response = await axios.get("/shoppingCart");
-      console.log(response.data);
       dispatch(getCartSuccess(response.data));
     } catch ({response}) {
       dispatch(getCartFailure(response?.data?.error || "Something went wrong"));

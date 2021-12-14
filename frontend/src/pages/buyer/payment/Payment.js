@@ -1,10 +1,20 @@
-import React,{useEffect} from "react";
-import { Form, Input, InputNumber, Button, Row, Col, Card } from "antd";
-import { useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import {
+  Form,
+  Input,
+  InputNumber,
+  Button,
+  Row,
+  Col,
+  Card,
+  notification,
+} from "antd";
 import { makePaymentAsync } from "../../../store/actions/payment";
 import { fetchProductAsync } from "../../../store/actions/product/product";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { placeOrderAsync } from "../../../store/actions/order";
+import { useSelector, useDispatch } from "react-redux";
+import { removeProductFromCartAsync } from "../../../store/actions/cart/cart";
 
 const layout = {
   labelCol: { span: 8 },
@@ -27,28 +37,46 @@ const validateMessages = {
 };
 
 export default function Payment() {
+  const navigate = useNavigate();
   let params = useParams();
   const dispatch = useDispatch();
+  const paymentState = useSelector(state => state.payment)
 
+  const openNotificationWithIcon = (type) => {
+    notification[type]({
+      message: "Payment Successful",
+    });
+  };
 
   useEffect(() => {
-  dispatch(fetchProductAsync())
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    dispatch(fetchProductAsync());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onFinish = (values) => {
     let expiryDate = `${values.month}${values.year}`;
     values = {
-      cardNumber:values.cardNumber,
+      cardNumber: values.cardNumber,
       cvv: values.cvv,
       carNumber: values.carNumber,
-      expiryDate:expiryDate,
-    }
-    console.log(values);
-   
-    dispatch(makePaymentAsync(params.productId,values))
-    dispatch(placeOrderAsync(params.productId))
+      expiryDate: expiryDate,
+    };
+
+    dispatch(placeOrderAsync(params.productId));
+    dispatch(makePaymentAsync(params.productId, values));
+    // dispatch(removeProductFromCartAsync(params.productId, cart.cart.id));
+
+    openNotificationWithIcon("success");
+    navigate("/buyer/orders");
   };
+
+  // const makePayment = () => {
+  //   if(paymentState.making)
+
+  // }
+
+  
+
   return (
     <div>
       <Row>
@@ -70,27 +98,29 @@ export default function Payment() {
               <Form.Item
                 name={"cvv"}
                 label="Cvv"
-              
-
                 rules={[
                   {
                     required: true,
                   },
                 ]}
               >
-                <InputNumber min={100} max={999}/>
+                <InputNumber min={100} max={999} />
               </Form.Item>
-              <Form.Item label="Expiry Date" style={{ marginBottom: 0 }} rules={[{ required: true}]}>
+              <Form.Item
+                label="Expiry Date"
+                style={{ marginBottom: 0 }}
+                rules={[{ required: true }]}
+              >
                 <Form.Item
                   name="month"
-                  rules={[{ required: true, max:2, min:2 }]}
+                  rules={[{ required: true, max: 2, min: 2 }]}
                   style={{ display: "inline-block", width: "calc(50% - 8px)" }}
                 >
                   <Input placeholder="Month" />
                 </Form.Item>
                 <Form.Item
                   name="year"
-                  rules={[{ required: true,max:2, min:2 }]}
+                  rules={[{ required: true, max: 2, min: 2 }]}
                   style={{
                     display: "inline-block",
                     width: "calc(50% - 8px)",

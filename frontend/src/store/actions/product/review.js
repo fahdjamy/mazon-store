@@ -38,12 +38,17 @@ export const getProductReviewsAsync = (pdtId) => {
   };
 };
 
-export const approveReviewAsync = (pdtId, reviewId) => {
+export const approveReviewAsync = (reviewId) => {
   return async (dispatch) => {
     dispatch(approveReview());
     try {
-      const response = await axios.put(`/products/${pdtId}/reviews/${reviewId}/approve`);
-      dispatch(approveReviewSuccess(response.data));
+      // const response = await axios.put(`/products/${pdtId}/reviews/${reviewId}/approve`);
+      const response = await axios.put(`/reviews/${reviewId}/approve`);
+      dispatch(approveReviewSuccess({
+        reviewId: reviewId,
+        message: "review approved successfully",
+      }));
+      // dispatch(approveReviewSuccess(response.data));
     } catch (e) {
       dispatch(approveReviewFailure("something went wrong!!"));
     }

@@ -1,66 +1,45 @@
-import React, { useState } from "react";
-import { List, Typography, Button, Avatar, Card, Modal } from "antd";
+import React, { useEffect } from "react";
+import { Typography, Avatar, Card } from "antd";
 import "antd/dist/antd.css";
+import { useDispatch, useSelector } from "react-redux";
+import { getSellersAsync } from "../../../store/actions/auth/user";
 
 const { Title } = Typography;
 const { Meta } = Card;
 
-const data = [
-  "Racing car sprays burning fuel into crowd.",
-  "Japanese princess to wed commoner.",
-  "Australian walks 100km after outback crash.",
-  "Man charged over missing wedding girl.",
-  "Los Angeles battles huge wildfires.",
-];
-function ApprovedSeller() {
-  const [isModalVisible, setIsModalVisible] = useState(false);
+function ApprovedSeller(props) {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth);
 
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
+  useEffect(() => {
+    dispatch(getSellersAsync());
 
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
+
+
+  // eslint-disable-next-line array-callback-return
+  const sellerList = user.sellers.map((s) => {
+    if (s.approved) {
+      return (
+        <div key={s.id}>
+          <Card style={{ width: 600 }}>
+            <Meta
+              avatar={<Avatar src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png" />}
+              title={s.username}
+              description={s.email}
+            />
+          </Card>
+        </div>
+      );
+    }
+
+  });
 
   return (
     <div>
-      <List
-        size="large"
-        header={
-          <div>
-            <Title level={2}> Approved Sellers</Title>
-          </div>
-        }
-        bordered
-        dataSource={data}
-        renderItem={(item) => (
-          <List.Item>
-            <Card style={{ width: 600 }}>
-              <Meta
-                avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                title={item}
-                description="This is the description"
-              />
-            </Card>
-            <Button type="danger" onClick={showModal}>
-              Decline
-            </Button>
-          </List.Item>
-        )}
-      />
-      <Modal
-        title="Decline Seller"
-        visible={isModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      >
-        <p>Are you sure you want to decline seller?</p>
-      </Modal>
+    {sellerList}
     </div>
   );
 }

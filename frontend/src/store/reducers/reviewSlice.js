@@ -3,7 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   error: null,
   reviews: [],
-  makingPayment: false,
   fetchingReviews: false,
 };
 
@@ -18,6 +17,9 @@ export const reviewSlice = createSlice({
     getReviewsSuccess: (state, { payload }) => {
       state.error = null;
       state.reviews = payload;
+      state.reviews = state.reviews.filter(
+        review => review.id !== payload.reviewId
+      )
       state.fetchingReviews = false;
     },
     getReviewsFailure: (state, { payload }) => {

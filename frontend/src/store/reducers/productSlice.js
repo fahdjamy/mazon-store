@@ -11,6 +11,7 @@ const initialState = {
   isApprovingReview: false,
   creatingReviewError: null,
   approvingReviewError: null,
+  approveReviewMessage: null,
 };
 
 export const productSlice = createSlice({
@@ -43,6 +44,7 @@ export const productSlice = createSlice({
         }
         return p;
       });
+      
       state.error = null;
     },
     editProductsFailure: (state, { payload }) => {
@@ -71,7 +73,7 @@ export const productSlice = createSlice({
       });
     },
     editProduct: (state, { payload }) => {
-      state.products.map((p) => {
+      state.products = state.products.map((p) => {
         if (p.id === payload.id) {
           return { ...p, ...payload };
         }
@@ -114,19 +116,23 @@ export const productSlice = createSlice({
       state.reviews = [];
       state.isApprovingReview = true;
       state.approvingReviewError = null;
+      state.approveReviewMessage = null;
     },
     approveReviewSuccess: (state, { payload }) => {
       state.isApprovingReview = false;
       state.approvingReviewError = null;
-      const curRevIndex = state.reviews.findIndex(
-        review => review.id === payload.id
-      );
-      let reviewsToUpdate = state.reviews;
-      reviewsToUpdate.splice(curRevIndex, 1);
-      state.reviews = [...reviewsToUpdate, payload];
+      state.approveReviewMessage = payload.message;
+      // const curRevIndex = state.reviews.findIndex(
+      //   review => review.id === payload.id
+      // );
+      // let reviewsToUpdate = state.reviews;
+      // reviewsToUpdate.splice(curRevIndex, 1);
+      // state.reviews = [...reviewsToUpdate, payload];
+      state.reviews = state.reviews.filter((rv) => rv.id !== payload.reviewId);
     },
     approveReviewFailure: (state, { payload }) => {
       state.isApprovingReview = false;
+      state.approveReviewMessage = null;
       state.approvingReviewError = payload;
     },
   },
@@ -136,23 +142,23 @@ export const {
   addProduct,
   productAddFailure,
   productAddedSuccess,
-  
+
   getProducts,
   getProductsSuccess,
   getProductsFailure,
-  
+
   editProduct,
   editProductsSuccess,
   editProductsFailure,
-  
+
   approveReview,
   approveReviewSuccess,
   approveReviewFailure,
-  
+
   deleteProduct,
   deleteProductsSuccess,
   deleteProductsFailure,
-  
+
   getProductReviews,
   getProductReviewsSuccess,
   getProductReviewsFailure,

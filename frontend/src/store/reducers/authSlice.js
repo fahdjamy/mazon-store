@@ -12,6 +12,7 @@ const initialState = {
   isUpdatingUser: false,
   isAuthenticated: false,
   fetchingSellers: false,
+  updateUserSuccess: false,
   isApprovingSeller: false,
   fetchingSellersError: null,
   registrationSuccess: false,
@@ -93,7 +94,10 @@ export const authSlice = createSlice({
     },
     approveSellerSuccess: (state, { payload }) => {
       state.isApprovingSeller = false;
-      state.approvalMessage = payload;
+      state.approvalMessage = payload.message;
+      state.sellers = state.sellers.filter(
+        seller => seller.id !== payload.sellerId
+      )
     },
     approveSellerFailure: (state, { payload }) => {
       state.error = payload;
@@ -101,17 +105,24 @@ export const authSlice = createSlice({
       state.approvalMessage = payload;
     },
     updateUser: (state) => {
+      state.updateSuccess = false;
       state.isUpdatingUser = true;
     },
     updateUserSuccess: (state, { payload }) => {
       state.error = null;
       state.userData = payload;
+      state.updateSuccess = true;
       state.isUpdatingUser = false;
     },
     updateUserFailure: (state, { payload }) => {
       state.error = payload;
+      state.updateSuccess = false;
       state.isUpdatingUser = false;
     },
+    resetUpdateUserState: (state) => {
+      state.error = null;
+      state.updateSuccess = false;
+    }
   },
 });
 
@@ -133,6 +144,7 @@ export const {
   updateUserFailure,
   getSellersSuccess,
   getSellersFailure,
+  resetUpdateUserState,
   approveSellerSuccess,
   approveSellerFailure,
 

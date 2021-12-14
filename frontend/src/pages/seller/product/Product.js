@@ -25,7 +25,6 @@ const layout = {
 
 const { Meta } = Card;
 
-
 const validateMessages = {
   // eslint-disable-next-line
   required: "${label} is required!",
@@ -44,7 +43,7 @@ const validateMessages = {
 function Product() {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.product.products);
-
+  const user = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(fetchProductAsync());
@@ -57,15 +56,15 @@ function Product() {
 
   const showModal = (currentProduct) => {
     setIsModalVisible(true);
-   
+
     setModalData(() => {
       return currentProduct;
     });
   };
 
   const add = () => {
-    setAddModalVisible(true)
-  }
+    setAddModalVisible(true);
+  };
 
   const deleteProductHandler = (currentProduct) => {
     dispatch(deleteProductAsync(currentProduct.id));
@@ -87,39 +86,63 @@ function Product() {
     setIsModalVisible(false);
   };
 
-
   const onAdd = (values) => {
-   
-    dispatch(addProductAsync(values));
+    const data = { ...values, isPurchased: false };
+
+    dispatch(addProductAsync(data));
     setAddModalVisible(false);
   };
 
-  const productList = products.map((p) => (
-    <Col className="gutter-row" key={p.id} span={6}>
-      <div style={style}>
-        {" "}
-        <Card
-        hoverable
-          style={{ width: 300 }}
-          cover={<img alt="example" src={p.imageCover} />}
-          actions={[
-            <EditOutlined key="edit" onClick={() => showModal(p)} />,
-            <DeleteOutlined onClick={() => deleteProductHandler(p)} />,
-          ]}
-          className="cs-card"
-        >
-          <Meta title={p.name}  description={`$${p.price}`} />
-          <Meta description={p.description} />
-        </Card>
-      </div>
-    </Col>
-  ));
+  let check = "product available";
+  const productList = products.map((p) => {
+    if (p.isPurchased === true) {
+      check = "product purchased";
+    }
+    return (
+      <Col className="gutter-row" key={p.id} span={6}>
+        <div style={style}>
+          {" "}
+          <Card
+            hoverable
+            style={{ width: 300 }}
+            cover={<img alt="example" src={p.imageCover} />}
+            actions={[
+              <EditOutlined
+                key="edit"
+                onClick={() => showModal(p)}
+                hidden={p.isPurchased}
+              />,
+              <DeleteOutlined
+                onClick={() => deleteProductHandler(p)}
+                hidden={p.isPurchased}
+              />,
+            ]}
+            className="cs-card"
+          >
+            <Meta title={p.name} description={`$${p.price}`} />
+            <Meta description={p.description} />
+            <br />
+            {p.isPurchased && (
+              <Meta description={"SOLD"} style={{ color: "green" }} />
+            )}
+          </Card>
+        </div>
+      </Col>
+    );
+  });
   return (
     <>
-    <Row justify="end">
-    <Button type="primary" onClick={()=>add()} style={{marginBottom:"20px"}} >Add Product</Button>
-
-    </Row>
+      <Row justify="end">
+  
+          <Button
+            type="primary"
+            onClick={() => add()}
+            style={{ marginBottom: "20px" }}
+          >
+            Add Product
+          </Button>
+        
+      </Row>
       <Row gutter={16}>{productList}</Row>
 
       <Modal
@@ -188,7 +211,7 @@ function Product() {
         footer={null}
         getContainer={false}
       >
-     <Form
+        <Form
           {...layout}
           name="nest-messages"
           onFinish={onAdd}
