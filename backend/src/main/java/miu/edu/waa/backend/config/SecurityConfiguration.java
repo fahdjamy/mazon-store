@@ -41,8 +41,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 "/h2",
                 "/h2/**",
                 "/users",
+                "/auth/**",
                 "/users/**",
-                "/auth/**"
+                "/swagger-ui/**",
+                "/v3/api-docs/**",
+                "/swagger-ui.html",
         };
         http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers(allowedNonAuthUrls)
