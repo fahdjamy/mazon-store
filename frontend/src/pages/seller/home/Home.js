@@ -24,7 +24,7 @@ function Home() {
         <TopNav />
         {auth.userRole !== "seller" ? (
           <Navigate
-            to={`/${auth.userRole}`}
+            to="/forbidden"
             replace
             state={{
               referrer: location.pathname,

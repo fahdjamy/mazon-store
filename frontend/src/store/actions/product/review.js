@@ -42,8 +42,8 @@ export const approveReviewAsync = (reviewId) => {
   return async (dispatch) => {
     dispatch(approveReview());
     try {
-      // const response = await axios.put(`/products/${pdtId}/reviews/${reviewId}/approve`);
-      const response = await axios.put(`/reviews/${reviewId}/approve`);
+      // const response = await axios.put(`/reviews/${reviewId}/approve`);
+      await axios.put(`/reviews/${reviewId}/approve`);
       dispatch(approveReviewSuccess({
         reviewId: reviewId,
         message: "review approved successfully",

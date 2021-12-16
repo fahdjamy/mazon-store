@@ -1,13 +1,11 @@
 import React, { useEffect } from "react";
-import { Typography, Avatar, Card } from "antd";
+import { Avatar, Card } from "antd";
 import "antd/dist/antd.css";
 import { useDispatch, useSelector } from "react-redux";
 import { getSellersAsync } from "../../../store/actions/auth/user";
-
-const { Title } = Typography;
 const { Meta } = Card;
 
-function ApprovedSeller(props) {
+function ApprovedSeller() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth);
 
@@ -39,7 +37,7 @@ function ApprovedSeller(props) {
 
   return (
     <div>
-    {sellerList}
+      {sellerList}
     </div>
   );
 }

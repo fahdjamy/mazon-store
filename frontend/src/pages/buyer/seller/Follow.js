@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Button, List, Typography } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { getLoggedInUserDetailsAsync } from "../../../store/actions/auth";
+
 import {
   getSellersAsync,
   sendFollowReqAsync,

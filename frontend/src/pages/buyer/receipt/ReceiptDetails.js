@@ -8,14 +8,12 @@ import {
   Typography,
 } from "antd";
 import moment from 'moment';
-import { useSelector } from "react-redux";
 
 const { Title, Text } = Typography;
 export const ReceiptDetails = React.forwardRef(({
   order,
   buyer
 }, ref) => {
-  const user = useSelector(state => state.auth)
   return (
     <div ref={ref}>
       <Row
@@ -48,7 +46,7 @@ export const ReceiptDetails = React.forwardRef(({
             <Space direction="vertical">
               <Text>{buyer.username}</Text>
 
-           
+
               <Text>{buyer.shippingAddress?.city} {buyer.shippingAddress?.zip}</Text>
               {/* <Text>United States</Text> */}
             </Space>
@@ -58,7 +56,7 @@ export const ReceiptDetails = React.forwardRef(({
               BILLING ADDRESS
             </Title>
             <Space direction="vertical">
-            <Text>{buyer.username}</Text>
+              <Text>{buyer.username}</Text>
 
               {/* <Text>1000 N 4TH ST MR # 635</Text> */}
               <Text>{buyer.billingAddress?.city}{buyer.billingAddress?.state} {buyer.billingAddress?.zip}</Text>
