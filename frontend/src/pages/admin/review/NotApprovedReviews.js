@@ -12,7 +12,7 @@ function NotApprovedReviews() {
 
   useEffect(() => {
     dispatch(getAllReviewsAsync());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const reviews = useSelector((state) => state.reviews);
@@ -20,7 +20,6 @@ function NotApprovedReviews() {
   const approveHandler = (id) => {
     dispatch(approveReviewAsync(id))
   }
-
 
   // eslint-disable-next-line array-callback-return
   const list = reviews.reviews.map((r, index) => {
@@ -31,8 +30,8 @@ function NotApprovedReviews() {
             <Card style={{ width: 600 }}>
               <Meta description={r.content} />
               <Button
-                style={{ marginTop: "30px" }}
                 type="primary"
+                style={{ marginTop: "30px" }}
                 onClick={() => approveHandler(r.id)}
                 loading={reviews.fetchingReviews}
               >

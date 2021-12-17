@@ -1,19 +1,17 @@
 import React, { useEffect } from "react";
 import { Link, Outlet, Navigate, useLocation } from "react-router-dom";
-import "./Home.css";
 import "antd/dist/antd.css";
 import { Layout, Menu } from "antd";
 import {
-  LaptopOutlined,
   EyeFilled,
   UserOutlined,
+  LaptopOutlined,
   FileDoneOutlined,
   UsergroupAddOutlined,
 } from "@ant-design/icons";
 import TopNav from "../../../components/auth/TopNav";
 import { useDispatch, useSelector } from "react-redux";
 import { getLoggedInUserDetailsAsync } from "../../../store/actions/auth";
-import { getOrdersAsync } from "../../../store/actions/order";
 
 const { SubMenu } = Menu;
 const { Content, Sider, Footer } = Layout;
@@ -28,18 +26,11 @@ function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // useEffect(() => {
-  //   if (user.userData) {
-  //     dispatch(getOrdersAsync(user.userData.id));
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [user]);
-
   return (
     <>
       {user.userRole !== "buyer" ? (
         <Navigate
-          to={`/${user.userRole}`}
+          to="/forbidden"
           replace
           state={{
             referrer: location.pathname,
@@ -83,7 +74,7 @@ function Home() {
                   <Link to="/buyer/profile">Profile</Link>
                 </Menu.Item>
                 <Menu.Item key="3" icon={<FileDoneOutlined />}>
-                  <Link to="/buyer/reciept">Reciepts</Link>
+                  <Link to="/buyer/receipt">Receipts</Link>
                 </Menu.Item>
                 <Menu.Item key="4" icon={<UsergroupAddOutlined />}>
                   <Link to="/buyer/follow-seller">sellers</Link>

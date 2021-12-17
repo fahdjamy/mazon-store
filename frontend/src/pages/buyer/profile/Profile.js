@@ -1,18 +1,13 @@
 import React, { useEffect } from "react";
 import { Card, Row, Col } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import ApprovedSeller from "../../admin/seller/ApprovedSeller";
 import {
-  getLoggedInUserDetailsAsync,
   updateUserAsync,
+  getLoggedInUserDetailsAsync,
 } from "../../../store/actions/auth/user";
 import { Form, Input, Button, notification } from "antd";
-import { Typography } from "antd";
 import { useState } from "react";
 import { Modal } from "antd";
-
-const { Title } = Typography;
-
 const { Meta } = Card;
 
 function Profile() {
@@ -40,20 +35,7 @@ function Profile() {
     }
   }, [user]);
 
-  const follow = (seller) => {
-    console.log(seller);
-  };
-
   const onFinish = (values) => {
-    // const data = {
-    //   billingAddress: {
-    //     street: values.street,
-    //     zip: values.zip,
-    //     state: values.state,
-    //     city: values.city,
-    //   },
-    // };
-
     if (billing && user.userData?.id) {
       dispatch(
         updateUserAsync(user.userData.id, {
@@ -126,38 +108,32 @@ function Profile() {
         <Col className="gutter-row" span={6}>
           <Card
             title="Billing Address"
-     
+
             style={{ width: 300 }}
           >
-            {user.userData?.billingAddress &&  <>
+            {user.userData?.billingAddress && <>
               <p>State: {user.userData.billingAddress.state}</p>
-            <p>City:{user.userData.billingAddress.city}</p>
-            <p>Street:{user.userData.billingAddress.street}</p>
-            <p>Zip:{user.userData.billingAddress.zip}</p>
+              <p>City:{user.userData.billingAddress.city}</p>
+              <p>Street:{user.userData.billingAddress.street}</p>
+              <p>Zip:{user.userData.billingAddress.zip}</p>
             </>}
-            
           </Card>
-          
         </Col>
-
 
         <Col className="gutter-row" span={6}>
           <Card
             title="Shipping Address"
-     
+
             style={{ width: 300 }}
           >
             {user.userData?.shippingAddress && <>
               <p>State: {user.userData?.shippingAddress.state}</p>
-            <p>City:{user.userData?.shippingAddress.city}</p>
-            <p>Street:{user.userData?.shippingAddress.street}</p>
-            <p>Zip:{user.userData?.shippingAddress.zip}</p>
+              <p>City:{user.userData?.shippingAddress.city}</p>
+              <p>Street:{user.userData?.shippingAddress.street}</p>
+              <p>Zip:{user.userData?.shippingAddress.zip}</p>
             </>}
-            
           </Card>
-          
         </Col>
-      
         <Col className="gutter-row" span={4}></Col>
       </Row>
       <Row style={{ marginTop: "30px" }} gutter={16}>

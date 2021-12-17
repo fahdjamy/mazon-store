@@ -17,15 +17,12 @@ const { Step } = Steps;
 const { Meta } = Card;
 
 function Order() {
-  let productID = "";
   const dispatch = useDispatch();
   const order = useSelector((state) => state.orders);
   const user = useSelector((state) => state.auth);
 
   const [myProductId, setmyProductId] = useState("");
   const [clicked, setIsClicked] = useState(false);
-
-
   let status = -1;
 
   useEffect(() => {
@@ -60,8 +57,6 @@ function Order() {
     dispatch(addReviewAsync(myProductId, values));
     openNotificationWithIcon("success", "Review added");
   };
-
-
 
   const cancelOrder = (id) => {
     dispatch(cancelOrderAsync(id));

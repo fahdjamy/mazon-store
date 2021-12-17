@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import {
-  Form,
-  Input,
-  InputNumber,
-  Button,
-  Row,
   Col,
+  Row,
+  Form,
   Card,
+  Input,
+  Button,
+  InputNumber,
   notification,
 } from "antd";
 import { makePaymentAsync } from "../../../store/actions/payment";
@@ -14,7 +14,6 @@ import { fetchProductAsync } from "../../../store/actions/product/product";
 import { useNavigate, useParams } from "react-router-dom";
 import { placeOrderAsync } from "../../../store/actions/order";
 import { useSelector, useDispatch } from "react-redux";
-import { removeProductFromCartAsync } from "../../../store/actions/cart/cart";
 
 const layout = {
   labelCol: { span: 8 },
@@ -40,7 +39,7 @@ export default function Payment() {
   const navigate = useNavigate();
   let params = useParams();
   const dispatch = useDispatch();
-  const paymentState = useSelector(state => state.payment)
+  useSelector(state => state.payment);
 
   const openNotificationWithIcon = (type) => {
     notification[type]({
@@ -64,18 +63,9 @@ export default function Payment() {
 
     dispatch(placeOrderAsync(params.productId));
     dispatch(makePaymentAsync(params.productId, values));
-    // dispatch(removeProductFromCartAsync(params.productId, cart.cart.id));
-
     openNotificationWithIcon("success");
     navigate("/buyer/orders");
   };
-
-  // const makePayment = () => {
-  //   if(paymentState.making)
-
-  // }
-
-  
 
   return (
     <div>

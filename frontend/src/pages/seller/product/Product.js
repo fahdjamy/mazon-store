@@ -43,7 +43,6 @@ const validateMessages = {
 function Product() {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.product.products);
-  const user = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(fetchProductAsync());
@@ -93,11 +92,7 @@ function Product() {
     setAddModalVisible(false);
   };
 
-  let check = "product available";
   const productList = products.map((p) => {
-    if (p.isPurchased === true) {
-      check = "product purchased";
-    }
     return (
       <Col className="gutter-row" key={p.id} span={6}>
         <div style={style}>
@@ -133,7 +128,7 @@ function Product() {
   return (
     <>
       <Row justify="end">
-  
+
           <Button
             type="primary"
             onClick={() => add()}
@@ -141,7 +136,7 @@ function Product() {
           >
             Add Product
           </Button>
-        
+
       </Row>
       <Row gutter={16}>{productList}</Row>
 

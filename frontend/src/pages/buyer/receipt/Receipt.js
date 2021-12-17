@@ -19,7 +19,7 @@ const OrderReceipts = () => {
     <div>
       {orders?.orders?.map((order, index) => (
         <div key={String(index)}>
-          <Receipt order={order} buyer={user?.userData}/>
+          <Receipt order={order} buyer={user?.userData} />
         </div>
       ))}
     </div>

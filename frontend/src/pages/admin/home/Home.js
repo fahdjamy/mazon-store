@@ -3,7 +3,6 @@ import "antd/dist/antd.css";
 import { Link, Outlet, useLocation, Navigate } from "react-router-dom";
 import { Layout, Menu } from "antd";
 import { CheckCircleOutlined, CheckOutlined } from "@ant-design/icons";
-import "./Home.css";
 import TopNav from "../../../components/auth/TopNav";
 import { useDispatch, useSelector } from "react-redux";
 import { getLoggedInUserDetailsAsync } from "../../../store/actions/auth";
@@ -24,7 +23,7 @@ function Home() {
     <>
       {user.userRole !== "admin" ? (
         <Navigate
-          to={`/${user.userRole}`}
+          to="/forbidden"
           replace
           state={{
             referrer: location.pathname,

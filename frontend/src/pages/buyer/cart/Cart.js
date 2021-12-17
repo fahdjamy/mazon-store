@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import {
   Row,
-  Card,
   Col,
-  Button,
   Spin,
+  Card,
   Input,
+  Button,
   notification,
   InputNumber,
 } from "antd";
@@ -139,9 +139,7 @@ export default function Cart() {
 
   return (
     <>
-    {cartList.length === 0 ? <h2>Cart is empty!!</h2> : cartList}
-    
-
+      {cartList.length === 0 ? <h2>Cart is empty!!</h2> : cartList}
       <Modal
         title="Place Order"
         visible={isModalVisible}
@@ -150,70 +148,62 @@ export default function Cart() {
         footer={null}
         getContainer={false}
       >
-          <Form
-        {...layout}
-        name="nest-messages"
-        onFinish={onFinish}
-        validateMessages={validateMessages}
-      >
-        <Form.Item
-          name={"cardNumber"}
-          label="Card Number"
-          rules={[{ required: true }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name={"cvv"}
-          label="Cvv"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <InputNumber min={100} max={999} />
-        </Form.Item>
-        <Form.Item
-          label="Expiry Date"
-          style={{ marginBottom: 0 }}
-          rules={[{ required: true }]}
+        <Form
+          {...layout}
+          name="nest-messages"
+          onFinish={onFinish}
+          validateMessages={validateMessages}
         >
           <Form.Item
-            name="month"
-            rules={[{ required: true, max: 2, min: 2 }]}
-            style={{ display: "inline-block", width: "calc(50% - 8px)" }}
+            name={"cardNumber"}
+            label="Card Number"
+            rules={[{ required: true }]}
           >
-            <Input placeholder="Month" />
+            <Input />
           </Form.Item>
           <Form.Item
-            name="year"
-            rules={[{ required: true, max: 2, min: 2 }]}
-            style={{
-              display: "inline-block",
-              width: "calc(50% - 8px)",
-              margin: "0 8px",
-            }}
+            name={"cvv"}
+            label="Cvv"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
           >
-            <Input placeholder="Year" />
+            <InputNumber min={100} max={999} />
           </Form.Item>
-        </Form.Item>
+          <Form.Item
+            label="Expiry Date"
+            style={{ marginBottom: 0 }}
+            rules={[{ required: true }]}
+          >
+            <Form.Item
+              name="month"
+              rules={[{ required: true, max: 2, min: 2 }]}
+              style={{ display: "inline-block", width: "calc(50% - 8px)" }}
+            >
+              <Input placeholder="Month" />
+            </Form.Item>
+            <Form.Item
+              name="year"
+              rules={[{ required: true, max: 2, min: 2 }]}
+              style={{
+                display: "inline-block",
+                width: "calc(50% - 8px)",
+                margin: "0 8px",
+              }}
+            >
+              <Input placeholder="Year" />
+            </Form.Item>
+          </Form.Item>
 
-        <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
+          <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
             <Button type="primary" htmlType="submit">
               Submit
             </Button>
           </Form.Item>
-
-        {/* <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 12 }}>
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
-        </Form.Item> */}
-      </Form> 
+        </Form>
       </Modal>
-
-    
     </>
   );
 }
