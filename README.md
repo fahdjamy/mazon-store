@@ -43,6 +43,16 @@ This is an online store intended for users (SELLERS) to advertise and sell their
 - alternatively open the backend with your either eclipse or intellij and the dependencies will be installed
   automatically.
 
+#### Videos on how to use the application.
+
+- Frontend: YouTube video demo link. [Frontend link](https://www.youtube.com/watch?v=tUk_nyqIyyo).
+
+`https://www.youtube.com/watch?v=tUk_nyqIyyo`
+
+- Backend: YouTube video demo link. [Backend link](https://youtu.be/S-v5qapfa1A).
+
+`https://youtu.be/S-v5qapfa1A`
+
 ### Running the Application.
 
 **Run the application.**
@@ -116,7 +126,7 @@ or export an EMAIL_USERNAME value e.g =`export EMAIL_USERNAME=your.email.com` an
 
 _if not set, when approving a seller the backend will throw an exception_.*
 
-### For more documentation.
+#### For more documentation.
 
 - **FRONTEND**: Refer to [Frontend README.md](./frontend/README.md) file for more info about frontend.
 - **BACKEND**: Refer to [Backend README.md](./backend/README.md) file for more info about the backend.
