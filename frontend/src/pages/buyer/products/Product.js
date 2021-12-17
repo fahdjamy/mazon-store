@@ -30,24 +30,21 @@ function Product() {
 
   // eslint-disable-next-line array-callback-return
   const productList = products.map((p) => {
-    if (!p.isPurchased) {
-      return (
-          <Card
-            hoverable
-            style={{ width: "300px" }}
-            className="cs-card"
-            key={p.id}
-            cover={<img alt="example" src={p.imageCover} />}
-          >
-            <Meta title={p.name} description={`$${p.price}`} />
-            <br />
-            <Button type="primary" onClick={() => addToCart(p)}>
-              Add <PlusOutlined />
-            </Button>
-          </Card>
-        // <Col key={p.id}>
-        // </Col>
-      )
+    if(!p.isPurchased){
+      return ( <Col span={6} key={p.id}>
+        <Card
+          hoverable
+          style={{ width: "300px" }}
+          className="cs-card"
+          cover={<img style={{maxHeight:"200px", maxheight:"200px"}} alt="example" src={p.imageCover} />}
+        >
+          <Meta title={p.name} description={`$${p.price}`} />
+          <br />
+          <Button type="primary" onClick={()=>addToCart(p)}>
+            Add <PlusOutlined />
+          </Button>
+        </Card>
+      </Col>)
     }
   });
 

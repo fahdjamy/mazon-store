@@ -139,7 +139,9 @@ export default function Cart() {
 
   return (
     <>
-      {cartList.length === 0 ? <h2>Cart is empty!!</h2> : cartList}
+    {Array.isArray(cartList) && !cartList.length ? <h2>Cart is empty!!</h2> : cartList}
+    
+
       <Modal
         title="Place Order"
         visible={isModalVisible}

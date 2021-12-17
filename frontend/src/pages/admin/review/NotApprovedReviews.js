@@ -2,20 +2,23 @@ import React, { useEffect } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 import { approveReviewAsync, getAllReviewsAsync } from "../../../store/actions/review";
-import { Row, Button } from "antd";
+import { Row, Button, notification } from "antd";
 import { Card } from "antd";
 
 const { Meta } = Card;
 
 function NotApprovedReviews() {
   const dispatch = useDispatch();
+  const reviews = useSelector((state) => state.reviews);
 
   useEffect(() => {
     dispatch(getAllReviewsAsync());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const reviews = useSelector((state) => state.reviews);
+
+
+
 
   const approveHandler = (id) => {
     dispatch(approveReviewAsync(id))

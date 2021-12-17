@@ -89,3 +89,11 @@ or click the link below:
   - login url: `{{hosturl}}/auth/login`: Method: **GET**
   - registration url: `{{hosturl}}/users`: Method: **POST**
 - All the other endpoints require a JWT **_Bearer token_**
+
+##### IMPORTANT!
+*Please add an email_address and email_password in the properties spring:mail sections
+
+or export an EMAIL_USERNAME value e.g =`export EMAIL_USERNAME=your.email.com` and EMAIL_PASSWORD e.g = 
+`export EMAIL_PASSWORD=password` in your terminal or environment variables for windows.
+
+_if not set, when approving a seller the backend will throw an exception_.*

@@ -80,7 +80,8 @@ function Product() {
   };
 
   const onFinish = (values) => {
-    dispatch(editProductAsync(values.id, values));
+    const data = {...values, isPurchased:false}
+    dispatch(editProductAsync(values.id, data));
     setModalData("");
     setIsModalVisible(false);
   };
@@ -98,9 +99,10 @@ function Product() {
         <div style={style}>
           {" "}
           <Card
+
             hoverable
             style={{ width: 300 }}
-            cover={<img alt="example" src={p.imageCover} />}
+            cover={<img style={{maxHeight:"200px"}} alt="example" src={p.imageCover} />}
             actions={[
               <EditOutlined
                 key="edit"
