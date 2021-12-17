@@ -33,6 +33,10 @@ const validateMessages = {
     // eslint-disable-next-line
     range: "${label} must be between ${min} and ${max} digits",
   },
+  cardNumber: {
+    // eslint-disable-next-line
+    range: "${label} must be ${min} digits",
+  },
 };
 
 export default function Payment() {
@@ -79,11 +83,11 @@ export default function Payment() {
               validateMessages={validateMessages}
             >
               <Form.Item
-                name={"cardNumber"}
+                name="cardNumber"
                 label="Card Number"
-                rules={[{ required: true }]}
+                rules={[{ required: true, min:16, max:16 }]}
               >
-                <Input />
+                <Input  />
               </Form.Item>
               <Form.Item
                 name={"cvv"}

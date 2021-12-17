@@ -94,7 +94,12 @@ public class ProductServiceImpl implements ProductService {
         if (product == null) {
             throw new CustomException("product with id '" + pdtId + "' does not exist.");
         }
-        productRepository.save(modelMapperUtil.mapEntryTo(productDTO, new Product()));
-        return productDTO;
+        product.setName(productDTO.getName());
+        product.setPrice(productDTO.getPrice());
+        product.setIsPurchased(productDTO.getIsPurchased());
+        product.setImageCover(productDTO.getImageCover());
+        product.setDescription(productDTO.getDescription());
+        productRepository.save(product);
+        return modelMapperUtil.mapEntryTo(product, new ProductDTO());
     }
 }

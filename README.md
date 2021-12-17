@@ -77,14 +77,6 @@ specific directory you in.
         - mvn spring-boot:run
     ````
 
-**Running the both the frontend and the backend with docker-compose.**
-
-_**NOTE: please make sure you have docker-compose version that supports version 3.7 installed on your machine.**_
-
-- make sure you are in the root directory
-- run docker-compose --build up.
-- to access the application, use the url [http://0.0.0.3000](http://0.0.0.3000)
-
 ----
 **Note**
 _To access all the backend url documentation, use the swagger url documentation link format below_
@@ -115,6 +107,15 @@ or click the link below:
 - Users will be redirected automatically to their pages / dashboards basing on their roles. _**all pages not authorized
   for them are blocked from their access**_.
 
+
+##### IMPORTANT!
+*Please add an email_address and email_password in the properties spring:mail sections
+
+or export an EMAIL_USERNAME value e.g =`export EMAIL_USERNAME=your.email.com` and EMAIL_PASSWORD e.g = 
+`export EMAIL_PASSWORD=password` in your terminal or environment variables for windows.
+
+_if not set, when approving a seller the backend will throw an exception_.*
+
 ### For more documentation.
 
 - **FRONTEND**: Refer to [Frontend README.md](./frontend/README.md) file for more info about frontend.
@@ -143,8 +144,8 @@ Contributors
 | Name              | S-ID   | Role                  | GitHub                               |
 |-------------------|--------|-----------------------|--------------------------------------|
 | Solomon Kabaliisa | 613456 | Developer / Team lead | [link](https://github.com/kabaliisa) |
-| Joshua Mugisha    |        | Developer             | [link](https://github.com/joshNic)   |
-| Bashir Katugga    |        | Developer             | [link](https://github.com/bashirkatugga)|
-| Lucy Turihabwe    |        | Developer  | [link](https://github.com/lturihabwe)|
+| Joshua Mugisha    | 613416 | Developer             | [link](https://github.com/joshNic)   |
+| Bashir Katugga    | 613453 | Developer             | [link](https://github.com/bashirkatugga)|
+| Lucy Turihabwe    | 613439 | Developer  | [link](https://github.com/lturihabwe)|
 | Fahad Asiimwe     | 613464 | Developer  | [fahdjamy](https://github.com/fahdjamy)|
 

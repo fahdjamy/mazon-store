@@ -17,6 +17,9 @@ const { Step } = Steps;
 const { Meta } = Card;
 
 function Order() {
+  const [form] = Form.useForm();
+
+  let productID = "";
   const dispatch = useDispatch();
   const order = useSelector((state) => state.orders);
   const user = useSelector((state) => state.auth);
@@ -56,6 +59,7 @@ function Order() {
   const onFinish = (values) => {
     dispatch(addReviewAsync(myProductId, values));
     openNotificationWithIcon("success", "Review added");
+    form.resetFields();
   };
 
   const cancelOrder = (id) => {
